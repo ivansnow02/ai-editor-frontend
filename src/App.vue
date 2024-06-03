@@ -13,6 +13,7 @@ import { BaseKit, Heading, type VuetifyTiptapOnChange } from 'vuetify-pro-tiptap
 import preview from './extensions/preview'
 import completion from './extensions/completion'
 import { getCompletion } from './apis/generate'
+import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPolish } from './apis/generate'
 const extensions = [
   preview.configure({ spacer: true }),
   completion.configure(),
@@ -27,6 +28,12 @@ const extensions = [
 ]
 
 const theme = useTheme()
+
+const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish", "Chinese (Traditional)"]
+const Styles = ["original","written language" , "spoken language", "Classical Chinese"]
+const selectdeLang = "English"
+const selectedStyle = "original"
+
 
 const VuetifyTiptapRef = ref<null | Record<string, any>>(null)
 const output = ref<'html' | 'json' | 'text'>('html')
@@ -48,6 +55,42 @@ const maxHeight = ref<number>(900)
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
+
+//ai functions
+function Textcompletion(){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetCompletion(value).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data, false)
+  })
+}
+
+function Textabstraction(word_count: number  = 1){
+  console.log(word_count)
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetAbstraction(value,word_count).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data, false)
+  })
+}
+
+function Texttranslation(lang: string = "English"){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetTranslation(value,lang).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data,false)
+  })
+}
+function Textpolish(style: string = "本文原本的"){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetPolish(value, style).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data,false)
+  })
+}
+function Textfix(){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetFix(value).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data)
+  })
+}
+
 
 // async function onChangeEditor({ editor, output }: VuetifyTiptapOnChange) {
 //   const formData = {
@@ -127,7 +170,26 @@ function toggleTheme() {
           <VBtn value="text"> Text </VBtn>
         </VBtn-toggle>
       </div> -->
-
+      
+        
+      <div class="buttons">
+        <VBtn class="mb-4" color="primary" @click="Textcompletion()"> Completion </VBtn>
+      <VBtn class="mb-4" color="primary" @click="Textabstraction()"> Abstract </VBtn>
+      <select id="select" v-model="selectedStyle">
+        <option v-for="option in Styles" v-bind:value="option">
+        {{ option }}
+      </option>
+      </select>
+      <VBtn class="mb-4" color="primary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
+      <select id="select" v-model="selectdeLang">
+        <option v-for="option in Lang" v-bind:value="option">
+        {{ option }}
+      </option>
+      </select>
+      <VBtn class="mb-4" color="primary" @click="Texttranslation(selectdeLang)"> Translate </VBtn>
+      <VBtn class="mb-4" color="primary" @click="Textfix()"> Fix </VBtn>
+      </div>
+      
       <!-- <VBtn class="mb-4" color="primary" @click="getHTML"> getHTML </VBtn>
 
       <VBtn class="mb-4 ms-4" color="primary" @click="getJSON"> getJSON </VBtn>
@@ -149,6 +211,7 @@ function toggleTheme() {
       </div> -->
 
       <VuetifyTiptap
+        class="editor"
         ref="VuetifyTiptapRef"
         v-model="content"
         v-model:markdown-theme="markdownTheme"
@@ -194,4 +257,27 @@ function toggleTheme() {
 .jse-main {
   max-height: auto;
 }
+.buttons{
+  /* z-index: 999; */
+  background-color:#fff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  border: 1px solid skyblue;
+  border-radius: 10px;
+  padding: 10px;
+}
+.buttonA{
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  background-color: aqua;
+}
+.editor{
+  position: fixed;
+  top: 100px;
+  left: 0;
+}
+
 </style>
