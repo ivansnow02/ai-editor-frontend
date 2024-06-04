@@ -29,7 +29,7 @@ const extensions = [
 
 const theme = useTheme()
 
-const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish", "Chinese (Traditional)"]
+const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",]
 const Styles = ["original","written language" , "spoken language", "Classical Chinese"]
 const selectdeLang = "English"
 const selectedStyle = "original"
@@ -90,8 +90,6 @@ function Textfix(){
     VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data)
   })
 }
-
-
 // async function onChangeEditor({ editor, output }: VuetifyTiptapOnChange) {
 //   const formData = {
 //     input: {
@@ -103,33 +101,17 @@ function Textfix(){
 //     console.log('result :>> ', result.data.output)
 //   }
 // }
-
-// function getHTML() {
-//   const value = VuetifyTiptapRef.value?.editor.getHTML()
-//   console.log('getHTML :>> ', value)
-// }
-
-// function getJSON() {
-//   const value = VuetifyTiptapRef.value?.editor.getJSON()
-//   console.log('getJSON :>> ', value, JSON.stringify(value))
-// }
-
-// function getText() {
-//   const value = VuetifyTiptapRef.value?.editor.getText()
-//   console.log('getText :>> ', value)
-// }
 </script>
-
 <template>
   <VApp id="app">
     <VContainer>
-      <!-- <VAlert class="mb-4" type="info" title="Support repository" variant="tonal">
+      <VAlert class="mb-4" type="info" title="Support repository" variant="tonal">
         <template #text>
           <div class="d-flex align-center">
             If you like the repository, you can give us
             <iframe
               class="ms-2"
-              src="https://ghbtns.com/github-btn.html?user=yikoyu&repo=vuetify-pro-tiptap&type=star&count=true"
+              src="https://ghbtns.com/github-btn.html?user=ivansnow02&repo=ai-editor-backend&type=star&count=true"
               frameborder="0"
               scrolling="0"
               width="120"
@@ -138,7 +120,7 @@ function Textfix(){
             ></iframe>
           </div>
         </template>
-      </VAlert> -->
+      </VAlert>
 
       <!-- <VBtn class="mb-4" color="primary" @click="toggleTheme">
         {{ $vuetify.theme.current.dark ? 'dark' : 'light' }}
@@ -171,25 +153,32 @@ function Textfix(){
         </VBtn-toggle>
       </div> -->
       
+      <VAlert class="mb-4" type="success" title="aiOrders" variant="tonal">
+        <!-- <template #text> -->
+          <div class="d-flex align-center">
+            <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
+            <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
+            <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
+            select style: <select id="select" v-model="selectedStyle">
+              <option v-for="option in Styles" v-bind:value="option">
+              {{ option }}
+              </option>
+            </select>
+            <VBtn class="mb-4" color="secondary" @click="Texttranslation(selectdeLang)"> Translate </VBtn>
+            select language: <select id="select" v-model="selectdeLang">
+              <option v-for="option in Lang" v-bind:value="option">
+              {{ option }}
+              </option>
+            </select>
+            
+            <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
+            <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
+          </div>
+        <!-- </template> -->
+      </VAlert>
+      <!-- <div class="mb-4">
         
-      <div class="buttons">
-        <VBtn class="mb-4" color="primary" @click="Textcompletion()"> Completion </VBtn>
-      <VBtn class="mb-4" color="primary" @click="Textabstraction()"> Abstract </VBtn>
-      <select id="select" v-model="selectedStyle">
-        <option v-for="option in Styles" v-bind:value="option">
-        {{ option }}
-      </option>
-      </select>
-      <VBtn class="mb-4" color="primary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
-      <select id="select" v-model="selectdeLang">
-        <option v-for="option in Lang" v-bind:value="option">
-        {{ option }}
-      </option>
-      </select>
-      <VBtn class="mb-4" color="primary" @click="Texttranslation(selectdeLang)"> Translate </VBtn>
-      <VBtn class="mb-4" color="primary" @click="Textfix()"> Fix </VBtn>
-      </div>
-      
+      </div> -->
       <!-- <VBtn class="mb-4" color="primary" @click="getHTML"> getHTML </VBtn>
 
       <VBtn class="mb-4 ms-4" color="primary" @click="getJSON"> getJSON </VBtn>
@@ -273,11 +262,6 @@ function Textfix(){
   border: 0px;
   padding: 0px;
   background-color: aqua;
-}
-.editor{
-  position: fixed;
-  top: 100px;
-  left: 0;
 }
 
 </style>
