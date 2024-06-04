@@ -13,6 +13,7 @@ import { BaseKit, Heading, type VuetifyTiptapOnChange } from 'vuetify-pro-tiptap
 import preview from './extensions/preview'
 import completion from './extensions/completion'
 import { getCompletion } from './apis/generate'
+import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPolish } from './apis/generate'
 const extensions = [
   preview.configure({ spacer: true }),
   completion.configure(),
@@ -27,6 +28,12 @@ const extensions = [
 ]
 
 const theme = useTheme()
+
+const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",]
+const Styles = ["original","written language" , "spoken language", "Classical Chinese"]
+const selectdeLang = "English"
+const selectedStyle = "original"
+
 
 const VuetifyTiptapRef = ref<null | Record<string, any>>(null)
 const output = ref<'html' | 'json' | 'text'>('html')
@@ -49,6 +56,40 @@ function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 
+//ai functions
+function Textcompletion(){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetCompletion(value).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data, false)
+  })
+}
+
+function Textabstraction(word_count: number  = 1){
+  console.log(word_count)
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetAbstraction(value,word_count).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data, false)
+  })
+}
+
+function Texttranslation(lang: string = "English"){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetTranslation(value,lang).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data,false)
+  })
+}
+function Textpolish(style: string = "本文原本的"){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetPolish(value, style).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data,false)
+  })
+}
+function Textfix(){
+  const value = VuetifyTiptapRef.value?.editor.getText();
+  aiGetFix(value).then(function(response){
+    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data)
+  })
+}
 // async function onChangeEditor({ editor, output }: VuetifyTiptapOnChange) {
 //   const formData = {
 //     input: {
@@ -60,33 +101,17 @@ function toggleTheme() {
 //     console.log('result :>> ', result.data.output)
 //   }
 // }
-
-// function getHTML() {
-//   const value = VuetifyTiptapRef.value?.editor.getHTML()
-//   console.log('getHTML :>> ', value)
-// }
-
-// function getJSON() {
-//   const value = VuetifyTiptapRef.value?.editor.getJSON()
-//   console.log('getJSON :>> ', value, JSON.stringify(value))
-// }
-
-// function getText() {
-//   const value = VuetifyTiptapRef.value?.editor.getText()
-//   console.log('getText :>> ', value)
-// }
 </script>
-
 <template>
   <VApp id="app">
     <VContainer>
-      <!-- <VAlert class="mb-4" type="info" title="Support repository" variant="tonal">
+      <VAlert class="mb-4" type="info" title="Support repository" variant="tonal">
         <template #text>
           <div class="d-flex align-center">
             If you like the repository, you can give us
             <iframe
               class="ms-2"
-              src="https://ghbtns.com/github-btn.html?user=yikoyu&repo=vuetify-pro-tiptap&type=star&count=true"
+              src="https://ghbtns.com/github-btn.html?user=ivansnow02&repo=ai-editor-backend&type=star&count=true"
               frameborder="0"
               scrolling="0"
               width="120"
@@ -95,7 +120,7 @@ function toggleTheme() {
             ></iframe>
           </div>
         </template>
-      </VAlert> -->
+      </VAlert>
 
       <!-- <VBtn class="mb-4" color="primary" @click="toggleTheme">
         {{ $vuetify.theme.current.dark ? 'dark' : 'light' }}
@@ -127,7 +152,33 @@ function toggleTheme() {
           <VBtn value="text"> Text </VBtn>
         </VBtn-toggle>
       </div> -->
-
+      
+      <VAlert class="mb-4" type="success" title="aiOrders" variant="tonal">
+        <!-- <template #text> -->
+          <div class="d-flex align-center">
+            <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
+            <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
+            <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
+            select style: <select id="select" v-model="selectedStyle">
+              <option v-for="option in Styles" v-bind:value="option">
+              {{ option }}
+              </option>
+            </select>
+            <VBtn class="mb-4" color="secondary" @click="Texttranslation(selectdeLang)"> Translate </VBtn>
+            select language: <select id="select" v-model="selectdeLang">
+              <option v-for="option in Lang" v-bind:value="option">
+              {{ option }}
+              </option>
+            </select>
+            
+            <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
+            <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
+          </div>
+        <!-- </template> -->
+      </VAlert>
+      <!-- <div class="mb-4">
+        
+      </div> -->
       <!-- <VBtn class="mb-4" color="primary" @click="getHTML"> getHTML </VBtn>
 
       <VBtn class="mb-4 ms-4" color="primary" @click="getJSON"> getJSON </VBtn>
@@ -149,6 +200,7 @@ function toggleTheme() {
       </div> -->
 
       <VuetifyTiptap
+        class="editor"
         ref="VuetifyTiptapRef"
         v-model="content"
         v-model:markdown-theme="markdownTheme"
@@ -194,4 +246,22 @@ function toggleTheme() {
 .jse-main {
   max-height: auto;
 }
+.buttons{
+  /* z-index: 999; */
+  background-color:#fff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  border: 1px solid skyblue;
+  border-radius: 10px;
+  padding: 10px;
+}
+.buttonA{
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  background-color: aqua;
+}
+
 </style>
