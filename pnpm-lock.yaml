@@ -11,6 +11,12 @@ importers:
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
+      '@microsoft/fetch-event-source':
+        specifier: ^2.0.1
+        version: 2.0.1
+      '@tiptap/core':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/pm@2.4.0)
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -30,8 +36,8 @@ importers:
         specifier: ^3.6.8
         version: 3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
       vuetify-pro-tiptap:
-        specifier: ^2.4.3
-        version: 2.4.3(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5)))
+        specifier: ^2.5.0
+        version: 2.5.0(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5)))
     devDependencies:
       '@playwright/test':
         specifier: ^1.43.0
@@ -521,6 +527,9 @@ packages:
 
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
+
+  '@microsoft/fetch-event-source@2.0.1':
+    resolution: {integrity: sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2597,9 +2606,9 @@ packages:
       typescript:
         optional: true
 
-  vuetify-pro-tiptap@2.4.3:
-    resolution: {integrity: sha512-/AfyXWM1NPFT2IbB+P5mJy8UO7pH9fa3TncDFA1Fh12pgD0V/3bXX5GkOS6kTZDmUQoImNz6B1mKqIVBoEgmaQ==}
-    engines: {node: '>=16', pnpm: '>=7'}
+  vuetify-pro-tiptap@2.5.0:
+    resolution: {integrity: sha512-KKv/YrUJrHcznjZGAJpw1jgJrht5jpJc6pZW4EoHGiVWG/OElfSJgwULxpMX6l1277PLzDTrUkSpr9TuPOW8HQ==}
+    engines: {node: ^18.0.0, pnpm: ^8.0.0}
     peerDependencies:
       vue: ^3.2.0
       vuetify: ^3.0.0
@@ -3132,6 +3141,8 @@ snapshots:
       '@lezer/common': 1.2.1
 
   '@mdi/js@7.4.47': {}
+
+  '@microsoft/fetch-event-source@2.0.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -5308,7 +5319,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  vuetify-pro-tiptap@2.4.3(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))):
+  vuetify-pro-tiptap@2.5.0(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))):
     dependencies:
       '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
       '@tiptap/extension-blockquote': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))

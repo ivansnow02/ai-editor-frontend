@@ -1,5 +1,5 @@
 // axios 封装
-import axios from 'axios'
+import axios from 'axios';
 
 // 1.根域名配置
 // 2.超时时间
@@ -16,4 +16,6 @@ const aiRequest = axios.create({
   timeout: 50000
 })
 
-export { aiRequest }
+export { aiRequest };
+
+

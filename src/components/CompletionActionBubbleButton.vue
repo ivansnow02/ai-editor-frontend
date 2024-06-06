@@ -1,8 +1,8 @@
 <!-- src/components/AppendText.vue -->
 <template>
-  <ActionButton tooltip="ai续写" :disabled="disabled" @click="appendText" >
+  <VBtn tooltip="ai续写"  @click="appendText" >
     <VIcon>{{ `svg:${mdiFountainPenTip}` }}</VIcon>
-  </ActionButton>
+  </VBtn>
 
 </template>
 

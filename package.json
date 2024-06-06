@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@mdi/js": "^7.4.47",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@tiptap/core": "^2.4.0",
     "axios": "^1.7.2",
     "json-editor-vue": "^0.15.1",

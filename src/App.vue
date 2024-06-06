@@ -12,7 +12,7 @@ import { BaseKit, Heading, type VuetifyTiptapOnChange } from 'vuetify-pro-tiptap
 // import CustomLang from './components/CustomLang.vue'
 import preview from './extensions/preview'
 import completion from './extensions/completion'
-import { getCompletion } from './apis/generate'
+import { getStream } from './apis/generate'
 import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPolish } from './apis/generate'
 const extensions = [
   preview.configure({ spacer: true }),
@@ -31,8 +31,8 @@ const theme = useTheme()
 
 const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",]
 const Styles = ["original","written language" , "spoken language", "Classical Chinese"]
-const selectdeLang = "English"
-const selectedStyle = "original"
+const selectdeLang = ref("English")
+const selectedStyle = ref("original")
 
 
 const VuetifyTiptapRef = ref<null | Record<string, any>>(null)
@@ -46,7 +46,7 @@ const hideToolbar = ref(false)
 const disableToolbar = ref(false)
 const errorMessages = ref(null)
 const maxWidth = ref<number>(900)
-const maxHeight = ref<number>(900)
+const maxHeight = ref<number>(9000)
 
 // watch(content, val => {
 //   console.log('output :>> ', val)
@@ -54,6 +54,22 @@ const maxHeight = ref<number>(900)
 
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+
+
+//调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
+const streamTranslate = async () => {
+  await getStream({
+    input: {
+      human_input: VuetifyTiptapRef.value?.editor.getHTML(),
+      lang: selectdeLang.value,
+      }
+    },
+    "translate",
+    (data: string) => {
+      content.value += data
+    }
+  )
 }
 
 //ai functions
@@ -159,20 +175,14 @@ function Textfix(){
             <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
-            select style: <select id="select" v-model="selectedStyle">
-              <option v-for="option in Styles" v-bind:value="option">
-              {{ option }}
-              </option>
-            </select>
+            <v-select label="选择风格" :items="Styles" v-model="selectedStyle"></v-select>
             <VBtn class="mb-4" color="secondary" @click="Texttranslation(selectdeLang)"> Translate </VBtn>
-            select language: <select id="select" v-model="selectdeLang">
-              <option v-for="option in Lang" v-bind:value="option">
-              {{ option }}
-              </option>
-            </select>
+            <v-select label="选择语言" :items="Lang" v-model="selectdeLang"></v-select>
+
             
             <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
             <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
+            <VBtn class="mb-4" color="secondary" @click="streamTranslate()"> 流式翻译 </VBtn>
           </div>
         <!-- </template> -->
       </VAlert>
