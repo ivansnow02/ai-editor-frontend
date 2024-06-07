@@ -13,6 +13,7 @@ import { BaseKit, Heading, type VuetifyTiptapOnChange } from 'vuetify-pro-tiptap
 import preview from './extensions/preview'
 import completion from './extensions/completion'
 import { getCompletion } from './apis/generate'
+import { streamAiGetAbstraction, streamAiGetCompletion, streamAiGetFix, streamAiGetPolish, streamAiGetTranslation } from './apis/stream'
 import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPolish } from './apis/generate'
 const extensions = [
   preview.configure({ spacer: true }),
@@ -48,19 +49,20 @@ const errorMessages = ref(null)
 const maxWidth = ref<number>(900)
 const maxHeight = ref<number>(900)
 
-// watch(content, val => {
-//   console.log('output :>> ', val)
-// })
-
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 
+function textInsertContant(){
+  VuetifyTiptapRef.value?.editor.commands.insertContent("<h1>Hello world</h1>", false)}
+function SetStyle(){
+  VuetifyTiptapRef.value?.editor.commands.setNode('heading', { level: 1 })
+}
 //ai functions
 function Textcompletion(){
   const value = VuetifyTiptapRef.value?.editor.getText();
   aiGetCompletion(value).then(function(response){
-    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data, false)
+    VuetifyTiptapRef.value?.editor.commands.insertContent(response.data.data, false)
   })
 }
 
@@ -68,26 +70,26 @@ function Textabstraction(word_count: number  = 1){
   console.log(word_count)
   const value = VuetifyTiptapRef.value?.editor.getText();
   aiGetAbstraction(value,word_count).then(function(response){
-    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data, false)
+    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false)
   })
 }
 
 function Texttranslation(lang: string = "English"){
   const value = VuetifyTiptapRef.value?.editor.getText();
   aiGetTranslation(value,lang).then(function(response){
-    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data,false)
+    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data,false)
   })
 }
 function Textpolish(style: string = "本文原本的"){
   const value = VuetifyTiptapRef.value?.editor.getText();
   aiGetPolish(value, style).then(function(response){
-    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data,false)
+    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data,false)
   })
 }
 function Textfix(){
   const value = VuetifyTiptapRef.value?.editor.getText();
   aiGetFix(value).then(function(response){
-    VuetifyTiptapRef.value?.editor.commands.setContent(response.data.data)
+    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data)
   })
 }
 // async function onChangeEditor({ editor, output }: VuetifyTiptapOnChange) {
@@ -159,8 +161,8 @@ function Textfix(){
             <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
-            select style: <select id="select" v-model="selectedStyle">
-              <option v-for="option in Styles" v-bind:value="option">
+            select style: <select id="select" v-model="selectedStyle" >
+              <option v-for="option in Styles" v-bind:value="option" >
               {{ option }}
               </option>
             </select>
@@ -173,6 +175,8 @@ function Textfix(){
             
             <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
             <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
+            <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
+            <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn>
           </div>
         <!-- </template> -->
       </VAlert>
