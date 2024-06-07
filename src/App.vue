@@ -44,11 +44,11 @@ import {
 
 // import CustomLang from './compone./components/AIComponent.vue
 import preview from './extensions/preview'
-import { getStream } from './apis/generate'
 
 import LinkDialog from './components/LinkDialog.vue'
 import SelectImage from './components/SelectImage.vue'
 import { markRaw } from 'vue'
+
 const extensions = [
   BaseKit.configure({
       placeholder: {
@@ -287,12 +287,6 @@ function toggleTheme() {
           <VBtn value="text"> Text </VBtn>
         </VBtn-toggle>
       </div> -->
-
-
-    <!-- <div class="mb-4">
-        
-      </div> -->
-    <!-- <VBtn class="mb-4" color="primary" @click="getHTML"> getHTML </VBtn>
 
       <VBtn class="mb-4 ms-4" color="primary" @click="getJSON"> getJSON </VBtn>
 
