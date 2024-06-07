@@ -288,9 +288,6 @@ function toggleTheme() {
         </VBtn-toggle>
       </div> -->
 
-      <VBtn class="mb-4 ms-4" color="primary" @click="getJSON"> getJSON </VBtn>
-
-      <VBtn class="mb-4 ms-4" color="primary" @click="getText"> getText </VBtn> -->
 
     <!-- <div class="my-4">
         <VDialog :width="maxWidth">
