@@ -4,8 +4,7 @@ import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPol
 import { mdiFountainPenTip, mdiClose, mdiArrowLeftDropCircleOutline, mdiArrowRightDropCircleOutline } from '@mdi/js';
 import { ref, type Ref } from 'vue';
 import { ActionButton } from 'vuetify-pro-tiptap';
-import { getCompletion } from '../apis/generate';
-import { streamAiGetAbstraction, streamAiGetCompletion, streamAiGetFix, streamAiGetPolish, streamAiGetTranslation } from '../apis/stream';
+import { getCompletion, getStream } from '../apis/generate';
 const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",];
 const Styles = ["original", "written language", "spoken language", "Classical Chinese"];
 const selectdeLang = ref("English");
@@ -61,10 +60,13 @@ const drawer = ref(true);
 const rail = ref(true);
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
 const streamTranslate = async () => {
+  console.log(VuetifyTiptapRef.value?.editor.getText())
   await getStream({
     input: {
-      human_input: VuetifyTiptapRef.value?.editor.getHTML(),
-      lang: selectdeLang.value,
+      "prompt": VuetifyTiptapRef.value?.editor.getText(),
+      "style": "string",
+     "word_count": 0,
+      "lang": selectdeLang.value
     }
   },
     "translate",
