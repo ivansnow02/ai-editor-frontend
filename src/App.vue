@@ -5,7 +5,7 @@
   * @FilePath: \vuetify-pro-tiptap\examples\App.vue
 -->
 <script setup lang="ts">
-import { computed, ref, unref, type Ref } from 'vue'
+import { computed, provide, ref, unref, type Ref } from 'vue'
 import { useTheme } from 'vuetify'
 import AIComponent from './components/AIComponent.vue'
 import {
@@ -173,7 +173,7 @@ const editHtml = ref(false)
 const hideToolbar = ref(false)
 const disableToolbar = ref(false)
 const errorMessages = ref(null)
-
+provide('VuetifyTiptapRef', VuetifyTiptapRef);
 
 
 // watch(content, val => {

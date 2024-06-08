@@ -2,59 +2,59 @@
 <script setup lang="ts">
 import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPolish } from '../apis/generate';
 import { mdiFountainPenTip, mdiClose, mdiArrowLeftDropCircleOutline, mdiArrowRightDropCircleOutline } from '@mdi/js';
-import { ref, type Ref } from 'vue';
-import { ActionButton } from 'vuetify-pro-tiptap';
+import { inject, ref, type Ref } from 'vue';
+import { ActionButton, VuetifyTiptap } from 'vuetify-pro-tiptap';
 import { getCompletion } from '../apis/generate';
 import { streamAiGetAbstraction, streamAiGetCompletion, streamAiGetFix, streamAiGetPolish, streamAiGetTranslation } from '../apis/stream';
+import { getStream } from '../apis/generate';
 const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",];
 const Styles = ["original", "written language", "spoken language", "Classical Chinese"];
 const selectdeLang = ref("English");
 const selectedStyle = ref("original");
 
-
-const VuetifyTiptapRef = ref<null | Record<string, any>>(null);
+const VuetifyTiptapRef = inject < Ref >('VuetifyTiptapRef');
 const output = ref<'html' | 'json' | 'text'>('html');
-const content = ref('');
+const content = VuetifyTiptapRef?.value?.editor.content;
 
 //ai functions
 function textInsertContant() {
-  VuetifyTiptapRef.value?.editor.commands.insertContent("<h1>Hello world</h1>", false);
+  VuetifyTiptapRef?.value?.editor.commands.insertContent("<h1>Hello world</h1>", false);
 }
 function SetStyle() {
-  VuetifyTiptapRef.value?.editor.commands.setNode('heading', { level: 1 });
+  VuetifyTiptapRef?.value?.editor.commands.setNode('heading', { level: 1 });
 }
 //ai functions
 function Textcompletion() {
-  const value = VuetifyTiptapRef.value?.editor.getText();
+  const value = VuetifyTiptapRef?.value?.editor.getText();
   aiGetCompletion(value).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.insertContent(response.data.data, false);
+    VuetifyTiptapRef?.value?.editor.commands.insertContent(response.data.data, false);
   });
 }
 
 function Textabstraction(word_count: number = 1) {
   console.log(word_count);
-  const value = VuetifyTiptapRef.value?.editor.getText();
+  const value = VuetifyTiptapRef?.value?.editor.getText();
   aiGetAbstraction(value, word_count).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
+    VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
   });
 }
 
 function Texttranslation(lang: string = "English") {
-  const value = VuetifyTiptapRef.value?.editor.getText();
+  const value = VuetifyTiptapRef?.value?.editor.getText();
   aiGetTranslation(value, lang).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
+    VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
   });
 }
 function Textpolish(style: string = "本文原本的") {
-  const value = VuetifyTiptapRef.value?.editor.getText();
+  const value = VuetifyTiptapRef?.value?.editor.getText();
   aiGetPolish(value, style).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
+    VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
   });
 }
 function Textfix() {
-  const value = VuetifyTiptapRef.value?.editor.getText();
+  const value = VuetifyTiptapRef?.value?.editor.getText();
   aiGetFix(value).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data);
+    VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data);
   });
 }
 const drawer = ref(true);
@@ -63,13 +63,13 @@ const rail = ref(true);
 const streamTranslate = async () => {
   await getStream({
     input: {
-      human_input: VuetifyTiptapRef.value?.editor.getHTML(),
+      human_input: VuetifyTiptapRef?.value?.editor.getHTML(),
       lang: selectdeLang.value,
     }
   },
     "translate",
     (data: string) => {
-      content.value += data;
+      VuetifyTiptapRef?.value?.editor.commands.insertContent(data, false);
     }
   );
 }
