@@ -5,7 +5,7 @@
   * @FilePath: \vuetify-pro-tiptap\examples\App.vue
 -->
 <script setup lang="ts">
-import { computed, ref, unref, type Ref } from 'vue'
+import { computed, ref, unref, type Ref , watch} from 'vue'
 import { useTheme } from 'vuetify'
 import AIComponent from './components/AIComponent.vue'
 import {
@@ -163,6 +163,12 @@ const extensions = [
 const theme = useTheme()
 
 
+import { useStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+let store = useStore();
+let { storeContent, responseStoreContent} = storeToRefs(store);
+
+
 const VuetifyTiptapRef = ref<null | Record<string, any>>(null)
 const output = ref<'html' | 'json' | 'text'>('html')
 const content = ref('')
@@ -179,6 +185,13 @@ const errorMessages = ref(null)
 // watch(content, val => {
 //   console.log('output :>> ', val)
 // })
+watch(content, value => {
+  store.getcontent(VuetifyTiptapRef.value?.editor.getText())
+})
+
+watch(responseStoreContent, value => {
+  VuetifyTiptapRef.value?.editor.commands.setContent(storeContent.value+ "<p></p>" + responseStoreContent.value, false)
+})
 
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'

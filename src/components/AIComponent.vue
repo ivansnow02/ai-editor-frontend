@@ -5,6 +5,10 @@ import { mdiFountainPenTip, mdiClose, mdiArrowLeftDropCircleOutline, mdiArrowRig
 import { ref, type Ref } from 'vue';
 import { ActionButton } from 'vuetify-pro-tiptap';
 import { getCompletion, getStream } from '../apis/generate';
+import { useStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+let store = useStore();
+let { storeContent, responseStoreContent} = storeToRefs(store);
 const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",];
 const Styles = ["original", "written language", "spoken language", "Classical Chinese"];
 const selectdeLang = ref("English");
@@ -15,55 +19,76 @@ const VuetifyTiptapRef = ref<null | Record<string, any>>(null);
 const output = ref<'html' | 'json' | 'text'>('html');
 const content = ref('');
 
+
+const storeRequest = () => {
+  store.upDateContent();
+}
+const storeResponse = () => {
+  // console.log(Test.value)
+  console.log(storeContent)
+}
+
+
 //ai functions
 function textInsertContant() {
   VuetifyTiptapRef.value?.editor.commands.insertContent("<h1>Hello world</h1>", false);
 }
-function SetStyle() {
-  VuetifyTiptapRef.value?.editor.commands.setNode('heading', { level: 1 });
-}
+
 //ai functions
 function Textcompletion() {
-  const value = VuetifyTiptapRef.value?.editor.getText();
-  aiGetCompletion(value).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.insertContent(response.data.data, false);
+  const value = storeContent.value;
+  aiGetCompletion(value).then(function(response){
+    store.upDateContent( response.data.data);
+    console.log(responseStoreContent);
   });
 }
 
 function Textabstraction(word_count: number = 1) {
-  console.log(word_count);
-  const value = VuetifyTiptapRef.value?.editor.getText();
-  aiGetAbstraction(value, word_count).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
+  const value = storeContent.value;
+  aiGetAbstraction(value, word_count).then(function(response){
+    store.upDateContent( response.data.data);
+    console.log(responseStoreContent);
   });
 }
 
 function Texttranslation(lang: string = "English") {
-  const value = VuetifyTiptapRef.value?.editor.getText();
-  aiGetTranslation(value, lang).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
+  const value = storeContent.value;
+  aiGetTranslation(value, lang).then(function(response){
+    store.upDateContent( response.data.data);
+    console.log(responseStoreContent);
   });
 }
 function Textpolish(style: string = "本文原本的") {
-  const value = VuetifyTiptapRef.value?.editor.getText();
-  aiGetPolish(value, style).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
+  const value = storeContent.value;
+  aiGetPolish(value, style).then(function(response){
+    store.upDateContent( response.data.data);
+    console.log(responseStoreContent);
   });
 }
 function Textfix() {
-  const value = VuetifyTiptapRef.value?.editor.getText();
-  aiGetFix(value).then(function (response) {
-    VuetifyTiptapRef.value?.editor.commands.setContent(value + "<p></p>" + response.data.data);
+  const value = storeContent.value;
+  aiGetFix(value).then(function(response){
+    store.upDateContent( response.data.data);
+    console.log(responseStoreContent);
   });
 }
+
+function testFunction() {
+  const value = storeContent.value;
+  // aiGetCompletion(value).then(function(response){
+  //   store.upDateContent( response.data.data);
+  //   console.log(responseStoreContent);
+  // });
+  streamTranslate(value)
+}
+
 const drawer = ref(true);
 const rail = ref(true);
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
 const streamTranslate = async () => {
-  console.log(VuetifyTiptapRef.value?.editor.getText())
   await getStream({
     input: {
-      "prompt": VuetifyTiptapRef.value?.editor.getText(),
+      "prompt": storeContent.value,
       "style": "string",
      "word_count": 0,
       "lang": selectdeLang.value
@@ -105,7 +130,7 @@ const streamTranslate = async () => {
 
       <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
       <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
-      <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn>
+      <VBtn class="mb-4" color="secondary" @click="testFunction()">testButton</VBtn>
 
     </v-sheet>
   </v-navigation-drawer>
