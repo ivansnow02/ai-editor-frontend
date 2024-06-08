@@ -23,9 +23,10 @@ export const getStream = async (formData: Any, func: string, onMessage: Function
     },
     body: JSON.stringify(formData),
     onmessage: (event) => {
-      if (event.event === 'data') {
-        onMessage(JSON.parse(event.data).content);
-      }
+      // if (event.event === 'data') {
+      //   onMessage(JSON.parse(event.event).data);
+      // }
+      onMessage(JSON.parse(event.event).content);
     }
   })
 }

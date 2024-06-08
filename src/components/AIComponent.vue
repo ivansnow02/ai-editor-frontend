@@ -79,7 +79,7 @@ function testFunction() {
   //   store.upDateContent( response.data.data);
   //   console.log(responseStoreContent);
   // });
-  streamTranslate(value)
+  streamTranslate()
 }
 
 const drawer = ref(true);
@@ -88,15 +88,14 @@ const rail = ref(true);
 const streamTranslate = async () => {
   await getStream({
     input: {
-      "prompt": storeContent.value,
-      "style": "string",
-     "word_count": 0,
-      "lang": selectdeLang.value
+      human_input: storeContent.value,
+      lang: selectdeLang.value,
     }
   },
     "translate",
     (data: string) => {
-      content.value += data;
+      responseStoreContent.value += data;
+      console.log(data);
     }
   );
 }
@@ -120,16 +119,15 @@ const streamTranslate = async () => {
       <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
       <v-select label="选择风格" :items="Styles" v-model="selectedStyle"></v-select>
       <VBtn class="mb-4" color="secondary" @click="Texttranslation(selectdeLang)"> Translate </VBtn>
+      <VBtn class="mb-4" color="secondary" @click="streamTranslate()"> 流式翻译 </VBtn>
       <v-select label="选择语言" :items="Lang" v-model="selectdeLang"></v-select>
 
 
       <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
       <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
-      <VBtn class="mb-4" color="secondary" @click="streamTranslate()"> 流式翻译 </VBtn>
+      
 
 
-      <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
-      <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
       <VBtn class="mb-4" color="secondary" @click="testFunction()">testButton</VBtn>
 
     </v-sheet>
