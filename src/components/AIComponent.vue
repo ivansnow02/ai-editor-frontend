@@ -42,31 +42,43 @@ function Textcompletion() {
 }
 
 function Textabstraction(word_count: number = 1) {
-  streamFunction("abstract")
+  streamFunction("abstract",storeContent.value)
   responseStoreContent.value = "";
 }
 
 function Texttranslation() {
-  streamFunction("translate")
+  streamFunction("translate",storeContent.value)
   responseStoreContent.value = "";
 }
 function Textpolish() {
-  streamFunction("polish")
+  streamFunction("polish", storeContent.value)
   responseStoreContent.value = "";
 }
 function Textfix() {
-  streamFunction("fix")
+  streamFunction("fix", storeContent.value)
  responseStoreContent.value = "";
 }
 
-
+const handleFileUpload = (event) =>  {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      streamFunction("abstract", content)
+      responseStoreContent.value = ""
+      console.log(content)
+    };
+    reader.readAsText(file);
+  }
+}
 const drawer = ref(true);
 const rail = ref(true);
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
-const streamFunction = async (fun: string) => {
+const streamFunction = async (fun: string, Input: string) => {
   await getStream({
     input: {
-      human_input: storeContent.value,
+      human_input: Input,
       lang: selectdeLang.value,
       style: selectedStyle.value,
       word_count: 300
@@ -93,6 +105,7 @@ const streamCompletion = async () => {
     }
   );
 }
+
 </script>
 
 <template>
@@ -118,7 +131,7 @@ const streamCompletion = async () => {
 
       <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
       <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
-      
+      <input class="mb-4" color="secondary" type="file" @change="handleFileUpload($event)">
 
 
       <VBtn class="mb-4" color="secondary" @click="testFunction()">testButton</VBtn>
