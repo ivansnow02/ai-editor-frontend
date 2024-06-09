@@ -23,13 +23,29 @@ export const getStream = async (formData: Any, func: string, onMessage: Function
     },
     body: JSON.stringify(formData),
     onmessage: (event) => {
-      // if (event.event === 'data') {
-      //   onMessage(JSON.parse(event.event).data);
-      // }
-      onMessage(JSON.parse(event.event).content);
+      if (event.event === 'data') {
+        onMessage(JSON.parse(event.data).content);
+      }
     }
   })
 }
+
+
+export const getCompletionStream = async (formData: Any, func: string, onMessage: Function) => {
+  await fetchEventSource(`http://127.0.0.1:8000/api/langserve/${func}/stream`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData),
+    onmessage: (event) => {
+      if (event.event === 'data') {
+        onMessage(JSON.parse(event.data));
+      }
+    }
+  })
+}
+
 
 export const aiGetCompletion = (formData: string) =>
   aiRequest({
