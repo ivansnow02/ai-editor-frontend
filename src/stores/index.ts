@@ -15,10 +15,10 @@ export const useStore = defineStore('store', {
         },
     },
     actions:{
-        upDateContent(val){
+        upDateResponseContent(val: string){
             this.responseStoreContent = val;
         },
-        getcontent(val){
+        upDateContent(val: string){
             this.storeContent = val;
             
         }

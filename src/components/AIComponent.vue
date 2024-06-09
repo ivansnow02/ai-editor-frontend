@@ -66,8 +66,11 @@ const handleFileUpload = (event) =>  {
     reader.onload = (e) => {
       const content = e.target.result;
       streamFunction("abstract", content)
+      if(storeContent.value == ""){
+        storeContent.value = responseStoreContent.value
+        console.log("nihao")
+      }
       responseStoreContent.value = ""
-      console.log(content)
     };
     reader.readAsText(file);
   }
@@ -106,6 +109,10 @@ const streamCompletion = async () => {
   );
 }
 
+const testFunction = () =>{
+  console.log("Response:", responseStoreContent.value,'\n')
+  console.log("Content:", storeContent.value)
+}
 </script>
 
 <template>
@@ -122,19 +129,23 @@ const streamCompletion = async () => {
     <v-sheet min-width="400px" v-if="!rail">
       <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
       <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
+      <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
+      <p></p>
       <VBtn class="mb-4" color="secondary" @click="Textpolish()"> Polish </VBtn>
       <v-select label="选择风格" :items="Styles" v-model="selectedStyle"></v-select>
-      <!-- <VBtn class="mb-4" color="secondary" @click="Texttranslation(selectdeLang)"> Translate </VBtn> -->
-      <VBtn class="mb-4" color="secondary" @click="Texttranslation()"> 流式翻译 </VBtn>
+      <VBtn class="mb-4" color="secondary" @click="Texttranslation()"> Translate </VBtn>
       <v-select label="选择语言" :items="Lang" v-model="selectdeLang"></v-select>
 
-
-      <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
+      
       <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
-      <input class="mb-4" color="secondary" type="file" @change="handleFileUpload($event)">
-
-
       <VBtn class="mb-4" color="secondary" @click="testFunction()">testButton</VBtn>
+
+      <form id="form">
+        <label for="submit">
+          <div class="lBut"><span>选择文件</span></div>
+        </label>
+        <input id="submit" type="file" style="display: none;" @change="handleFileUpload($event)"/>
+      </form>
 
     </v-sheet>
   </v-navigation-drawer>
@@ -145,5 +156,21 @@ const streamCompletion = async () => {
 
 </template>
 <style>
-
+.lBut{
+  width: 87px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 1.15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-left: 28px;
+  transition: all 0.5s;
+  white-space: nowrap;
+  background-color: rgba(72, 169, 166, 1);
+  color: white;
+  border: 1px solid rgba(72, 169, 166, 1);
+}
 </style>
