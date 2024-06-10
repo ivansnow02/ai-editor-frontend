@@ -28,6 +28,7 @@
     "vuetify-pro-tiptap": "^2.5.0"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
     "@playwright/test": "^1.43.0",
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",

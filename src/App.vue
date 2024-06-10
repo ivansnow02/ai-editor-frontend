@@ -187,7 +187,7 @@ provide('VuetifyTiptapRef', VuetifyTiptapRef);
 //   console.log('output :>> ', val)
 // })
 watch(content, value => {
-  store.getcontent(VuetifyTiptapRef.value?.editor.getText())
+  store.upDateContent(VuetifyTiptapRef.value?.editor.getHTML())
 })
 
 watch(responseStoreContent, value => {

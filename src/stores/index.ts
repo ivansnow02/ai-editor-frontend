@@ -7,14 +7,15 @@ export const useStore = defineStore('store', {
         }
     },
     getters:{ 
+       
+    },
+    actions:{
         getContent(){
             return this.storeContent;
         },
         getResponseContent() {
             return this.responseStoreContent;
         },
-    },
-    actions:{
         upDateResponseContent(val: string){
             this.responseStoreContent = val;
         },

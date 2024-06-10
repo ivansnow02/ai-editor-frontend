@@ -5,7 +5,10 @@ import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPol
 import { mdiFountainPenTip, mdiClose, mdiArrowLeftDropCircleOutline, mdiArrowRightDropCircleOutline } from '@mdi/js';
 import { inject, ref, type Ref } from 'vue';
 import { ActionButton } from 'vuetify-pro-tiptap';
+import '@mdi/font/css/materialdesignicons.css'
 import { getCompletion, getStream, getCompletionStream} from '../apis/generate';
+import { uploadimg} from '../apis/orc';
+import { aiFileSummary, getFileStream } from '@/apis/file_summary'; 
 import { useStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 let store = useStore();
@@ -19,6 +22,8 @@ const selectedStyle = ref("original");
 // const VuetifyTiptapRef = ref<null | Record<string, any>>(null);
 const output = ref<'html' | 'json' | 'text'>('html');
 const content = ref('');
+const File = ref('')
+const binaryfile = ref('')
 
 
 const storeRequest = () => {
@@ -59,22 +64,94 @@ function Textfix() {
  responseStoreContent.value = "";
 }
 
-const handleFileUpload = (event) =>  {
+const textFileSummary = () => {
+  streamFileFuntcion(File.value)
+  responseStoreContent.value = "";
+}
+const imgUpload = () => {
+  uploadimg(binaryfile._value)
+}
+const handleFileTo64Base = (event) => {
+  const file = event.target.files[0];
+  if(file) {
+    console.log(file.name)
+    console.log(file.type)
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = reader.result;
+        const base64Data= base64String.replace(/^[^,]+,/, '');
+        File.value = base64Data;
+    }
+  }
+}
+
+const handleFileToBinary = (event) => {
+  const file = event.target.files[0];
+  console.log(file.type)
+  if(file) {
+    console.log(file.name)
+    console.log(file.type)
+      const reader = new FileReader();
+      
+      reader.readAsArrayBuffer(file)
+      const binarData = reader.result;
+      console.log(binarData)
+      console.log(binarData.type)
+      console.log()
+      reader.onload = () => {
+        
+        console.log("nihao")
+        
+        binaryfile.value = binarData;
+        // console.log(binaryfile.type)
+        console.log(binaryfile._rawValue)
+        console.log(binaryfile._value.type)
+       
+    }
+  }
+}
+
+const handleFileUpload = (event) =>  {//get text file
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
       const content = e.target.result;
+      console.log(content)
+      store.upDateContent( content)
       streamFunction("abstract", content)
-      if(storeContent.value == ""){
-        storeContent.value = responseStoreContent.value
-        console.log("nihao")
+      if(store.getContent() == ""){
+        store.upDateContent(store.getResponseContent())
+        console.log(store.getContent())
       }
       responseStoreContent.value = ""
     };
     reader.readAsText(file);
   }
 }
+
+const handleImageFile = (event) => {
+  const img = event.target.files[0];
+  // uplodimg(img).then(function(response){
+  //   console.log(response)
+  // })
+  // const imgReader = new FileReader();
+  // imgReader.onload = () => {
+  //   const base64String = imgReader.result;
+  //   Image.value = base64String;
+  // };
+  // imgReader.readAsDataURL(img)
+}
+
+const orcUpLoadimg = () => {
+  // const val= Image.value
+  uplodimg(bianrfile).then(function(response){
+    console.log(response.data)
+  })
+  
+}
+
 const drawer = ref(true);
 const rail = ref(true);
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
@@ -104,14 +181,25 @@ const streamCompletion = async () => {
     "completion",
     (data: string) => {
       responseStoreContent.value += data;
-      console.log(data)
     }
   );
 }
 
+const streamFileFuntcion = async(Input: string) => {
+  await getFileStream({
+    input: {
+      files: Input,
+    }
+  },
+    "file_summary",
+    (data: string) => {
+      responseStoreContent.value += data;
+      
+    })
+}
 const testFunction = () =>{
-  console.log("Response:", responseStoreContent.value,'\n')
-  console.log("Content:", storeContent.value)
+  console.log(File.value)
+  console.log(binaryfile);
 }
 </script>
 
@@ -140,13 +228,23 @@ const testFunction = () =>{
       <VBtn class="mb-4" color="secondary" @click="" type="file">FileAbstraction</VBtn>
       <VBtn class="mb-4" color="secondary" @click="testFunction()">testButton</VBtn>
 
-      <form id="form">
-        <label for="submit">
-          <div class="lBut"><span>选择文件</span></div>
-        </label>
-        <input id="submit" type="file" style="display: none;" @change="handleFileUpload($event)"/>
-      </form>
-
+        <v-file-input
+          prepend-icon="mdi-camera"
+          class="mb-4"
+          label="选择文件生成摘要" 
+          @change="handleFileTo64Base"
+          counter
+          multiple
+          show-size
+         ></v-file-input>
+         <VBtn class="mb-4" color="secondary" @click="textFileSummary()">file_summary</VBtn>
+        <v-file-input
+          label="ORC读取图片内容"
+          @change="handleFileToBinary"
+        ></v-file-input>
+        <VBtn class="mb-4" color="secondary" @click="imgUpload()">uploadimg</VBtn>
+         
+        
     </v-sheet>
   </v-navigation-drawer>
 
@@ -157,8 +255,8 @@ const testFunction = () =>{
 </template>
 <style>
 .lBut{
-  width: 87px;
-  height: 32px;
+  width: 120px;
+  height: 36px;
   font-size: 14px;
   line-height: 1.15;
   display: flex;
