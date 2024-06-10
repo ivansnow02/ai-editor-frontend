@@ -8,11 +8,12 @@ import * as directives from 'vuetify/directives'
 // import 'element-plus/dist/index.css'
 import App from './App.vue';
 import { vuetifyProTipTap } from './tiptap';
-
+import '@mdi/font/css/materialdesignicons.css'
 
 const vuetify = createVuetify({
   components,
-  directives
+  directives,
+
 })
 
 const app = createApp(App);

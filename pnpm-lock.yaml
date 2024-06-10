@@ -17,6 +17,12 @@ importers:
       '@tiptap/core':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/pm@2.4.0)
+      '@tiptap/starter-kit':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/pm@2.4.0)
+      '@tiptap/vue-3':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)(vue@3.4.27(typescript@5.4.5))
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -26,6 +32,9 @@ importers:
       pinia:
         specifier: ^2.1.7
         version: 2.1.7(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
+      prosemirror-model:
+        specifier: ^1.21.1
+        version: 1.21.1
       vue:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
@@ -39,6 +48,9 @@ importers:
         specifier: ^2.5.0
         version: 2.5.0(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5)))
     devDependencies:
+      '@mdi/font':
+        specifier: ^7.4.47
+        version: 7.4.47
       '@playwright/test':
         specifier: ^1.43.0
         version: 1.44.1
@@ -525,6 +537,9 @@ packages:
   '@lezer/lr@1.4.1':
     resolution: {integrity: sha512-CHsKq8DMKBf9b3yXPDIU4DbH+ZJd/sJdYOW2llbW/HudP5u0VS6Bfq1hLYfgU7uAYGFIyGGQIsSOXGPEErZiJw==}
 
+  '@mdi/font@7.4.47':
+    resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
+
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
 
@@ -903,6 +918,9 @@ packages:
 
   '@tiptap/pm@2.4.0':
     resolution: {integrity: sha512-B1HMEqGS4MzIVXnpgRZDLm30mxDWj51LkBT/if1XD+hj5gm8B9Q0c84bhvODX6KIs+c6z+zsY9VkVu8w9Yfgxg==}
+
+  '@tiptap/starter-kit@2.4.0':
+    resolution: {integrity: sha512-DYYzMZdTEnRn9oZhKOeRCcB+TjhNz5icLlvJKoHoOGL9kCbuUyEf8WRR2OSPckI0+KUIPJL3oHRqO4SqSdTjfg==}
 
   '@tiptap/suggestion@2.4.0':
     resolution: {integrity: sha512-6dCkjbL8vIzcLWtS6RCBx0jlYPKf2Beuyq5nNLrDDZZuyJow5qJAY0eGu6Xomp9z0WDK/BYOxT4hHNoGMDkoAg==}
@@ -2160,8 +2178,8 @@ packages:
   prosemirror-menu@1.2.4:
     resolution: {integrity: sha512-S/bXlc0ODQup6aiBbWVsX/eM+xJgCTAfMq/nLqaO5ID/am4wS0tTCIkzwytmao7ypEtjj39i7YbJjAgO20mIqA==}
 
-  prosemirror-model@1.21.0:
-    resolution: {integrity: sha512-zLpS1mVCZLA7VTp82P+BfMiYVPcX1/z0Mf3gsjKZtzMWubwn2pN7CceMV0DycjlgE5JeXPR7UF4hJPbBV98oWA==}
+  prosemirror-model@1.21.1:
+    resolution: {integrity: sha512-IVBAuMqOfltTr7yPypwpfdGT+6rGAteVOw2FO6GEvCGGa1ZwxLseqC1Eax/EChDvG/xGquB2d/hLdgh3THpsYg==}
 
   prosemirror-schema-basic@1.2.2:
     resolution: {integrity: sha512-/dT4JFEGyO7QnNTe9UaKUhjDXbTNkiWTq/N4VpKaF79bBjSExVV2NXmJpcM7z/gD7mbqNjxbmWW5nf1iNSSGnw==}
@@ -3140,6 +3158,8 @@ snapshots:
     dependencies:
       '@lezer/common': 1.2.1
 
+  '@mdi/font@7.4.47': {}
+
   '@mdi/js@7.4.47': {}
 
   '@microsoft/fetch-event-source@2.0.1': {}
@@ -3443,14 +3463,38 @@ snapshots:
       prosemirror-keymap: 1.2.2
       prosemirror-markdown: 1.13.0
       prosemirror-menu: 1.2.4
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-schema-basic: 1.2.2
       prosemirror-schema-list: 1.3.0
       prosemirror-state: 1.4.3
       prosemirror-tables: 1.3.7
-      prosemirror-trailing-node: 2.0.8(prosemirror-model@1.21.0)(prosemirror-state@1.4.3)(prosemirror-view@1.33.7)
+      prosemirror-trailing-node: 2.0.8(prosemirror-model@1.21.1)(prosemirror-state@1.4.3)(prosemirror-view@1.33.7)
       prosemirror-transform: 1.9.0
       prosemirror-view: 1.33.7
+
+  '@tiptap/starter-kit@2.4.0(@tiptap/pm@2.4.0)':
+    dependencies:
+      '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
+      '@tiptap/extension-blockquote': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-bold': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-bullet-list': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-code': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-code-block': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)
+      '@tiptap/extension-document': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-dropcursor': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)
+      '@tiptap/extension-gapcursor': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)
+      '@tiptap/extension-hard-break': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-heading': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-history': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)
+      '@tiptap/extension-horizontal-rule': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)
+      '@tiptap/extension-italic': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-list-item': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-ordered-list': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-paragraph': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-strike': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+      '@tiptap/extension-text': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
+    transitivePeerDependencies:
+      - '@tiptap/pm'
 
   '@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)':
     dependencies:
@@ -4780,7 +4824,7 @@ snapshots:
 
   prosemirror-commands@1.5.2:
     dependencies:
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.9.0
 
@@ -4793,7 +4837,7 @@ snapshots:
   prosemirror-gapcursor@1.3.2:
     dependencies:
       prosemirror-keymap: 1.2.2
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-state: 1.4.3
       prosemirror-view: 1.33.7
 
@@ -4817,7 +4861,7 @@ snapshots:
   prosemirror-markdown@1.13.0:
     dependencies:
       markdown-it: 14.1.0
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
 
   prosemirror-menu@1.2.4:
     dependencies:
@@ -4826,49 +4870,49 @@ snapshots:
       prosemirror-history: 1.4.0
       prosemirror-state: 1.4.3
 
-  prosemirror-model@1.21.0:
+  prosemirror-model@1.21.1:
     dependencies:
       orderedmap: 2.1.1
 
   prosemirror-schema-basic@1.2.2:
     dependencies:
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
 
   prosemirror-schema-list@1.3.0:
     dependencies:
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.9.0
 
   prosemirror-state@1.4.3:
     dependencies:
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-transform: 1.9.0
       prosemirror-view: 1.33.7
 
   prosemirror-tables@1.3.7:
     dependencies:
       prosemirror-keymap: 1.2.2
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.9.0
       prosemirror-view: 1.33.7
 
-  prosemirror-trailing-node@2.0.8(prosemirror-model@1.21.0)(prosemirror-state@1.4.3)(prosemirror-view@1.33.7):
+  prosemirror-trailing-node@2.0.8(prosemirror-model@1.21.1)(prosemirror-state@1.4.3)(prosemirror-view@1.33.7):
     dependencies:
       '@remirror/core-constants': 2.0.2
       escape-string-regexp: 4.0.0
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-state: 1.4.3
       prosemirror-view: 1.33.7
 
   prosemirror-transform@1.9.0:
     dependencies:
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
 
   prosemirror-view@1.33.7:
     dependencies:
-      prosemirror-model: 1.21.0
+      prosemirror-model: 1.21.1
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.9.0
 

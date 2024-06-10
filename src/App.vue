@@ -1,9 +1,3 @@
-<!--
-  * @Date: 2023-05-27 17:21:21
-  * @LastEditors: yikoyu 2282373181@qq.com
-  * @LastEditTime: 2023-09-09 21:36:31
-  * @FilePath: \vuetify-pro-tiptap\examples\App.vue
--->
 <script setup lang="ts">
 import { computed, provide, ref, unref, type Ref } from 'vue'
 import { useTheme } from 'vuetify'
@@ -40,8 +34,10 @@ import {
   Underline,
   Video,
   VuetifyTiptap,
+  type Editor,
 } from 'vuetify-pro-tiptap'
-
+import type { Selection } from 'prosemirror-model'
+import { DOMSerializer } from 'prosemirror-model'
 // import CustomLang from './compone./components/AIComponent.vue
 import preview from './extensions/preview'
 
@@ -49,6 +45,7 @@ import LinkDialog from './components/LinkDialog.vue'
 import SelectImage from './components/SelectImage.vue'
 import { markRaw } from 'vue'
 
+const selection = ref("");
 const extensions = [
   BaseKit.configure({
       placeholder: {
@@ -96,7 +93,8 @@ const extensions = [
             componentProps: {
               tooltip: 'AI功能',
               action: () => {
-                  //TODO
+                selection.value = getHTMLFromSelection(editor, editor.state.selection);
+                console.log('selection :>> ', selection);
                 }
               }
           });
@@ -174,7 +172,7 @@ const hideToolbar = ref(false)
 const disableToolbar = ref(false)
 const errorMessages = ref(null)
 provide('VuetifyTiptapRef', VuetifyTiptapRef);
-
+provide('selection', selection);
 
 // watch(content, val => {
 //   console.log('output :>> ', val)
@@ -183,15 +181,20 @@ provide('VuetifyTiptapRef', VuetifyTiptapRef);
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
+const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
+  const slice = selection.content();
+  const serializer = DOMSerializer.fromSchema(editor.schema);
+  const fragment = serializer.serializeFragment(slice.content);
+  const div = document.createElement('div');
+  div.appendChild(fragment);
 
+  return div.innerHTML;
+}
 
-
-//待完成
+//TODO 待完成
   const links = [
-    'Dashboard',
-    'Messages',
-    'Profile',
-    'Updates',
+    '编辑器',
+    '登录',
   ]
 // async function onChangeEditor({ editor, output }: VuetifyTiptapOnChange) {
 //   const formData = {
@@ -210,7 +213,7 @@ function toggleTheme() {
 <template>
   <VApp id="app">
     <v-main class="bg-grey-lighten-3">
-      <v-app-bar flat>
+      <v-app-bar border="0" flat>
         <v-container class="mx-auto d-flex align-center justify-center">
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
 
@@ -218,21 +221,18 @@ function toggleTheme() {
 
           <v-spacer></v-spacer>
 
-          <v-responsive max-width="160">
-            <v-text-field density="compact" label="Search" rounded="lg" variant="solo-filled" flat hide-details
-              single-line></v-text-field>
-          </v-responsive>
+
         </v-container>
       </v-app-bar>
       <AIComponent></AIComponent>
 
 
 
-      <v-sheet rounded="lg"> 
-        <VuetifyTiptap class="editor" ref="VuetifyTiptapRef" v-model="content" v-model:markdown-theme="markdownTheme"
+      <v-sheet rounded="lg">
+        <VuetifyTiptap class="editor" ref="VuetifyTiptapRef" v-model="content" markdown-theme="markdownTheme"
           :output="output" :hide-toolbar="hideToolbar" :disable-toolbar="disableToolbar" :outlined="outlined"
-          :dense="dense" :error-messages="errorMessages" rounded :extensions="extensions" max-width="1000" 
-          ></VuetifyTiptap>
+          :dense="dense" :error-messages="errorMessages" rounded :extensions="extensions" max-width="1000">
+        </VuetifyTiptap>
       </v-sheet>
 
 
