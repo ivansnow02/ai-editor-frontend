@@ -45,6 +45,11 @@ import LinkDialog from './components/LinkDialog.vue'
 import SelectImage from './components/SelectImage.vue'
 import { markRaw } from 'vue'
 
+
+
+
+
+
 const selection = ref("");
 const extensions = [
   BaseKit.configure({
@@ -92,9 +97,10 @@ const extensions = [
             component: ActionButton,
             componentProps: {
               tooltip: 'AI功能',
+              icon: 'check',
               action: () => {
                 selection.value = getHTMLFromSelection(editor, editor.state.selection);
-                console.log('selection :>> ', selection);
+                rail.value = false;
                 }
               }
           });
@@ -208,6 +214,7 @@ const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
 //   }
 // }
 
+const rail = ref(true)
 
 </script>
 <template>
@@ -224,7 +231,7 @@ const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
 
         </v-container>
       </v-app-bar>
-      <AIComponent></AIComponent>
+      <AIComponent v-model="rail"></AIComponent>
 
 
 

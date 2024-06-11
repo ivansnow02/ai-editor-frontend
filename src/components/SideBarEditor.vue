@@ -6,7 +6,37 @@
 <script>
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
+import {
 
+  Blockquote,
+  Bold,
+  BulletList,
+  Clear,
+  Code,
+  CodeBlock,
+  Color,
+  defaultBubbleList,
+  FontFamily,
+  FontSize,
+  Fullscreen,
+  Heading,
+  Highlight,
+  History,
+  HorizontalRule,
+  Image,
+  Indent,
+  Italic,
+  Link,
+  MarkdownTheme,
+  OrderedList,
+  Strike,
+  SubAndSuperScript,
+  Table,
+  TaskList,
+  TextAlign,
+  Underline,
+  Video,
+} from 'vuetify-pro-tiptap';
 export default {
   components: {
     EditorContent,

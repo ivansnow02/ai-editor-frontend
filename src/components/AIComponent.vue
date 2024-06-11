@@ -8,10 +8,10 @@ import { streamAiGetAbstraction, streamAiGetCompletion, streamAiGetFix, streamAi
 import { getStream } from '../apis/generate';
 import SideBarEditor from './SideBarEditor.vue';
 import { toBase64 } from '@/utils/file2base64';
-const Lang = ["English", "Chinese", "Jpanese", "French", "German", "Russian", "Spanish",];
-const Styles = ["original", "written language", "spoken language", "Classical Chinese"];
-const selectdeLang = ref("English");
-const selectedStyle = ref("original");
+const Lang = ["英文", "中文", "日语", "法语", "德语", "俄语", "西班牙语",];
+const Styles = ["原文", "书面语言", "口语", "文言文"];
+const selectedLang = ref("英文");
+const selectedStyle = ref("原文");
 
 const VuetifyTiptapRef = inject<Ref>('VuetifyTiptapRef');
 const output = ref<'html' | 'json' | 'text'>('html');
@@ -61,7 +61,9 @@ const toggle = ref("补全");
 //   });
 // }
 const drawer = ref(true);
-const rail = ref(true);
+const rail = defineModel({
+  type: Boolean,
+});
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
 // const streamTranslate = async () => {
 //   await getStream({
@@ -76,13 +78,13 @@ const rail = ref(true);
 //     }
 //   );
 // }
-const handleFileTo64Base = (event) => {
-  const file = event.target.files[0];
+const handleFileTo64Base = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      const base64String = reader.result;
+      const base64String = reader.result as string;
       const base64Data = base64String.replace(/^[^,]+,/, '');
       uploadedFile.value = base64Data;
     };
@@ -100,7 +102,7 @@ type Body = {
     files?: unknown;
   };
 };
-const uploadedFile = ref(null);
+const uploadedFile = ref('');
 
 
 
@@ -132,7 +134,7 @@ const generate = async () => {
   };
 
   if (toggle.value === "translate") {
-    body.input.lang = selectdeLang.value;
+    body.input.lang = selectedLang.value;
   }
   if (toggle.value === "polish") {
     body.input.style = selectedStyle.value;
@@ -176,7 +178,7 @@ const generate = async () => {
               <v-btn value="abstract">总结</v-btn>
               <v-btn value="file_summary">文件总结</v-btn>
             </v-btn-toggle>
-            <v-select label="选择语言" :items="Lang" v-model="selectdeLang" v-if="toggle === 'translate'"></v-select>
+            <v-select label="选择语言" :items="Lang" v-model="selectedLang" v-if="toggle === 'translate'"></v-select>
             <v-select label="选择风格" v-if="toggle === 'polish'" :items="Styles" v-model="selectedStyle"></v-select>
             <VBtn class="mb-4" color="secondary" @click="generate"> 生成 </VBtn>
 
