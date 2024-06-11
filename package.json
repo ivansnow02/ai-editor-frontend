@@ -24,6 +24,7 @@
     "json-editor-vue": "^0.15.1",
     "pinia": "^2.1.7",
     "prosemirror-model": "^1.21.1",
+    "tiptap-extension-image-upload": "^0.1.6",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vuetify": "^3.6.8",
