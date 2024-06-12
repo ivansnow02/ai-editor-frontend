@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { aiGetCompletion, aiGetAbstraction, aiGetFix, aiGetTranslation, aiGetPolish, getFileSummary } from '../apis/generate';
 import { mdiArrowLeftDropCircleOutline, mdiArrowRightDropCircleOutline } from '@mdi/js';
-import { inject, ref, type Ref } from 'vue';
+import { computed, inject, ref, watch, type Ref } from 'vue';
 import { ActionButton, BaseKit, Bold, createVuetifyProTipTap, defaultBubbleList, Italic, Link, VuetifyTiptap } from 'vuetify-pro-tiptap';
 import { getCompletion } from '../apis/generate';
 import { streamAiGetAbstraction, streamAiGetCompletion, streamAiGetFix, streamAiGetPolish, streamAiGetTranslation } from '../apis/stream';
 import { getStream } from '../apis/generate';
 import SideBarEditor from './SideBarEditor.vue';
 import { toBase64 } from '@/utils/file2base64';
+import { getOCRResult } from '@/apis/pic';
 const Lang = ["英文", "中文", "日语", "法语", "德语", "俄语", "西班牙语",];
 const Styles = ["原文", "书面语言", "口语", "文言文"];
 const selectedLang = ref("英文");
@@ -17,6 +18,7 @@ const VuetifyTiptapRef = inject<Ref>('VuetifyTiptapRef');
 const output = ref<'html' | 'json' | 'text'>('html');
 const content = VuetifyTiptapRef?.value?.editor.content;
 const selection = inject<Ref>("selection");
+const ocrURL = inject<Ref>("ocrURL");
 const receive = ref("");
 const toggle = ref("补全");
 //ai functions
@@ -118,15 +120,9 @@ const fileSummaryInvoke = async () => {
 };
 
 
-
-const generate = async () => {
-  receive.value = "";
-
+const textGenerate = async () => {
   let body: Body = { input: {} };
-  if (toggle.value === "file_summary") {
-    await fileSummaryInvoke();
-    return;
-  }
+
   body = {
     input: {
       human_input: selection?.value,
@@ -148,6 +144,45 @@ const generate = async () => {
   );
 }
 
+const ocrGenerate = async () => {
+  if (ocrURL) {
+    await getOCRResult(ocrURL.value).then((response) => {
+      const res = response.data.data.reduce((acc: string, cur: string) => `${acc + cur}\n`, '');
+      receive.value = res;
+    });
+  }
+}
+
+const generate = async () => {
+  receive.value = "";
+  switch (show.value) {
+    case 'text':
+      await textGenerate();
+      break;
+    case 'file':
+      await fileSummaryInvoke();
+      break;
+    case 'ocr':
+      await ocrGenerate();
+      break;
+  }
+  
+}
+
+const show = computed(() => {
+  if (toggle.value !== 'file_summary' && !ocrURL) {
+    return 'text';
+  }
+  if (toggle.value === 'file_summary' && !ocrURL) {
+    return 'file';
+  }
+    return 'ocr';
+});
+
+
+
+
+
 </script>
 
 <template>
@@ -167,10 +202,11 @@ const generate = async () => {
         <v-flex xs12 sm8 md4>
           <v-sheet min-width="360px" max-width="360px" v-if="!rail">
             <!-- <VTextarea v-model="selection" clearable label="Label" variant="solo-filled"></VTextarea> -->
-            <SideBarEditor v-model="selection" v-if="toggle !== 'file_summary'" />
-            <v-file-input clearable label="File input" variant="outlined" v-if="toggle === 'file_summary'"
+            <SideBarEditor v-model="selection" v-if="show==='text'" />
+            <v-file-input clearable label="File input" variant="outlined" v-if="show === 'file'"
             @change="handleFileTo64Base"></v-file-input>
-            <v-btn-toggle v-model="toggle" color="primary" mandatory>
+            <v-img :src="ocrURL" v-if="show==='ocr'"></v-img>
+            <v-btn-toggle v-model="toggle" color="primary" mandatory v-if="show!=='ocr'">
               <v-btn value="completion">补全</v-btn>
               <v-btn value="translate">翻译</v-btn>
               <v-btn value="polish">润色</v-btn>

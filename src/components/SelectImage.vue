@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, unref, watch } from 'vue'
-
+import { uploadImg } from '../apis/pic'
+import { ROOT_URL } from '@/utils/request';
 interface SelectImageProps {
   modelValue?: Record<string, string>
   upload?: (file: File) => Promise<string> // vue warn
@@ -16,7 +17,7 @@ const props = withDefaults(defineProps<SelectImageProps>(), {
 
 const emits = defineEmits<SelectImageEmits>()
 
-const uploadedFile = ref('')
+const uploadedFile = ref<File | null>(null)
 
 const form = computed({
   get: () => props.modelValue,
@@ -25,37 +26,38 @@ const form = computed({
   }
 })
 
-const items = [
-  { alt: 'Test 1', src: 'https://picsum.photos/1920/1080.webp?t=1' },
-  { alt: 'Test 2', src: 'https://picsum.photos/1920/1080.webp?t=2' },
-  { alt: 'Test 3', src: 'https://picsum.photos/1920/1080.webp?t=3' }
-]
-const handleFileTo64Base = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const base64String = reader.result as string;
-      form.value.src = base64String;
-    };
+
+const uploadFile = (event: Event) => {
+  if (uploadedFile.value === null) {
+    console.error('No file uploaded');
+    return;
   }
+
+  const body = new FormData();
+  body.append('file', uploadedFile.value);
+
+  uploadImg(body).then(res => {
+    console.log(res.data.data.url);
+    const url = `${ROOT_URL}/${res.data.data.url}`;
+    console.log(url);
+    form.value.src = url;
+  });
 };
-watch(
-  () => unref(form).src,
-  val => {
-    const find = items.find(k => k.src === val)
-    if (find) {
-      form.value.alt = find.alt
-    }
-  }
-)
+// watch(
+//   () => unref(form).src,
+//   val => {
+//     const find = items.find(k => k.src === val)
+//     if (find) {
+//       form.value.alt = find.alt
+//     }
+//   }
+// )
 </script>
 
 <template>
 
-  <v-file-input clearable label="上传图片" variant="outlined"
-    @change="handleFileTo64Base"></v-file-input>
+  <v-file-input clearable v-model="uploadedFile" label="上传图片" variant="outlined"
+    @change="uploadFile"></v-file-input>
 
   <VTextField v-model="form.alt" label="Alt" />
 

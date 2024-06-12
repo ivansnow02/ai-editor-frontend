@@ -21,6 +21,7 @@
     "@tiptap/starter-kit": "^2.4.0",
     "@tiptap/vue-3": "^2.4.0",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "json-editor-vue": "^0.15.1",
     "pinia": "^2.1.7",
     "prosemirror-model": "^1.21.1",

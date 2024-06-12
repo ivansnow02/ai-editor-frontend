@@ -48,7 +48,7 @@ import { markRaw } from 'vue'
 
 
 
-
+const ocrURL = ref('')
 
 const selection = ref("");
 const extensions = [
@@ -71,7 +71,9 @@ const extensions = [
             'divider',
             'image',
             'image-aspect-ratio',
-            'remove'
+            'remove',
+            'divider',
+            'ocr',
           ],
           text: [
             'bold',
@@ -103,6 +105,24 @@ const extensions = [
                 rail.value = false;
                 }
               }
+          });
+          defaultList.push({
+            type: 'ocr',
+            component: ActionButton,
+            componentProps: {
+              tooltip: 'OCR',
+              icon: 'check',
+              action: () => {
+                const imgNode = getHTMLFromSelection(editor, editor.state.selection);
+                console.log(imgNode);
+                const match = imgNode.match(/src="([^"]*)"/);
+                if (match !== null) {
+                  const imgURL = match[1];
+                  ocrURL.value = imgURL;
+                  rail.value = false;
+                }
+              }
+            }
           });
           // Add the new button to the list
           return defaultList
@@ -174,7 +194,7 @@ const disableToolbar = ref(false)
 const errorMessages = ref(null)
 provide('VuetifyTiptapRef', VuetifyTiptapRef);
 provide('selection', selection);
-
+provide('ocrURL', ocrURL);
 // watch(content, val => {
 //   console.log('output :>> ', val)
 // })
