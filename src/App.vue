@@ -2,6 +2,8 @@
 import { computed, provide, ref, unref, type Ref } from 'vue'
 import { useTheme } from 'vuetify'
 import AIComponent from './components/AIComponent.vue'
+import Login from './components/Login.vue'
+import regist from './components/regist.vue'
 import {
   ActionButton,
   BaseKit,
@@ -238,8 +240,8 @@ const rail = ref(true)
       <v-app-bar border="0" flat>
         <v-container class="mx-auto d-flex align-center justify-center">
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
-
-          <v-btn v-for="link in links" :key="link" :text="link" variant="text"></v-btn>
+          <Login/>
+          <regist/>
 
           <v-spacer></v-spacer>
 
