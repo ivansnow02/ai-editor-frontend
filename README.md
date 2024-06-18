@@ -17,10 +17,10 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
-npm install
-npm install axios
-npm i vuetify-pro-tiptap -S
-npm i @tiptap/core
+cnpm install
+cnpm install axios
+cnpm i vuetify-pro-tiptap -S
+cnpm i @tiptap/core
 ```
 
 ### Compile and Hot-Reload for Development

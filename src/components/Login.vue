@@ -1,6 +1,7 @@
 <script setup>
 import {ref} from 'vue'
 import { RouterLink } from 'vue-router';
+import regist from './regist.vue'
 
 
 const Acount = ref ("")
@@ -43,7 +44,7 @@ const formdata = ref(null)
   
         <v-card-actions>
           <v-spacer></v-spacer>
-  
+          <regist/>
           <v-btn
             text="登陆"
             

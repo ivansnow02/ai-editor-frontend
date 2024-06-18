@@ -241,7 +241,6 @@ const rail = ref(true)
         <v-container class="mx-auto d-flex align-center justify-center">
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
           <Login/>
-          <regist/>
 
           <v-spacer></v-spacer>
 
