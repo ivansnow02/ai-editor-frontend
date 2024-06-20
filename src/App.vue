@@ -1,13 +1,9 @@
-<!--
-  * @Date: 2023-05-27 17:21:21
-  * @LastEditors: yikoyu 2282373181@qq.com
-  * @LastEditTime: 2023-09-09 21:36:31
-  * @FilePath: \vuetify-pro-tiptap\examples\App.vue
--->
 <script setup lang="ts">
 import { computed, provide, ref, unref, type Ref } from 'vue'
 import { useTheme } from 'vuetify'
 import AIComponent from './components/AIComponent.vue'
+import Login from './components/Login.vue'
+import regist from './components/regist.vue'
 import {
   ActionButton,
   BaseKit,
@@ -40,8 +36,10 @@ import {
   Underline,
   Video,
   VuetifyTiptap,
+  type Editor,
 } from 'vuetify-pro-tiptap'
-
+import type { Selection } from 'prosemirror-model'
+import { DOMSerializer } from 'prosemirror-model'
 // import CustomLang from './compone./components/AIComponent.vue
 import preview from './extensions/preview'
 
@@ -49,6 +47,12 @@ import LinkDialog from './components/LinkDialog.vue'
 import SelectImage from './components/SelectImage.vue'
 import { markRaw } from 'vue'
 
+
+
+
+const ocrURL = ref('')
+
+const selection = ref("");
 const extensions = [
   BaseKit.configure({
       placeholder: {
@@ -69,7 +73,9 @@ const extensions = [
             'divider',
             'image',
             'image-aspect-ratio',
-            'remove'
+            'remove',
+            'divider',
+            'ocr',
           ],
           text: [
             'bold',
@@ -95,10 +101,30 @@ const extensions = [
             component: ActionButton,
             componentProps: {
               tooltip: 'AI功能',
+              icon: 'check',
               action: () => {
-                  //TODO
+                selection.value = getHTMLFromSelection(editor, editor.state.selection);
+                rail.value = false;
                 }
               }
+          });
+          defaultList.push({
+            type: 'ocr',
+            component: ActionButton,
+            componentProps: {
+              tooltip: 'OCR',
+              icon: 'check',
+              action: () => {
+                const imgNode = getHTMLFromSelection(editor, editor.state.selection);
+                console.log(imgNode);
+                const match = imgNode.match(/src="([^"]*)"/);
+                if (match !== null) {
+                  const imgURL = match[1];
+                  ocrURL.value = imgURL;
+                  rail.value = false;
+                }
+              }
+            }
           });
           // Add the new button to the list
           return defaultList
@@ -128,12 +154,7 @@ const extensions = [
     Image.configure({
       imageTabs: [{ name: 'SELECT', component: markRaw(SelectImage) }],
       width: 500,
-      // hiddenTabs: ['upload'],
-      upload(file: File) {
-        const url = URL.createObjectURL(file)
-        console.log('mock upload api :>> ', url)
-        return Promise.resolve(url)
-      }
+      hiddenTabs: ['upload'],
     }),
     Video,
     Table.configure({ divider: true }),
@@ -174,8 +195,8 @@ const hideToolbar = ref(false)
 const disableToolbar = ref(false)
 const errorMessages = ref(null)
 provide('VuetifyTiptapRef', VuetifyTiptapRef);
-
-
+provide('selection', selection);
+provide('ocrURL', ocrURL);
 // watch(content, val => {
 //   console.log('output :>> ', val)
 // })
@@ -183,15 +204,20 @@ provide('VuetifyTiptapRef', VuetifyTiptapRef);
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
+const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
+  const slice = selection.content();
+  const serializer = DOMSerializer.fromSchema(editor.schema);
+  const fragment = serializer.serializeFragment(slice.content);
+  const div = document.createElement('div');
+  div.appendChild(fragment);
 
+  return div.innerHTML;
+}
 
-
-//待完成
+//TODO 待完成
   const links = [
-    'Dashboard',
-    'Messages',
-    'Profile',
-    'Updates',
+    '编辑器',
+    '登录',
   ]
 // async function onChangeEditor({ editor, output }: VuetifyTiptapOnChange) {
 //   const formData = {
@@ -205,34 +231,31 @@ function toggleTheme() {
 //   }
 // }
 
+const rail = ref(true)
 
 </script>
 <template>
   <VApp id="app">
     <v-main class="bg-grey-lighten-3">
-      <v-app-bar flat>
+      <v-app-bar border="0" flat>
         <v-container class="mx-auto d-flex align-center justify-center">
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
-
-          <v-btn v-for="link in links" :key="link" :text="link" variant="text"></v-btn>
+          <Login/>
 
           <v-spacer></v-spacer>
 
-          <v-responsive max-width="160">
-            <v-text-field density="compact" label="Search" rounded="lg" variant="solo-filled" flat hide-details
-              single-line></v-text-field>
-          </v-responsive>
+
         </v-container>
       </v-app-bar>
-      <AIComponent></AIComponent>
+      <AIComponent v-model="rail"></AIComponent>
 
 
 
-      <v-sheet rounded="lg"> 
-        <VuetifyTiptap class="editor" ref="VuetifyTiptapRef" v-model="content" v-model:markdown-theme="markdownTheme"
+      <v-sheet rounded="lg">
+        <VuetifyTiptap class="editor" ref="VuetifyTiptapRef" v-model="content" markdown-theme="markdownTheme"
           :output="output" :hide-toolbar="hideToolbar" :disable-toolbar="disableToolbar" :outlined="outlined"
-          :dense="dense" :error-messages="errorMessages" rounded :extensions="extensions" max-width="1000" 
-          ></VuetifyTiptap>
+          :dense="dense" :error-messages="errorMessages" rounded :extensions="extensions" max-width="1000">
+        </VuetifyTiptap>
       </v-sheet>
 
 
