@@ -20,7 +20,7 @@ const content = VuetifyTiptapRef?.value?.editor.content;
 const selection = inject<Ref>("selection");
 const ocrURL = inject<Ref>("ocrURL");
 const receive = ref("");
-const toggle = ref("补全");
+const toggle = ref("completion");
 //ai functions
 // function textInsertContant() {
 //   VuetifyTiptapRef?.value?.editor.commands.insertContent("<h1>Hello world</h1>", false);
@@ -170,13 +170,13 @@ const generate = async () => {
 }
 
 const show = computed(() => {
-  if (toggle.value !== 'file_summary' && !ocrURL) {
+  if (toggle.value !== 'file_summary' && ocrURL?.value==='') {
     return 'text';
   }
-  if (toggle.value === 'file_summary' && !ocrURL) {
+  if (toggle.value === 'file_summary' && ocrURL?.value==='') {
     return 'file';
   }
-    return 'ocr';
+  return 'ocr';
 });
 
 
