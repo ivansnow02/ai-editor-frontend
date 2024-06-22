@@ -88,7 +88,8 @@ const extensions = [
           'link',
           'completion'
         ],
-        video: ['video', 'remove']
+        video: ['video', 'remove'],
+        table: ['table', 'remove']
       },
       defaultBubbleList: (editor) => {
         // You can customize the bubble menu here
