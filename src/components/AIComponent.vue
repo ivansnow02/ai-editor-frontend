@@ -187,7 +187,7 @@ const show = computed(() => {
 
 <template>
 
-  <v-navigation-drawer location="right" v-model="drawer" :rail="rail" permanent width="400" border="0" app>
+  <v-navigation-drawer location="right" v-model="drawer" :rail="rail" permanent width="400" border="0" app >
     <template v-slot:append>
       <VBtn icon variant="text" @click.stop="rail = !rail">
         <VIcon>{{ rail === true ? `svg:${mdiArrowLeftDropCircleOutline}` : `svg:${mdiArrowRightDropCircleOutline}` }}

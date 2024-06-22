@@ -1,11 +1,23 @@
 <script setup>
-
+import regist from '@/components/regist.vue';
+import Login from '@/components/Login.vue';
 </script>
-
 <template>
-  <router-view></router-view>
+  <template>
+  <v-responsive
+    class="mx-auto"
+    max-width="344"
+  >
+    <v-text-field
+      hint="Enter your password to access this website"
+      label="Password"
+      type="input"
+    ></v-text-field>
+  </v-responsive>
 </template>
-
+   <regist/>
+   <Login/>
+</template>
 
 <style>
 *{
@@ -25,15 +37,9 @@ body{
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  z-index: -1;                    /*设置该标签等级，让其始终位于最上层*/
-  -webkit-filter: opacity(70%);   /*设置透明度   blur还可以改变照片的模糊度*/
+  z-index: -1;                   
+  -webkit-filter: opacity(70%); 
   filter: opacity(70%);
 
 }
 </style>
-
-<script setup>
-
-</script>
-
-

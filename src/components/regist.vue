@@ -115,6 +115,7 @@ const confirmPassword2 = () => {
             :label="PasswordStatus"
             hide-details
             required
+            type="password"
             @change="confirmPassword"
           ></v-text-field>
           <!-- <v-switch
@@ -129,15 +130,11 @@ const confirmPassword2 = () => {
             :label="Password2Status"
             hide-details
             required
+            type="password"
             @change="confirmPassword2"
           ></v-text-field>
-            <v-row>
-              
-              <v-otp-input
-              
-              ></v-otp-input>
-              {{ CodeStatus }}
-            </v-row>
+            <v-otp-input             
+            ></v-otp-input>
           
       
          

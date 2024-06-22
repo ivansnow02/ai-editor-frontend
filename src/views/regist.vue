@@ -3,5 +3,6 @@
 </script>
 
 <template>
-    注册
+   <v-card text="nihao"></v-card>
+
 </template>

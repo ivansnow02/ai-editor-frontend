@@ -24,3 +24,6 @@ export const imgRequest = axios.create({
   baseURL: `${ROOT_URL}/api/img`,
   timeout: 50000,
 })
+export const LoginRequest = axios.create({
+  baseURL: `${ROOT_URL}/api/register`
+})
