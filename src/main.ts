@@ -9,7 +9,7 @@ import * as directives from 'vuetify/directives'
 import App from './App.vue';
 import { vuetifyProTipTap } from './tiptap';
 import '@mdi/font/css/materialdesignicons.css'
-import router from './router';
+import {router} from './router';
 
 const vuetify = createVuetify({
   components,
@@ -20,7 +20,7 @@ const vuetify = createVuetify({
 const app = createApp(App);
 app.use(vuetify);
 app.use(vuetifyProTipTap);
-app.use(router)
+app.use(router);
 // app.use(ElementPlus)
 
 

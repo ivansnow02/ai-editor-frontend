@@ -1,5 +1,5 @@
 <script setup>
-
+import AIEditor from './views/AIEditor.vue';
 </script>
 
 <template>

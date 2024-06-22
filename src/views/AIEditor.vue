@@ -46,6 +46,7 @@ import preview from '@/extensions/preview'
 import LinkDialog from '@/components/LinkDialog.vue'
 import SelectImage from '@/components/SelectImage.vue'
 import { markRaw } from 'vue'
+import { useRouter } from 'vue-router'
 
 
 
@@ -217,14 +218,20 @@ const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
 
 const rail = ref(true)
 
+const router = useRouter();
+const jump = () => {
+  router.push("/");
+}
+
 </script>
 <template>
-  <VApp id="app" ">
+  <VApp id="app">
     <v-main class="bg-grey-lighten-3" >
       <v-app-bar border="0" flat  >
         <v-container class="mx-auto d-flex align-center justify-center" >
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
           <Login/>
+          <V-Btn @click="jump">返回首页</V-Btn>
           <v-spacer></v-spacer>
         </v-container>
       </v-app-bar>

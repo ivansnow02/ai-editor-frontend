@@ -1,22 +1,37 @@
 <script setup>
 import regist from '@/components/regist.vue';
 import Login from '@/components/Login.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const jump = () => {
+  router.push("/editor");
+}
+
 </script>
 <template>
-  <template>
-  <v-responsive
-    class="mx-auto"
-    max-width="344"
+  <router-view></router-view>
+  <v-sheet 
+  :elevation="18" 
+  :height="200" 
+  :width="400" 
+  right:100
+  opacity: .10
   >
-    <v-text-field
-      hint="Enter your password to access this website"
-      label="Password"
-      type="input"
-    ></v-text-field>
-  </v-responsive>
-</template>
-   <regist/>
-   <Login/>
+   <div>
+    <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr">
+  <v-card-actions >
+    <regist/>
+    <Login/>
+    <VBtn url="/editor" @click="jump">开始编辑</VBtn>
+
+  </v-card-actions>
+</v-card>
+   </div>
+    
+
+  </v-sheet>
+   
+
 </template>
 
 <style>
@@ -40,6 +55,5 @@ body{
   z-index: -1;                   
   -webkit-filter: opacity(70%); 
   filter: opacity(70%);
-
 }
 </style>

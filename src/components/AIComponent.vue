@@ -177,7 +177,7 @@ const show = computed(() => {
     return 'file';
   }
     return 'ocr';
-});
+})
 
 
 
