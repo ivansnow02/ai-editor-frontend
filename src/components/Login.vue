@@ -44,7 +44,6 @@ const formdata = ref(null)
   
         <v-card-actions>
           <v-spacer></v-spacer>
-          <regist/>
           <v-btn
             text="登陆"
             

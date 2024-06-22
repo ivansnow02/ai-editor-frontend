@@ -231,6 +231,7 @@ const jump = () => {
         <v-container class="mx-auto d-flex align-center justify-center" >
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
           <Login/>
+          <regist/>
           <V-Btn @click="jump">返回首页</V-Btn>
           <v-spacer></v-spacer>
         </v-container>

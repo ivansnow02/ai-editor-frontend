@@ -20,8 +20,9 @@ const jump = () => {
    <div>
     <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr">
   <v-card-actions >
-    <regist/>
     <Login/>
+    <regist/>
+    
     <VBtn url="/editor" @click="jump">开始编辑</VBtn>
 
   </v-card-actions>
