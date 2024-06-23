@@ -1,6 +1,6 @@
 import { AuthRequest } from "@/utils/request";
 
-export const authFunc = (formData:FormData, func: string) => {
+export const authFunc = (formData: FormData, func: string) => {
      return AuthRequest({
         url:`/${func}`,
         method: 'POST',

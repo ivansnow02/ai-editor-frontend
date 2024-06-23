@@ -17,17 +17,17 @@ const jump = () => {
   right:100
   opacity: .10
   >
-   <div>
-    <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr">
-  <v-card-actions >
-    <Login/>
-    <regist/>
-    
-    <VBtn url="/editor" @click="jump" variant="flat" color="surface-variant">开始编辑</VBtn>
-
-  </v-card-actions>
-</v-card>
-   </div>
+    <div>
+      <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr">
+        
+        <v-card-actions >
+          <v-spacer></v-spacer>
+          <Login/>
+          <regist/>
+          <VBtn url="/editor" @click="jump" variant="flat" color="surface-variant">开始编辑</VBtn>
+        </v-card-actions>
+      </v-card>
+    </div>
     
 
   </v-sheet>

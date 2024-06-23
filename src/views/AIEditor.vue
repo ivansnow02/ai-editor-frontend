@@ -226,12 +226,11 @@ const jump = () => {
       <v-app-bar border="0" flat  >
         <v-container class="mx-auto d-flex align-center justify-center" >
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
-          <Login/>
-          <regist/>
-          
           <V-Btn @click="jump" variant="flat" color="surface-variant">返回首页</V-Btn>
           <V-Btn @click="toggleTheme" variant="flat" color="surface-variant">更换主题</V-Btn>
           <v-spacer></v-spacer>
+          <Login/>
+          <regist/> 
         </v-container>
       </v-app-bar>
       <AIComponent v-model="rail"></AIComponent>
