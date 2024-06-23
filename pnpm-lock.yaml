@@ -45,14 +45,14 @@ importers:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
       vue-router:
-        specifier: ^4.3.0
-        version: 4.3.2(vue@3.4.27(typescript@5.4.5))
+        specifier: ^4.3.3
+        version: 4.3.3(vue@3.4.27(typescript@5.4.5))
       vuetify:
         specifier: ^3.6.8
         version: 3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
       vuetify-pro-tiptap:
-        specifier: ^2.5.0
-        version: 2.5.0(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5)))
+        specifier: ^2.5.1
+        version: 2.5.1(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5)))
     devDependencies:
       '@mdi/font':
         specifier: ^7.4.47
@@ -2620,8 +2620,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  vue-router@4.3.2:
-    resolution: {integrity: sha512-hKQJ1vDAZ5LVkKEnHhmm1f9pMiWIBNGF5AwU67PdH7TyXCj/a4hTccuUuYCAMgJK6rO/NVYtQIEN3yL8CECa7Q==}
+  vue-router@4.3.3:
+    resolution: {integrity: sha512-8Q+u+WP4N2SXY38FDcF2H1dUEbYVHVPtPCPZj/GTZx8RCbiB8AtJP9+YIxn4Vs0svMTNQcLIzka4GH7Utkx9xQ==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -2642,8 +2642,8 @@ packages:
       typescript:
         optional: true
 
-  vuetify-pro-tiptap@2.5.0:
-    resolution: {integrity: sha512-KKv/YrUJrHcznjZGAJpw1jgJrht5jpJc6pZW4EoHGiVWG/OElfSJgwULxpMX6l1277PLzDTrUkSpr9TuPOW8HQ==}
+  vuetify-pro-tiptap@2.5.1:
+    resolution: {integrity: sha512-ZknZEQFreqY5ixgvL9cosi4yMlUGxdR4fEjKc+RH6EMMA9fdgao8OEhGRHD3S9LRxvhPcVtpe7hy4Xaz/mhiFQ==}
     engines: {node: ^18.0.0, pnpm: ^8.0.0}
     peerDependencies:
       vue: ^3.2.0
@@ -5366,7 +5366,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-router@4.3.2(vue@3.4.27(typescript@5.4.5)):
+  vue-router@4.3.3(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       '@vue/devtools-api': 6.6.1
       vue: 3.4.27(typescript@5.4.5)
@@ -5393,7 +5393,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  vuetify-pro-tiptap@2.5.0(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))):
+  vuetify-pro-tiptap@2.5.1(@tiptap/suggestion@2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0))(vue@3.4.27(typescript@5.4.5))(vuetify@3.6.8(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))):
     dependencies:
       '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
       '@tiptap/extension-blockquote': 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))
