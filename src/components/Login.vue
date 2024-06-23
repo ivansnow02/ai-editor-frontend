@@ -1,12 +1,40 @@
 <script setup>
-import {ref} from 'vue'
-import { RouterLink } from 'vue-router';
-import regist from './regist.vue'
+import {ref, watch} from 'vue'
+import { useRouter } from 'vue-router';
+import { authFunc } from '@/apis/auth';
 
-
-const Acount = ref ("")
+const Username = ref ("")
 const Password = ref ("")
-const formdata = ref(null)
+const formData = new FormData();
+formData.set('grant_type', '');
+formData.set('username','');
+formData.set('password','');
+formData.set('scope','');
+formData.set('client','');
+formData.set('client_secret','');
+const router = useRouter();
+watch(Username,() => {
+  formData.set('username',Username.value)
+})
+watch(Password, () => {
+  formData.set('password',Password.value)
+})
+const test = () => {
+  console.log(formData.get(Username))
+}
+
+const Login = () => {
+  authFunc(
+    formData,
+    'token'
+  ).then(res => {
+    router.push("/editor");
+    console.log(res);
+    isActive.value = false;
+  }).catch((error) => {
+    alert(error)
+  })
+}
 </script>
 
 <template>
@@ -22,39 +50,41 @@ const formdata = ref(null)
   
     <template v-slot:default="{ isActive }">
       <v-card title="登陆">
-        <v-form v-model="formdata">
+        <v-form >
             <v-text-field
-            v-model="Acount"
+            v-model.lazy="Username"
             :counter="10"
-            :rules="nameRules"
-            label="Username/Email/Acount"
+            label="Username"
             hide-details
             required
           ></v-text-field>
           <v-text-field
-            v-model="Password"
+            v-model.lazy="Password"
             :counter="10"
-            :rules="nameRules"
             label="Password"
             hide-details
             required
+            type="password"
           ></v-text-field>
-          
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            :loading="loading"
+            text="登陆"
+            variant="flat"
+            color="surface-variant"
+            @click="Login(); isActive.value=false"
+            ></v-btn>
+            <!-- <RouterLink to="./regist">regist</RouterLink> -->
+            <v-btn
+            text="取消"
+            color="surface-variant"
+            @click="isActive.value = false"
+            ></v-btn>
+          </v-card-actions>
         </v-form>
   
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <regist/>
-          <v-btn
-            text="登陆"
-            
-          ></v-btn>
-          <!-- <RouterLink to="./regist">regist</RouterLink> -->
-          <v-btn
-          text="取消"
-          @click="isActive.value = false"
-          ></v-btn>
-        </v-card-actions>
+        
       </v-card>
     </template>
   </v-dialog>

@@ -14,7 +14,7 @@ const request = axios.create({
 export { request }
 const aiRequest = axios.create({
   baseURL: ROOT_URL,
-  timeout: 50000
+  timeout: 5000
 })
 
 export { aiRequest };
@@ -22,5 +22,16 @@ export { aiRequest };
 
 export const imgRequest = axios.create({
   baseURL: `${ROOT_URL}/api/img`,
-  timeout: 50000,
+  timeout: 5000,
+})
+export const LoginRequest = axios.create({
+  baseURL: `${ROOT_URL}/api/register`
+})
+export const userRequest = axios.create({
+  baseURL: `${ROOT_URL}/api/user`,
+  timeout: 5000
+})
+export const AuthRequest = axios.create({
+  baseURL: `${ROOT_URL}/`,
+  timeout:5000
 })

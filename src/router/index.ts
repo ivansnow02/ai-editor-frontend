@@ -1,17 +1,18 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-
+import { createRouter, createWebHashHistory,createMemoryHistory } from "vue-router";
+import home from "@/views/Home.vue";
+import editor from "@/views/AIEditor.vue"
 const routes = [
     {
-        path: '/regist',
-        alias: '/regist',
-        component: () => import("@/views/regist.vue")
+        path:'/',
+        component: home
+    },{
+        path:'/editor',
+        component: editor
     }
-
 ]
-const router = createRouter({
-    history: createWebHashHistory(),
+export  const router = createRouter({
+    history: createMemoryHistory(),
     routes
 
 })
 
-export default router

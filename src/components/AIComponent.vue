@@ -58,8 +58,10 @@ const toggle = ref('completion')
 //     VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data);
 //   });
 // }
+
 const drawer = ref(true)
 const rail = inject<Ref>('rail')
+
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
 // const streamTranslate = async () => {
 //   await getStream({
@@ -162,6 +164,7 @@ const show = computed(() => {
   if (toggle.value === 'file_summary' && ocrURL?.value === '') {
     return 'file'
   }
+
   return 'ocr'
 })
 </script>
@@ -176,6 +179,7 @@ const show = computed(() => {
     permanent
     width="400"
   >
+
     <template v-slot:append>
       <VBtn icon variant="text" @click.stop="rail = !rail">
         <VIcon

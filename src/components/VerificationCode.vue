@@ -30,9 +30,4 @@
   </template>
 
   <script>
-    export default {
-      data: () => ({
-        otp: '',
-      }),
-    }
   </script>
