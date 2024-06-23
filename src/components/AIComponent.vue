@@ -1,22 +1,32 @@
 <script setup lang="ts">
 import { getFileSummary, getStream } from '../apis/generate'
-import { mdiArrowLeftDropCircleOutline, mdiArrowRightDropCircleOutline } from '@mdi/js'
-import { computed, inject, ref, type Ref } from 'vue'
+import { computed, inject, ref, type Ref, watch } from 'vue'
 import SideBarEditor from './SideBarEditor.vue'
 import { getOCRResult } from '@/apis/pic'
+import { useEditorStore } from '@/stores/editor'
 
 const Lang = ['英文', '中文', '日语', '法语', '德语', '俄语', '西班牙语']
 const Styles = ['原文', '书面语言', '口语', '文言文']
 const selectedLang = ref('英文')
 const selectedStyle = ref('原文')
-
-const VuetifyTiptapRef = inject<Ref>('VuetifyTiptapRef')
+const editorStore = useEditorStore()
+const TiptapRef = editorStore.editorRef
+let editorRef = editorStore.editorRef
 const output = ref<'html' | 'json' | 'text'>('html')
-const content = VuetifyTiptapRef?.value?.editor.content
+const content = TiptapRef?.value?.editor.content
 const selection = inject<Ref>('selection')
 const ocrURL = inject<Ref>('ocrURL')
 const receive = ref('')
 const toggle = ref('completion')
+watch(
+  () => editorStore.editorRef,
+  (newVal) => {
+    if (newVal) {
+      editorRef = newVal
+    }
+  },
+  { immediate: true }
+)
 //ai functions
 // function textInsertContant() {
 //   VuetifyTiptapRef?.value?.editor.commands.insertContent("<h1>Hello world</h1>", false);
@@ -88,7 +98,9 @@ const handleFileTo64Base = (event: Event) => {
 }
 const insertHTML = (text: string) => {
   // const t = text.replace("<p>", "");
-  VuetifyTiptapRef?.value?.editor.commands.insertContent(text, false)
+  // console.log(TiptapRef)
+  // console.log(editorRef?.getHTML())
+  editorRef?.commands.insertContent(text, false)
 }
 type Body = {
   input: {
@@ -164,69 +176,44 @@ const show = computed(() => {
   }
   return 'ocr'
 })
+
+const onCollapse = (collapsed: boolean, type: string) => {
+  console.log(collapsed, type)
+}
+
+const onBreakpoint = (broken: boolean) => {
+  console.log(broken)
+}
 </script>
 
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    :rail="rail"
-    app
-    border="0"
-    location="right"
-    permanent
-    width="400"
+  <a-layout-sider
+    :collapsed="rail"
+    :trigger="null"
+    collapsed-width="0"
+    collapsible
+    theme="light"
+    width="400px"
   >
-    <template v-slot:append>
-      <VBtn icon variant="text" @click.stop="rail = !rail">
-        <VIcon
-          >{{
-            rail === true
-              ? `svg:${mdiArrowLeftDropCircleOutline}`
-              : `svg:${mdiArrowRightDropCircleOutline}`
-          }}
-        </VIcon>
-      </VBtn>
-    </template>
-    <v-divider></v-divider>
-
     <!-- 里面实现ai的功能 -->
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
-          <v-sheet min-width="360px" max-width="360px" v-if="!rail">
-            <!-- <VTextarea v-model="selection" clearable label="Label" variant="solo-filled"></VTextarea> -->
-            <SideBarEditor v-if="show === 'text'" v-model="selection" />
-            <v-file-input
-              v-if="show === 'file'"
-              clearable
-              label="File input"
-              variant="outlined"
-              @change="handleFileTo64Base"
-            ></v-file-input>
-            <v-img v-if="show === 'ocr'" :src="ocrURL"></v-img>
-            <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>
-              <v-btn value="completion">补全</v-btn>
-              <v-btn value="translate">翻译</v-btn>
-              <v-btn value="polish">润色</v-btn>
-              <v-btn value="fix">纠错</v-btn>
-              <v-btn value="abstract">总结</v-btn>
-              <v-btn value="file_summary">文件总结</v-btn>
-            </v-btn-toggle>
-            <v-select
-              v-if="toggle === 'translate'"
-              v-model="selectedLang"
-              :items="Lang"
-              label="选择语言"
-            ></v-select>
-            <v-select
-              v-if="toggle === 'polish'"
-              v-model="selectedStyle"
-              :items="Styles"
-              label="选择风格"
-            ></v-select>
-            <VBtn class="mb-4" color="secondary" @click="generate"> 生成</VBtn>
 
-            <!-- <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
+    <SideBarEditor v-if="show === 'text'" v-model="selection" />
+    <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
+        @change="handleFileTo64Base"></v-file-input> -->
+    <!-- <v-img v-if="show === 'ocr'" :src="ocrURL"></v-img> -->
+    <!-- <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>
+        <v-btn value="completion">补全</v-btn>
+        <v-btn value="translate">翻译</v-btn>
+        <v-btn value="polish">润色</v-btn>
+        <v-btn value="fix">纠错</v-btn>
+        <v-btn value="abstract">总结</v-btn>
+        <v-btn value="file_summary">文件总结</v-btn>
+      </v-btn-toggle> -->
+    <!-- <v-select v-if="toggle === 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
+    <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
+    <a-button @click="generate"> 生成</a-button>
+
+    <!-- <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
             <v-select label="选择风格" :items="Styles" v-model="selectedStyle"></v-select>
@@ -242,12 +229,8 @@ const show = computed(() => {
             <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
             <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
             <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn> -->
-            <SideBarEditor v-model="receive" />
-            <VBtn class="mb-4" color="secondary" @click="insertHTML(receive)"> 插入</VBtn>
-          </v-sheet>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-navigation-drawer>
+    <SideBarEditor v-model="receive" />
+    <a-button class="mb-4" color="secondary" @click="insertHTML(receive)"> 插入</a-button>
+  </a-layout-sider>
 </template>
 <style></style>

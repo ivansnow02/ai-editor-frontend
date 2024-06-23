@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { provide, ref } from 'vue'
 
-const VuetifyTiptapRef = ref<null | Record<string, any>>(null)
 // const output = ref<'html' | 'json' | 'text'>('html')
 // const content = ref('')
 // const markdownTheme = ref('')
@@ -11,7 +9,6 @@ const VuetifyTiptapRef = ref<null | Record<string, any>>(null)
 // const hideToolbar = ref(false)
 // const disableToolbar = ref(false)
 // const errorMessages = ref(null)
-provide('VuetifyTiptapRef', VuetifyTiptapRef)
 
 // watch(content, val => {
 //   console.log('output :>> ', val)
