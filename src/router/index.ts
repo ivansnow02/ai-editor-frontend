@@ -1,18 +1,17 @@
-import { createRouter, createWebHashHistory,createMemoryHistory } from "vue-router";
+import { createRouter, createMemoryHistory } from "vue-router";
 import home from "@/views/Home.vue";
-import editor from "@/views/AIEditor.vue"
+import editor from "@/views/Editor.vue"
 const routes = [
-    {
-        path:'/',
-        component: home
-    },{
-        path:'/editor',
-        component: editor
-    }
+  {
+    path:'/',
+    component: home
+  },{
+    path:'/editor',
+    component: editor
+  }
 ]
 export  const router = createRouter({
-    history: createMemoryHistory(),
-    routes
+  history: createMemoryHistory(),
+  routes
 
 })
-
