@@ -46,11 +46,13 @@ const formdata = ref(null)
           <v-spacer></v-spacer>
           <v-btn
             text="登陆"
-            
+            variant="flat"
+            color="surface-variant"
           ></v-btn>
           <!-- <RouterLink to="./regist">regist</RouterLink> -->
           <v-btn
           text="取消"
+          color="surface-variant"
           @click="isActive.value = false"
           ></v-btn>
         </v-card-actions>

@@ -47,10 +47,6 @@ import LinkDialog from '@/components/LinkDialog.vue'
 import SelectImage from '@/components/SelectImage.vue'
 import { markRaw } from 'vue'
 import { useRouter } from 'vue-router'
-
-
-
-
 const ocrURL = ref('')
 
 const selection = ref("");
@@ -197,9 +193,7 @@ const errorMessages = ref(null)
 provide('VuetifyTiptapRef', VuetifyTiptapRef);
 provide('selection', selection);
 provide('ocrURL', ocrURL);
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-}
+
 const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
   const slice = selection.content();
   const serializer = DOMSerializer.fromSchema(editor.schema);
@@ -209,7 +203,9 @@ const getHTMLFromSelection = (editor: Editor, selection: Selection) => {
 
   return div.innerHTML;
 }
-
+const toggleTheme = () => {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
 //TODO 待完成
   const links = [
     '编辑器',
@@ -232,15 +228,18 @@ const jump = () => {
           <v-avatar class="me-4 " color="grey-darken-1" size="32"></v-avatar>
           <Login/>
           <regist/>
-          <V-Btn @click="jump">返回首页</V-Btn>
+          
+          <V-Btn @click="jump" variant="flat" color="surface-variant">返回首页</V-Btn>
+          <V-Btn @click="toggleTheme" variant="flat" color="surface-variant">更换主题</V-Btn>
           <v-spacer></v-spacer>
         </v-container>
       </v-app-bar>
       <AIComponent v-model="rail"></AIComponent>
-      <v-sheet rounded="lg" >
+      <v-sheet rounded="lg"  width="1200" > 
         <VuetifyTiptap class="editor" ref="VuetifyTiptapRef" v-model="content" markdown-theme="markdownTheme"
           :output="output" :hide-toolbar="hideToolbar" :disable-toolbar="disableToolbar" :outlined="outlined"
-          :dense="dense" :error-messages="errorMessages" rounded :extensions="extensions" max-width="1000">
+          :dense="dense" :error-messages="errorMessages" rounded :extensions="extensions" max-width="1500"
+          >
         </VuetifyTiptap>
       </v-sheet>
     </v-main>
@@ -250,6 +249,7 @@ const jump = () => {
 <style>
 .vuetify-pro-tiptap-editor__content{
   height: 100%;
+  width: 120%;
 
 }
 

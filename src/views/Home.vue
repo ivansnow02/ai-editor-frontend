@@ -23,7 +23,7 @@ const jump = () => {
     <Login/>
     <regist/>
     
-    <VBtn url="/editor" @click="jump">开始编辑</VBtn>
+    <VBtn url="/editor" @click="jump" variant="flat" color="surface-variant">开始编辑</VBtn>
 
   </v-card-actions>
 </v-card>

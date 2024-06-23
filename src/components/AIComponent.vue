@@ -66,6 +66,7 @@ const drawer = ref(true);
 const rail = defineModel({
   type: Boolean,
 });
+
 //调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
 // const streamTranslate = async () => {
 //   await getStream({

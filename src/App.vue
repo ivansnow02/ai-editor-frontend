@@ -21,13 +21,13 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("@/images/利姆萨罗敏萨.jpg");
+  background-image: url("@/images/叹息海.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   z-index: -1;                    /*设置该标签等级，让其始终位于最上层*/
-  -webkit-filter: opacity(70%);   /*设置透明度   blur还可以改变照片的模糊度*/
-  filter: opacity(70%);
+  -webkit-filter: opacity(60%);   /*设置透明度   blur还可以改变照片的模糊度*/
+  filter: opacity(60%);
 
 }
 </style>

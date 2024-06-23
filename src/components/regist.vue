@@ -1,7 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 import { RouterLink } from 'vue-router';
 import Verification_code from './VerificationCode.vue'
+import { createUser } from '@/apis/users';
+import { authFunc } from '@/apis/auth';
+
+
 
 const Username = ref("")
 const UsernameStatus = ref("请输入新用户名称")
@@ -10,30 +14,74 @@ const EmailStatus = ref("邮箱@xxx.com")
 const Password = ref ("")
 const PasswordStatus = ref("请输入密码")
 const ShowPassword = ref(false)
-const CodeStatus = ref("请输入验证码")
+const VerifCodeStatus = ref("请输入邮箱验证码")
 const formdata = ref(null)
 const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const Password2 = ref("")
 const Password2Status = ref("请再次输入密码")
 const UsernamePattern = /^[\u4e00-\u9fa5a-zA-Z0-9]{6,12}$/
 const PasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
+const VerifCode = ref("")
 
 
+// Functions
+const Regist = () => {
+  authFunc({
+    obj_in: {
+    username: Username.value,
+    email: Email.value,
+    access: 0,
+    avatar: "string",
+    password: Password.value
+    },
+    email_code: {
+      email: Email.value,
+      code: VerifCode.value
+    }
+  },
+  'register'
+  ).then(res => {
+    alert("注册成功，请返回登录")
+  })
+}
+const Send = () => {
+  if(pattern.test(Email.value)){
+    authFunc({
+      email: Email.value,
+      code: "string"
+    },
+    'send_code'
+    ).then( (response) => {
+      console.log(response.statusText)
+      if(response.statusText == "OK"){
+        VerifCodeStatus.value="验证码已发送至" +Email.value 
+      }
+    }).catch((error) => {
+      console.log(error.toJSON());
+      alert("邮箱异常")
+    });
+  }
+  else{
+    alert("邮箱格式有误");
+    isActive.value = false
+  }
+}
 
 const ifEmailMatch = () => {
     console.log(pattern.test(Email.value))
     console.log(Email.value)
 }
+
 const ifMassageMatch = () => {
-    if( !pattern.test(Email.value)) {
-        alert("邮箱格式不正确！")
-    }
     if(Password.value !== Password2.value){
         alert("两次输入密码不一致！")
     }
 
 }
-const confirmUsername = () => {
+
+
+//Watches
+watch(Username, () => {
   if(!UsernamePattern.test(Username.value)){
     // UsernameStatus.value = "用户名格式错误,8-16个字符,至少1个大写字母,1个小写字母和1个数字!"
     UsernameStatus.value = "非法昵称"
@@ -41,8 +89,8 @@ const confirmUsername = () => {
   if(Username.value === ""){
     UsernameStatus.value = "请输入新用户名称"
   }
-}
-const confirmPassword = () => {
+})
+watch(Password, () => {
   if(Password.value === ""){
     PasswordStatus.value = "请输入密码"
   }
@@ -52,10 +100,8 @@ const confirmPassword = () => {
   else{
     PasswordStatus.value = "合格密码"
   }
-
-}
-const confirmEmail = () => {
-  console.log(Email.value)
+})
+watch(Email, () => {
   if(Email.value == ""){
     EmailStatus.value = "邮箱@xxx.com"
 
@@ -65,17 +111,19 @@ const confirmEmail = () => {
     }
   else{
     EmailStatus.value = "合法邮箱"
-
   }
-}
-const confirmPassword2 = () => {
+  VerifCodeStatus.value = "请输入邮箱验证码"
+})
+
+watch(Password2, () => {
   if(Password.value !== Password2.value){
        Password2Status.value = "两次密码输入不一致"
     }
   else {
     Password2Status.value = "合格密码"
   }
-}
+})
+
 </script>
 
 <template>
@@ -86,20 +134,19 @@ const confirmPassword2 = () => {
         color="surface-variant"
         text="注册"
         variant="flat"
+        
       ></v-btn>
     </template>
   
     <template v-slot:default="{ isActive }">
-
       <v-card title="注册">
         <v-form v-model="formdata">
             <v-text-field
-            v-model="userName"
+            v-model.lazy="userName"
             :counter="10"
             :label="UsernameStatus"
             hide-details
             required
-            @change.lazy="confirmUsername"
           ></v-text-field>
             <v-text-field
             v-model.lazy="Email"
@@ -107,16 +154,14 @@ const confirmPassword2 = () => {
             :label="EmailStatus"
             hide-details
             required
-            @change="confirmEmail"
           ></v-text-field>
           <v-text-field
-            v-model="Password"
+            v-model.lazy="Password"
             :counter="10"
             :label="PasswordStatus"
             hide-details
             required
             type="password"
-            @change="confirmPassword"
           ></v-text-field>
           <!-- <v-switch
           v-model="ShowPassword"
@@ -125,7 +170,7 @@ const confirmPassword2 = () => {
     
           
           <v-text-field
-            v-model="Password2"
+            v-model.lazy="Password2"
             :counter="10"
             :label="Password2Status"
             hide-details
@@ -133,8 +178,11 @@ const confirmPassword2 = () => {
             type="password"
             @change="confirmPassword2"
           ></v-text-field>
-            <v-otp-input             
-            ></v-otp-input>
+            <v-card :title="VerifCodeStatus">
+              <v-otp-input  
+              v-model:="VerifCode"
+              ></v-otp-input>
+            </v-card>
           
       
          
@@ -148,11 +196,11 @@ const confirmPassword2 = () => {
           <!-- <RouterLink to="./regist">regist</RouterLink> -->
           <v-btn
             text="获取验证码"
-            @click="">
+            @click="Send">
             </v-btn>
           <v-btn
           text="注册"
-          @click="ifMassageMatch"
+          @click="Regist"
           ></v-btn>
           <v-btn
             text="取消"
