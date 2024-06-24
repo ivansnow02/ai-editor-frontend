@@ -1,4 +1,4 @@
-export const _getBase64 = async (file) => {
+export const _getBase64 = async (file: File) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -7,7 +7,7 @@ export const _getBase64 = async (file) => {
   })
 }
 
-export const clamp = (val, min, max) => {
+export const clamp = (val: any, min: number, max: number) => {
   if (val < min) {
     return min
   }
@@ -16,3 +16,5 @@ export const clamp = (val, min, max) => {
   }
   return val
 }
+
+

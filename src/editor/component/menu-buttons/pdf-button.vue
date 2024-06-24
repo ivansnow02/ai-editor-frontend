@@ -38,7 +38,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { validateUrl } from '@/utils/pattern.js'
+import { validateUrl } from '@/utils/pattern.ts'
 import { CloudUploadOutlined, DisconnectOutlined, FilePdfOutlined } from '@ant-design/icons-vue'
 import InsertPDF from './insert-model/index.vue'
 import UploadPDF from './upload-model/index.vue'

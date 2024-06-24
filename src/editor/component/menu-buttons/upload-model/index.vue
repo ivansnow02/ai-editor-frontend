@@ -23,11 +23,11 @@
   </a-modal>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import { _getBase64 } from '@/utils'
+import { _getBase64 } from '@/utils/index'
 
 const open = ref(false)
 const emit = defineEmits(['emitUpload'])
@@ -46,14 +46,19 @@ const beforeUpload = async (file) => {
   const isVideoType = file.type === 'video/mp4'
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   const isPDF = file.type === 'application/pdf'
+  const isPhoto = isJpgOrPng || file.type === 'image/gif' || file.type === 'image/webp'
 
   const reg = new RegExp(fileType, 'ig')
   if (!reg.test(file.type)) {
     message.error('请上传视频格式文件')
     return false
   }
+  if (isPhoto) {
+    // const response = await uploadImg(file)
+    console.log(file)
+  }
 
-  if (isJpgOrPng || isVideoType || isPDF) {
+  if (isVideoType || isPDF) {
     const imgBase64 = await _getBase64(file)
     emit('emitUpload', { url: imgBase64 })
   }

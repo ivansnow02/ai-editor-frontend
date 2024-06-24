@@ -33,7 +33,7 @@
 <script setup>
 import { ref } from 'vue'
 import { CloudUploadOutlined, PaperClipOutlined, PictureOutlined } from '@ant-design/icons-vue'
-import { validateUrl } from '@/utils/pattern.js'
+import { validateUrl } from '@/utils/pattern.ts'
 import InsertImage from './insert-model/index.vue'
 import UploadImage from './upload-model/index.vue'
 

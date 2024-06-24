@@ -1,4 +1,4 @@
-import { ImageDisplay } from './image'
+import { ImageDisplay } from './image.ts'
 
 export const Alignment = {
   left: 'left',

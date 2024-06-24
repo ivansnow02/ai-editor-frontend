@@ -19,7 +19,7 @@
 import { ref } from 'vue'
 import { LinkOutlined } from '@ant-design/icons-vue'
 import InsertLink from './insert-model/index.vue'
-import { validateUrl } from '@/utils/pattern.js'
+import { validateUrl } from '@/utils/pattern.ts'
 
 const props = defineProps(['editor'])
 const emit = defineEmits(['emitUpdate'])

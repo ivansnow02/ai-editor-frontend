@@ -43,7 +43,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { DeleteOutlined } from '@ant-design/icons-vue'
-import { clamp } from '@/utils/'
+import { clamp } from '@/utils/index.ts'
 
 const props = defineProps(nodeViewProps)
 const MIN_SIZE = 20

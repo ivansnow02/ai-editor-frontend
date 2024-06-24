@@ -30,7 +30,7 @@
 <script setup>
 import { ref } from 'vue'
 import { VideoCameraOutlined } from '@ant-design/icons-vue'
-import { validateUrl } from '@/utils/pattern.js'
+import { validateUrl } from '@/utils/pattern.ts'
 
 import InsertVideo from './insert-model/index.vue'
 import UploadVideo from './upload-model/index.vue'
