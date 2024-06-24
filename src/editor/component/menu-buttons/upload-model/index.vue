@@ -55,7 +55,7 @@ const beforeUpload = async (file) => {
   }
   if (isPhoto) {
     // const response = await uploadImg(file)
-    console.log(file)
+    console.log('pic')
   }
 
   if (isVideoType || isPDF) {

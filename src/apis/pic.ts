@@ -15,3 +15,10 @@ export const getOCRResult = (img_path: string) => {
     method: 'GET'
   })
 }
+
+export const getImg = (pk: string) => {
+  return request({
+    url: `/api/img/${pk}`,
+    method: 'GET'
+  })
+}

@@ -27,7 +27,7 @@
     @emitInsert="handleEmit"
   >
   </InsertImage>
-  <UploadImage ref="uploadRef" :options="{ title: '上传图片' }" @emitUpload="handleEmit" />
+  <UploadImg ref="uploadRef" :options="{ title: '上传图片' }" @emitUpload="handleEmit" />
 </template>
 
 <script setup>
@@ -35,7 +35,7 @@ import { ref } from 'vue'
 import { CloudUploadOutlined, PaperClipOutlined, PictureOutlined } from '@ant-design/icons-vue'
 import { validateUrl } from '@/utils/pattern.ts'
 import InsertImage from './insert-model/index.vue'
-import UploadImage from './upload-model/index.vue'
+import UploadImg from './upload-model/UploadImg.vue'
 
 const props = defineProps(['editor'])
 
@@ -54,8 +54,13 @@ const headers = [
 
 const insertRef = ref()
 const uploadRef = ref()
-const handleEmit = ({ url }) => {
-  props.editor.chain().focus().setImage({ src: url }).run()
+const handleEmit = (fileList) => {
+  console.log(fileList)
+  for (const file of fileList) {
+    if (file.url) {
+      props.editor.chain().focus().setImage({ src: file.url }).run()
+    }
+  }
   uploadRef.value.closeModal()
   insertRef.value.closeModal()
 }

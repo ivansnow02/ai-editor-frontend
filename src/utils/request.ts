@@ -13,7 +13,6 @@ const request = axios.create({
   timeout: 50000
 })
 
-export { request }
 
 
 // !!因为添加了拦截器，所以只需要用request就可以了
@@ -63,3 +62,6 @@ request.interceptors.response.use(
     }
   }
 )
+
+
+export { request }

@@ -25,16 +25,10 @@ const test = () => {
 }
 
 const Login = () => {
-  authFunc(formData, 'token')
-    .then((res) => {
-      router.push('/editor')
-      setToken(res.data.access_token)
-      console.log(res.data.access_token)
-      // isActive.value = false
-    })
-    .catch((error) => {
-      alert(error)
-    })
+  authFunc(formData, 'token').then((res) => {
+    setToken(res.access_token)
+    // isActive.value = false
+  })
 }
 </script>
 

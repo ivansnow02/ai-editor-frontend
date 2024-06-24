@@ -1,11 +1,11 @@
-import { AuthRequest } from "@/utils/request";
+import { request } from '@/utils/request'
 
 export const authFunc = (formData: FormData, func: string) => {
-     return AuthRequest({
-        url:`/${func}`,
-        method: 'POST',
-        data:formData
-     })
+  return request({
+    url: `/${func}`,
+    method: 'POST',
+    data: formData
+  })
 }
 
 // export const uploadImg = (formData: FormData) => {
