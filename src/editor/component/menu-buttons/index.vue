@@ -1,6 +1,6 @@
 <template>
   <div class="editor-tools">
-    <HeaderButton v-model="title" />
+    <HeaderButton v-model="title" :editor="editor" />
     <ImageButton :editor="editor" />
     <VideoButton :editor="editor" />
     <PdfButton :editor="editor" />
@@ -59,9 +59,10 @@ import LinkButton from './link-button.vue'
 import FontColor from './font-color.vue'
 import BgColor from './bg-color.vue'
 
-import type { Ref } from 'vue'
+import { provide, type Ref } from 'vue'
 import { defineComponent, inject, reactive, ref } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
+import type { NodeType } from 'prosemirror-model'
 
 export default defineComponent({
   name: 'MenuButtons',
@@ -74,10 +75,28 @@ export default defineComponent({
   setup(props, setupContext) {
     const activeMenu = ref(false)
     const title = ref(0)
+    const titleChanged = ref(false)
     const isFullScreen = inject('isFullScreen')
     const toggleFullscreen = inject('toggleFullscreen')
     const selection = inject<Ref>('selection')
     const rail = inject<Ref>('rail')
+    provide('titleChanged', titleChanged)
+    const getHeadingLevel = () => {
+      console.log(titleChanged.value)
+      if (!titleChanged.value) {
+        for (let i = 1; i < 7; i++) {
+          const ok = props.editor.isActive('heading', { level: i })
+          if (ok) {
+            title.value = i
+            console.log('title.value', title.value)
+            return
+          }
+        }
+        title.value = 0
+      }
+      titleChanged.value = false
+      return
+    }
     const bubbleMenuTools = reactive([
       {
         name: 'bold',
@@ -273,7 +292,8 @@ export default defineComponent({
       title,
       editorTools,
       isFullScreen,
-      activeMenu
+      activeMenu,
+      getHeadingLevel
     }
   },
   methods: {
@@ -290,16 +310,14 @@ export default defineComponent({
   watch: {
     'editor.state.selection': function (selection) {
       this.activeMenu = this.getCurrentMenuType()
-    },
-    title(value) {
-      if (value === 0) {
-        this.editor.chain().focus().setParagraph().run()
-      } else {
-        this.editor.chain().focus().toggleHeading({ level: value }).run()
-      }
     }
   },
   computed: {},
+  mounted() {
+    this.editor.on('transaction', () => {
+      this.getHeadingLevel()
+    })
+  },
   components: {
     ToolButton,
     StrikethroughOutlined,
@@ -335,9 +353,10 @@ export default defineComponent({
   padding: 2px 5px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 }
-.bubble-menu_wrap:hover{
-  background-color: #D9AFD9;
-  background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+
+.bubble-menu_wrap:hover {
+  background-color: #d9afd9;
+  background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 }
 // .btn:hover{
@@ -346,11 +365,11 @@ export default defineComponent({
 //   box-shadow:0 10px 10px rgba(0, 0, 0, 0.4);
 //   display: inline-block;
 //   color: rgb(56, 97, 230);
-  
+
 // }
-.bubble-menu_wrap:active{
-  background-color: #0093E9;
-  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-  box-shadow:0 0 3px rgba(128, 208 , 199, 0.15);
+.bubble-menu_wrap:active {
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+  box-shadow: 0 0 3px rgba(128, 208, 199, 0.15);
 }
 </style>
