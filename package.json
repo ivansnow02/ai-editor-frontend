@@ -61,7 +61,7 @@
     "vue": "^3.4.21",
     "vue-router": "^4.3.3",
     "vuetify": "^3.6.10",
-    "vuetify-pro-tiptap": "^2.5.1"
+    "vuetify-pro-tiptap": "^2.5.2"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",

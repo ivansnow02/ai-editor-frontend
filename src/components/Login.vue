@@ -33,13 +33,13 @@ const Login = () => {
 </script>
 
 <template>
-  <v-dialog max-width="500">
+  <v-dialog max-width="500" >
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn color="surface-variant" text="登陆" v-bind="activatorProps" variant="flat"></v-btn>
     </template>
 
-    <template v-slot:default="{ isActive }">
-      <v-card title="登陆">
+    <template v-slot:default="{ isActive }" >
+      <v-card title="登陆" class="Card">
         <v-form>
           <v-text-field
             v-model.lazy="Username"
@@ -73,3 +73,7 @@ const Login = () => {
     </template>
   </v-dialog>
 </template>
+
+<style>
+
+</style>

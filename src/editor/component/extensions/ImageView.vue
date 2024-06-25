@@ -48,8 +48,8 @@ import { DeleteOutlined } from '@ant-design/icons-vue'
 import { resolveImg } from '@/utils/image'
 import { clamp } from '@/utils/index'
 import { getHTMLFromSelection } from '@/utils/selection'
-import { deleteNode, updateAttributes } from '@tiptap/core/dist/packages/core/src/commands'
-import { node } from 'json-editor-vue'
+// import { deleteNode, updateAttributes } from '@tiptap/core/dist/packages/core/src/commands'
+// import { node } from 'json-editor-vue'
 
 const props = defineProps(nodeViewProps)
 const selection = inject<Ref>('selection')

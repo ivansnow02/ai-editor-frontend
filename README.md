@@ -17,10 +17,11 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
-cnpm install
+pnpm install
 cnpm install axios
 cnpm i vuetify-pro-tiptap -S
 cnpm i @tiptap/core
+cnpm i json-editor-vue
 ```
 
 ### Compile and Hot-Reload for Development
