@@ -22,13 +22,13 @@ const jump = () => {
   
   >
   <div class="box1">
-      <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr" class="Card">
+      <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr" class="g-glossy" >
         
         <v-card-actions class="HomeBtn" >
           <v-spacer></v-spacer>
           <Login/>
           <regist/>
-          <VBtn url="/editor" @click="jump" variant="flat" color="surface-variant">开始编辑</VBtn>
+          <VBtn  @click="jump" variant="flat" color="surface-variant" class="btn1">开始编辑</VBtn>
         </v-card-actions>
       </v-card>
     </div>
@@ -37,7 +37,7 @@ const jump = () => {
 
 </template>
 
-<style>
+<style scoped>
 *{
   margin: 0;
   padding: 0;
@@ -51,8 +51,9 @@ const jump = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0093E9;
-  background-image: linear-gradient(135deg, #0093E9 0%, #80D0C7 50%, #3388e0 100%);
+  background-color: #8EC5FC;
+  background-image: linear-gradient(225deg, #8EC5FC 0%, #E0C3FC 50%, #ff3079 100%);
+  /* filter: opacity(70%); */
 
   background-repeat: no-repeat;
   background-position: center center;
@@ -60,14 +61,19 @@ const jump = () => {
   z-index: -1;                   
 
 }
-.Card{
+/* .Card{
   filter: opacity(70%);
   border-radius: 15px;
   background-color: #8EC5FC;
   background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-
+} */
+.g-glossy {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
 }
-.HomeBtn{
-  filter: opacity(100%);
+.btn1{
+  margin: 10px;
 }
 </style>

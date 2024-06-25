@@ -181,8 +181,10 @@ watch(Password2, () => {
             type="password"
             @change="confirmPassword2"
           ></v-text-field>
-            <v-card :title="VerifCodeStatus"
-            class="Card">
+            <v-card 
+            :title="VerifCodeStatus"
+            class="Card"
+            >
               <v-otp-input  
               v-model:="VerifCode"
               ></v-otp-input>
@@ -218,12 +220,11 @@ watch(Password2, () => {
 
 </template>
 
-<style>
+<style scoped>
 .Card{
-  filter: opacity(70%);
-  border-radius: 15px;
-  background-color: #8EC5FC;
-  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
 
 }
 </style>

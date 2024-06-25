@@ -2,12 +2,14 @@
   <div>
     <div v-if="editor" :class="[isFullScreen ? 'editor--fullscreen' : '']" class="editor">
       <MenuButtons :editor="editor" />
+      
       <editor-content :editor="editor" class="editor-code" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+
 import MenuButtons from './component/menu-buttons/index.vue'
 import { onBeforeUnmount, provide, ref, watch } from 'vue'
 import CodeBlockLights from './extensions/code-block-light'
@@ -35,6 +37,7 @@ import CustomTableCell from './extensions/table'
 import Indent from './extensions/indent'
 
 import { useEditorStore } from '@/stores/editor'
+
 
 const lowlight = createLowlight()
 lowlight.register({ html, ts, css, js })

@@ -9,19 +9,25 @@
     <BgColor :editor="editor" />
     <LinkButton :editor="editor" />
     <ToolButton :desserts="editorTools" :editor="editor" />
-
+    
+    <!-- <vBtn @click="returnHome"></vBtn> -->
     <bubble-menu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
       <div v-if="activeMenu === true" class="bubble-menu_wrap">
         <HeaderButton v-model="title" />
         <FontColor :editor="editor" />
         <LinkButton :editor="editor" />
         <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
+        
       </div>
+      
     </bubble-menu>
   </div>
+  
 </template>
 
+
 <script lang="ts">
+import { useRouter } from 'vue-router'
 import { BubbleMenu } from '@tiptap/vue-3'
 import ToolButton from './tool-button.vue'
 import { Editor } from '@tiptap/core'
@@ -62,6 +68,12 @@ import BgColor from './bg-color.vue'
 import type { Ref } from 'vue'
 import { defineComponent, inject, reactive, ref } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
+
+const router = useRouter();
+
+function  returnHome() {
+  router.push('/');
+}
 
 export default defineComponent({
   name: 'MenuButtons',
@@ -325,6 +337,7 @@ export default defineComponent({
     BgColor
   }
 })
+
 </script>
 
 <style lang="scss" scoped>
@@ -335,22 +348,26 @@ export default defineComponent({
   padding: 2px 5px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 }
-.bubble-menu_wrap:hover{
+.btn{
+  height: 30px;
+  width: 60px;
+  box-shadow:0 1px 1px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  border-radius: 8px;
+  outline: none;
+}
+.btn:hover{
+  height: 30px;
+  width: 60px;
+  box-shadow:0 1px 1px #D9AFD9;
+  display: inline-block;
+  color: rgb(56, 97, 230);
   background-color: #D9AFD9;
   background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 }
-// .btn:hover{
-//   height: 30px;
-//   width: 60px;
-//   box-shadow:0 10px 10px rgba(0, 0, 0, 0.4);
-//   display: inline-block;
-//   color: rgb(56, 97, 230);
-  
-// }
-.bubble-menu_wrap:active{
+.btn:active{
   background-color: #0093E9;
   background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-  box-shadow:0 0 3px rgba(128, 208 , 199, 0.15);
+  box-shadow:0 1px 1px #80D0C7;
 }
 </style>
