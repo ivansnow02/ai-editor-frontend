@@ -1,68 +1,64 @@
 <template>
-  <editor-content :editor="editor" class="side-bar-editor"/>
-
+  <editor-content :editor="editor" class="side-bar-editor" />
 </template>
 
-<script>
-import StarterKit from '@tiptap/starter-kit';
-import { Editor, EditorContent } from '@tiptap/vue-3';
+<script setup>
+import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor } from '@tiptap/vue-3'
+import Highlight from '@tiptap/extension-highlight'
+import TiptapUnderline from '@tiptap/extension-underline'
+import Indent from '@/editor/extensions/indent.js'
+import Images from '@/editor/extensions/image.js'
+import Iframe from '@/editor/extensions/iframe.js'
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
+import TextAlign from '@tiptap/extension-text-align'
+import Link from '@tiptap/extension-link'
+import Table from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableHeader from '@tiptap/extension-table-header'
+import CustomTableCell from '@/editor/extensions/table.js'
+import Video from '@/editor/extensions/video.js'
+import { onBeforeUnmount, defineModel, watch } from 'vue'
 
-export default {
-  components: {
-    EditorContent,
-  },
+const text = defineModel('text')
 
-  props: {
-    modelValue: {
-      type: String,
-      default: '',
-    },
-  },
+const editor = useEditor({
+  content: text.value,
+  extensions: [
+    Highlight.configure({
+      multicolor: true
+    }),
+    TiptapUnderline,
+    Indent,
+    StarterKit,
+    Images,
+    Iframe,
+    Color,
+    TextStyle,
 
-  emits: ['update:modelValue'],
-
-  data() {
-    return {
-      editor: null,
-    };
-  },
-
-  watch: {
-    modelValue(value) {
-      // HTML
-      const isSame = this.editor.getHTML() === value;
-
-      // JSON
-      // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
-
-      if (isSame) {
-        return;
-      }
-
-      this.editor.commands.setContent(value, false);
-    },
-  },
-
-  mounted() {
-    this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
-      content: this.modelValue,
-      onUpdate: () => {
-        // HTML
-        this.$emit('update:modelValue', this.editor.getHTML());
-
-        // JSON
-        // this.$emit('update:modelValue', this.editor.getJSON())
-      },
-    });
-  },
-
-  beforeUnmount() {
-    this.editor.destroy();
-  },
-};
+    TextAlign.configure({
+      types: ['heading', 'paragraph']
+    }),
+    Link.configure({
+      openOnClick: true
+    }),
+    Table.configure({
+      resizable: true
+    }),
+    TableRow,
+    TableHeader,
+    CustomTableCell,
+    Video
+  ],
+  autofocus: 'end'
+})
+watch(text, (newVal) => {
+  editor.value?.chain().setContent(newVal).run()
+})
+onBeforeUnmount(() => {
+  editor.value?.destroy()
+})
 </script>
 <style lang="scss">
 .side-bar-editor {
@@ -72,18 +68,19 @@ export default {
   border-radius: 4px;
   background: white;
   margin: 20px 0;
-  >*+* {
-      margin-top: 0.75em;
-    }
+
+  > * + * {
+    margin-top: 0.75em;
+  }
   code {
-      background-color: rgba(#616161, 0.1);
-      color: #616161;
-    }
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
 }
 .content {
   padding: 1rem 0 0;
 
- h3 {
+  h3 {
     margin: 1rem 0 0.5rem;
   }
 
@@ -101,5 +98,4 @@ export default {
     color: #495057;
   }
 }
-
 </style>

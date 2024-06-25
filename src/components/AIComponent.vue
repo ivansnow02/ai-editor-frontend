@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import { getFileSummary, getStream } from '../apis/generate'
-import { computed, inject, reactive, ref, type Ref, watch } from 'vue'
+import { computed, inject, ref, type Ref, watch } from 'vue'
 import SideBarEditor from './SideBarEditor.vue'
 import { getOCRResult } from '@/apis/pic'
 import { useEditorStore } from '@/stores/editor'
+import { InboxOutlined } from '@ant-design/icons-vue'
+import type { UploadProps } from 'ant-design-vue'
 
 const Lang = ['英文', '中文', '日语', '法语', '德语', '俄语', '西班牙语']
 const Styles = ['原文', '书面语言', '口语', '文言文']
 const selectedLang = ref('英文')
 const selectedStyle = ref('原文')
 const editorStore = useEditorStore()
-const TiptapRef = editorStore.editorRef
 let editorRef = editorStore.editorRef
 const output = ref<'html' | 'json' | 'text'>('html')
-const content = TiptapRef?.value?.editor.content
 const selection = inject<Ref>('selection')
 const ocrURL = inject<Ref>('ocrURL')
 const receive = ref('')
 const toggle = ref('completion')
-const funcList = reactive(['补全', '翻译', '润色', '纠错', '总结', '文件总结'])
-const selectedFunc = ref(funcList[0])
+const funcList = ref([
+  { label: '补全', value: 'completion' },
+  { label: '翻译', value: 'translate' },
+  { label: '润色', value: 'polish' },
+  { label: '纠错', value: 'fix' },
+  { label: '总结', value: 'abstract' },
+  { label: '文件总结', value: 'file_summary' }
+])
 watch(
   () => editorStore.editorRef,
   (newVal) => {
@@ -29,22 +35,10 @@ watch(
   },
   { immediate: true }
 )
-
+const fileList = ref<UploadProps['fileList']>([])
 const drawer = ref(true)
 const rail = inject<Ref>('rail')
 
-const handleFileTo64Base = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      const base64String = reader.result as string
-      const base64Data = base64String.replace(/^[^,]+,/, '')
-      uploadedFile.value = base64Data
-    }
-  }
-}
 const insertHTML = (text: string) => {
   editorRef?.commands.insertContent(text, false)
 }
@@ -65,8 +59,8 @@ const fileSummaryInvoke = async () => {
     }
   }
   const response = await getFileSummary(body)
-  console.log(response.data.output.output_text)
-  receive.value = response.data.output.output_text
+  console.log(response.output.output_text)
+  receive.value = response.output.output_text
 }
 
 const textGenerate = async () => {
@@ -92,8 +86,7 @@ const textGenerate = async () => {
 const ocrGenerate = async () => {
   if (ocrURL) {
     await getOCRResult(ocrURL.value).then((response) => {
-      const res = response.data.reduce((acc: string, cur: string) => `${acc + cur}\n`, '')
-      receive.value = res
+      receive.value = response.data.reduce((acc: string, cur: string) => `${acc + cur}\n`, '')
     })
   }
 }
@@ -122,6 +115,24 @@ const show = computed(() => {
   }
   return 'ocr'
 })
+
+const handleUpload = async (info: any) => {
+  const file = info.file
+  if (file) {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const base64String = reader.result as string
+      uploadedFile.value = base64String.replace(/^[^,]+,/, '')
+    }
+  }
+  fileList.value?.pop()
+  fileList.value?.push({
+    uid: file.uid,
+    name: file.name,
+    status: 'done'
+  })
+}
 </script>
 
 <template>
@@ -134,21 +145,50 @@ const show = computed(() => {
     width="400px"
   >
     <!-- 里面实现ai的功能 -->
-
-    <SideBarEditor v-if="show === 'text'" v-model="selection" />
-    <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
+    <a-card>
+      <SideBarEditor v-if="show === 'text'" :text="selection" />
+      <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
         @change="handleFileTo64Base"></v-file-input> -->
-    <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
-    <!--    <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>-->
-    <!--      <v-btn value="completion">补全</v-btn>-->
-    <!--      <v-btn value="translate">翻译</v-btn>-->
-    <!--      <v-btn value="polish">润色</v-btn>-->
-    <!--      <v-btn value="fix">纠错</v-btn>-->
-    <!--      <v-btn value="abstract">总结</v-btn>-->
-    <!--      <v-btn value="file_summary">文件总结</v-btn>-->
-    <!--    </v-btn-toggle>-->
-    <a-segmented :items="funcList" :value="selectedFunc" />
-    <!-- <v-select v-if="toggle === 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
+      <a-upload-dragger
+        v-if="show === 'file'"
+        v-model:fileList="fileList"
+        :customRequest="handleUpload"
+      >
+        <p class="ant-upload-drag-icon">
+          <inbox-outlined></inbox-outlined>
+        </p>
+        <p class="ant-upload-text">Click or drag file to this area to upload</p>
+        <p class="ant-upload-hint">
+          Support for a single or bulk upload. Strictly prohibit from uploading company data or
+          other band files
+        </p>
+      </a-upload-dragger>
+
+      <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
+      <!--    <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>-->
+      <!--      <v-btn value="completion">补全</v-btn>-->
+      <!--      <v-btn value="translate">翻译</v-btn>-->
+      <!--      <v-btn value="polish">润色</v-btn>-->
+      <!--      <v-btn value="fix">纠错</v-btn>-->
+      <!--      <v-btn value="abstract">总结</v-btn>-->
+      <!--      <v-btn value="file_summary">文件总结</v-btn>-->
+      <!--    </v-btn-toggle>-->
+    </a-card>
+    <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block>
+      <template #label="{ label }">
+        <div style="padding: 4px">
+          {{ label }}
+        </div>
+      </template>
+    </a-segmented>
+    <!--    <a-select-->
+    <!--      v-if="toggle === 'translate'"-->
+    <!--      v-model="selectedLang"-->
+    <!--      :items="Lang"-->
+    <!--      label="选择语言"-->
+    <!--    ></a-select>-->
+    <a-segmented v-if="toggle === 'translate'" v-model:value="selectedLang" :options="Lang" block />
+    <a-segmented v-if="toggle === 'polish'" v-model:value="selectedStyle" :options="Styles" block />
     <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
     <a-button @click="generate"> 生成</a-button>
 
@@ -168,7 +208,9 @@ const show = computed(() => {
             <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
             <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
             <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn> -->
-    <SideBarEditor v-model="receive" />
+    <a-card>
+      <SideBarEditor :text="receive" />
+    </a-card>
     <a-button class="mb-4" color="secondary" @click="insertHTML(receive)"> 插入</a-button>
   </a-layout-sider>
 </template>
