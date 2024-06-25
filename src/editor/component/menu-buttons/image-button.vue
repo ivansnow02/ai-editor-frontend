@@ -55,7 +55,6 @@ const headers = [
 const insertRef = ref()
 const uploadRef = ref()
 const handleEmit = (fileList) => {
-  console.log(fileList)
   for (const file of fileList) {
     if (file.url) {
       props.editor.chain().focus().setImage({ src: file.url }).run()

@@ -21,8 +21,7 @@ import { PlusOutlined } from '@ant-design/icons-vue'
 import { ref } from 'vue'
 import type { UploadProps } from 'ant-design-vue'
 import options from 'axios'
-import { getImg, uploadImg } from '@/apis/pic'
-import { ROOT_URL } from '@/utils/request'
+import { uploadImg } from '@/apis/pic'
 
 function getBase64(file: File) {
   return new Promise((resolve, reject) => {
@@ -61,14 +60,11 @@ const handlePreview = async (file: UploadProps['fileList'][number]) => {
 
 async function handleUpload(info) {
   const file = info.file
-  console.log(file)
   let formdata = new FormData()
   formdata.append('file', file)
   uploadImg(formdata).then(async (res) => {
-    const pk = res.data.id
-    const r = await getImg(pk)
-    const url = `${ROOT_URL}/${r.data.path}`
-
+    const url = res.data.url
+    console.log(url)
     fileList.value?.pop()
     fileList.value?.push({
       uid: file.uid,
@@ -76,7 +72,6 @@ async function handleUpload(info) {
       status: 'done',
       url: url
     })
-    console.log(fileList.value)
   })
 }
 

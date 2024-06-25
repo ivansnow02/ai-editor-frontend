@@ -146,7 +146,7 @@ const textGenerate = async () => {
 const ocrGenerate = async () => {
   if (ocrURL) {
     await getOCRResult(ocrURL.value).then((response) => {
-      const res = response.data.data.reduce((acc: string, cur: string) => `${acc + cur}\n`, '')
+      const res = response.data.reduce((acc: string, cur: string) => `${acc + cur}\n`, '')
       receive.value = res
     })
   }
@@ -192,7 +192,7 @@ const show = computed(() => {
     <SideBarEditor v-if="show === 'text'" v-model="selection" />
     <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
         @change="handleFileTo64Base"></v-file-input> -->
-    <!-- <v-img v-if="show === 'ocr'" :src="ocrURL"></v-img> -->
+    <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
     <!-- <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>
         <v-btn value="completion">补全</v-btn>
         <v-btn value="translate">翻译</v-btn>

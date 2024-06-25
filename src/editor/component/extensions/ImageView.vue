@@ -15,6 +15,7 @@
             <div class="popover__item" @click="deleteNode()">
               <DeleteOutlined />
             </div>
+            <div class="popover__item" @click="handleOCR()">OCR</div>
           </div>
         </template>
         <img
@@ -40,23 +41,27 @@
   </node-view-wrapper>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, reactive, ref } from 'vue'
+import { computed, inject, reactive, type Ref, ref } from 'vue'
 import { DeleteOutlined } from '@ant-design/icons-vue'
 import { resolveImg } from '@/utils/image'
 import { clamp } from '@/utils/index'
+import { getHTMLFromSelection } from '@/utils/selection'
+import { deleteNode, updateAttributes } from '@tiptap/core/dist/packages/core/src/commands'
+import { node } from 'json-editor-vue'
 
 const props = defineProps(nodeViewProps)
-
+const selection = inject<Ref>('selection')
 const MIN_SIZE = 20
 const MAX_SIZE = 4000
-
+const ocrURL = inject<Ref>('ocrURL')
 const displayCollection = reactive(['inline', 'block', 'left', 'right'])
 const maxSize = reactive({
   width: MAX_SIZE,
   height: MAX_SIZE
 })
+const rail = inject<Ref>('rail')
 const resizing = ref(false)
 const resizeState = reactive({
   w: 0,
@@ -94,6 +99,14 @@ const selectImage = () => {
   props.editor?.commands.setNodeSelection(props.getPos())
 }
 
+const handleOCR = () => {
+  if (rail && ocrURL) {
+    const select = getHTMLFromSelection(props.editor, props.editor.state.selection)
+    // select: <img src="https://xxx.jpg" alt="xxx" title="xxx" />
+    ocrURL.value = select.match(/src="([^"]*)"/)?.[1]
+    rail.value = false
+  }
+}
 // 图片缩放
 const onMouseDown = (e, dir) => {
   e.stopPropagation()

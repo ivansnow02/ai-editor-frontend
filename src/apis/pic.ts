@@ -1,4 +1,4 @@
-import { request, ROOT_URL } from '../utils/request'
+import { request } from '../utils/request'
 
 export const uploadImg = (formData: FormData) => {
   return request({
@@ -9,9 +9,8 @@ export const uploadImg = (formData: FormData) => {
 }
 
 export const getOCRResult = (img_path: string) => {
-    const path = img_path.replace(`${ROOT_URL}/`, '')
   return request({
-    url: `/api/img/ocr/?img_path=${encodeURIComponent(path)}`,
+    url: `/api/img/ocr/?img_path=${encodeURIComponent(img_path)}`,
     method: 'GET'
   })
 }
