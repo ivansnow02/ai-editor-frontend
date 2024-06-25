@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import MenuButtons from './component/menu-buttons/index.vue'
 import { onBeforeUnmount, provide, ref, watch } from 'vue'
-
+import CodeBlockLights from './extensions/code-block-light'
 import Highlight from '@tiptap/extension-highlight'
 import TiptapUnderline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
@@ -22,7 +22,11 @@ import TableHeader from '@tiptap/extension-table-header'
 import { Color } from '@tiptap/extension-color'
 import TableRow from '@tiptap/extension-table-row'
 import TextStyle from '@tiptap/extension-text-style'
-// import { lowlight } from 'lowlight'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
+import { createLowlight } from 'lowlight'
 // 自定义插件
 import Iframe from './extensions/iframe'
 import Images from './extensions/image'
@@ -32,10 +36,8 @@ import Indent from './extensions/indent'
 
 import { useEditorStore } from '@/stores/editor'
 
-// lowlight.registerLanguage('html', html)
-// lowlight.registerLanguage('css', css)
-// lowlight.registerLanguage('js', js)
-// lowlight.registerLanguage('ts', ts)
+const lowlight = createLowlight()
+lowlight.register({ html, ts, css, js })
 
 const isFullScreen = ref(false)
 const toggleFullscreen = () => {
@@ -59,7 +61,7 @@ const editor = useEditor({
     Iframe,
     Color,
     TextStyle,
-
+    CodeBlockLights.configure({ lowlight }),
     TextAlign.configure({
       types: ['heading', 'paragraph']
     }),
@@ -82,7 +84,6 @@ watch(
   (newVal) => {
     if (newVal) {
       editorStore.setEditorRef(newVal)
-      console.log(newVal.getHTML())
     }
   },
   { immediate: true }

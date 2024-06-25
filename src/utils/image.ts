@@ -1,6 +1,6 @@
 const IMAGE_CACHE = {}
 
-export function resolveImg(src) {
+export function resolveImg(src): Promise<any> {
   return new Promise((resolve, reject) => {
     const result = {
       complete: false,

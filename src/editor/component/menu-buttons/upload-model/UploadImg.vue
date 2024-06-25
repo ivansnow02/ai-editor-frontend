@@ -58,7 +58,7 @@ const handlePreview = async (file: UploadProps['fileList'][number]) => {
   previewTitle.value = file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
 }
 
-async function handleUpload(info) {
+async function handleUpload(info: any) {
   const file = info.file
   let formdata = new FormData()
   formdata.append('file', file)
