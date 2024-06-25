@@ -335,4 +335,22 @@ export default defineComponent({
   padding: 2px 5px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 }
+.bubble-menu_wrap:hover{
+  background-color: #D9AFD9;
+  background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+}
+// .btn:hover{
+//   height: 30px;
+//   width: 60px;
+//   box-shadow:0 10px 10px rgba(0, 0, 0, 0.4);
+//   display: inline-block;
+//   color: rgb(56, 97, 230);
+  
+// }
+.bubble-menu_wrap:active{
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  box-shadow:0 0 3px rgba(128, 208 , 199, 0.15);
+}
 </style>

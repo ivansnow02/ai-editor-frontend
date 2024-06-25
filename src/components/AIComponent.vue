@@ -107,10 +107,10 @@ const generate = async () => {
 }
 
 const show = computed(() => {
-  if (toggle.value !== 'file_summary' && ocrURL?.value === '') {
+  if (toggle.value !== 'file_summary' && ocrURL.value === '') {
     return 'text'
   }
-  if (toggle.value === 'file_summary' && ocrURL?.value === '') {
+  if (toggle.value === 'file_summary' && ocrURL.value === '') {
     return 'file'
   }
   return 'ocr'
@@ -149,6 +149,19 @@ const handleUpload = async (info: any) => {
       <SideBarEditor v-if="show === 'text'" :text="selection" />
       <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
         @change="handleFileTo64Base"></v-file-input> -->
+    <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
+    <button class="btn" @click="generate">生成</button>
+    <p></p>
+    <v-btn-toggle  v-model="toggle" color="primary" mandatory>
+      <button class="btn" value="completion">补全</button>
+        <button class="btn" value="translate">翻译</button>
+        <button class="btn" value="polish">润色</button>
+        <button class="btn"value="fix">纠错</button>
+        <button class="btn"value="abstract">总结</button>
+        <button class="btn"value="file_summary">文件总结</button>
+      </v-btn-toggle>
+    <v-select v-if="toggle === 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select>
+
       <a-upload-dragger
         v-if="show === 'file'"
         v-model:fileList="fileList"
@@ -190,7 +203,6 @@ const handleUpload = async (info: any) => {
     <a-segmented v-if="toggle === 'translate'" v-model:value="selectedLang" :options="Lang" block />
     <a-segmented v-if="toggle === 'polish'" v-model:value="selectedStyle" :options="Styles" block />
     <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
-    <a-button @click="generate"> 生成</a-button>
 
     <!-- <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
@@ -208,10 +220,38 @@ const handleUpload = async (info: any) => {
             <VBtn class="mb-4" color="secondary" @click="Textfix()"> Fix </VBtn>
             <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
             <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn> -->
+
     <a-card>
       <SideBarEditor :text="receive" />
     </a-card>
     <a-button class="mb-4" color="secondary" @click="insertHTML(receive)"> 插入</a-button>
   </a-layout-sider>
 </template>
-<style></style>
+<style>
+button{
+  margin:0;
+  padding:0;
+}
+.btn{
+  height: 30px;
+  width: 60px;
+  box-shadow:0 10px 10px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  border-radius: 8px;
+  outline: none;
+}
+.btn:hover{
+  height: 30px;
+  width: 60px;
+  box-shadow:0 10px 10px #D9AFD9;
+  display: inline-block;
+  color: rgb(56, 97, 230);
+  background-color: #D9AFD9;
+  background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+}
+.btn:active{
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  box-shadow:0 10px 10px #80D0C7;
+}
+</style>

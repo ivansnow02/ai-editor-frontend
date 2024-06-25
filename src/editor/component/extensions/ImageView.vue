@@ -49,6 +49,10 @@ import { resolveImg } from '@/utils/image'
 import { clamp } from '@/utils'
 import { getHTMLFromSelection } from '@/utils/selection'
 
+// import { deleteNode, updateAttributes } from '@tiptap/core/dist/packages/core/src/commands'
+// import { node } from 'json-editor-vue'
+
+
 const props = defineProps(nodeViewProps)
 const selection = inject<Ref>('selection')
 const MIN_SIZE = 20

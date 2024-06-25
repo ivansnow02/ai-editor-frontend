@@ -42,6 +42,8 @@ const Regist = () => {
   'register'
   ).then(res => {
     alert("注册成功，请返回登录")
+  }).catch(() => {
+    alert("注册失败，请检查邮箱和验证码")
   })
 }
 const Send = () => {
@@ -113,7 +115,8 @@ watch(Email, () => {
     EmailStatus.value = "合法邮箱"
   }
   VerifCodeStatus.value = "请输入邮箱验证码"
-})
+}
+)
 
 watch(Password2, () => {
   if(Password.value !== Password2.value){
@@ -139,7 +142,7 @@ watch(Password2, () => {
     </template>
   
     <template v-slot:default="{ isActive }">
-      <v-card title="注册">
+      <v-card title="注册" class="Card">
         <v-form v-model="formdata">
             <v-text-field
             v-model.lazy="userName"
@@ -178,7 +181,8 @@ watch(Password2, () => {
             type="password"
             @change="confirmPassword2"
           ></v-text-field>
-            <v-card :title="VerifCodeStatus">
+            <v-card :title="VerifCodeStatus"
+            class="Card">
               <v-otp-input  
               v-model:="VerifCode"
               ></v-otp-input>
@@ -213,3 +217,13 @@ watch(Password2, () => {
   </v-dialog>
 
 </template>
+
+<style>
+.Card{
+  filter: opacity(70%);
+  border-radius: 15px;
+  background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+
+}
+</style>
