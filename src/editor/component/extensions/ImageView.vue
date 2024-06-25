@@ -46,10 +46,8 @@ import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { computed, inject, reactive, type Ref, ref } from 'vue'
 import { DeleteOutlined } from '@ant-design/icons-vue'
 import { resolveImg } from '@/utils/image'
-import { clamp } from '@/utils/index'
+import { clamp } from '@/utils'
 import { getHTMLFromSelection } from '@/utils/selection'
-import { deleteNode, updateAttributes } from '@tiptap/core/dist/packages/core/src/commands'
-import { node } from 'json-editor-vue'
 
 const props = defineProps(nodeViewProps)
 const selection = inject<Ref>('selection')

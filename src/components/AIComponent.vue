@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getFileSummary, getStream } from '../apis/generate'
-import { computed, inject, ref, type Ref, watch } from 'vue'
+import { computed, inject, reactive, ref, type Ref, watch } from 'vue'
 import SideBarEditor from './SideBarEditor.vue'
 import { getOCRResult } from '@/apis/pic'
 import { useEditorStore } from '@/stores/editor'
@@ -18,6 +18,8 @@ const selection = inject<Ref>('selection')
 const ocrURL = inject<Ref>('ocrURL')
 const receive = ref('')
 const toggle = ref('completion')
+const funcList = reactive(['补全', '翻译', '润色', '纠错', '总结', '文件总结'])
+const selectedFunc = ref(funcList[0])
 watch(
   () => editorStore.editorRef,
   (newVal) => {
@@ -27,63 +29,10 @@ watch(
   },
   { immediate: true }
 )
-//ai functions
-// function textInsertContant() {
-//   VuetifyTiptapRef?.value?.editor.commands.insertContent("<h1>Hello world</h1>", false);
-// }
-// function SetStyle() {
-//   VuetifyTiptapRef?.value?.editor.commands.setNode('heading', { level: 1 });
-// }
-// //ai functions
-// function Textcompletion() {
-//   const value = VuetifyTiptapRef?.value?.editor.getText();
-//   aiGetCompletion(value).then((response) => {
-//     VuetifyTiptapRef?.value?.editor.commands.insertContent(response.data.data, false);
-//   });
-// }
 
-// function Textabstraction(word_count: number = 1) {
-//   console.log(word_count);
-//   const value = VuetifyTiptapRef?.value?.editor.getText();
-//   aiGetAbstraction(value, word_count).then((response) => {
-//     VuetifyTiptapRef?.value?.editor.commands.setContent(`${value}<p></p>${response.data.data}`, false);
-//   });
-// }
-
-// function Texttranslation(lang: string = "English") {
-//   const value = VuetifyTiptapRef?.value?.editor.getText();
-//   aiGetTranslation(value, lang).then((response) => {
-//     VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
-//   });
-// }
-// function Textpolish(style: string = "本文原本的") {
-//   const value = VuetifyTiptapRef?.value?.editor.getText();
-//   aiGetPolish(value, style).then((response) => {
-//     VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data, false);
-//   });
-// }
-// function Textfix() {
-//   const value = VuetifyTiptapRef?.value?.editor.getText();
-//   aiGetFix(value).then((response) => {
-//     VuetifyTiptapRef?.value?.editor.commands.setContent(value + "<p></p>" + response.data.data);
-//   });
-// }
 const drawer = ref(true)
 const rail = inject<Ref>('rail')
-//调用流式接口示例，这个是翻译接口，其他接口也可以参考这个示例
-// const streamTranslate = async () => {
-//   await getStream({
-//     input: {
-//       human_input: VuetifyTiptapRef?.value?.editor.getHTML(),
-//       lang: selectdeLang.value,
-//     }
-//   },
-//     "translate",
-//     (data: string) => {
-//       VuetifyTiptapRef?.value?.editor.commands.insertContent(data, false);
-//     }
-//   );
-// }
+
 const handleFileTo64Base = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
@@ -97,9 +46,6 @@ const handleFileTo64Base = (event: Event) => {
   }
 }
 const insertHTML = (text: string) => {
-  // const t = text.replace("<p>", "");
-  // console.log(TiptapRef)
-  // console.log(editorRef?.getHTML())
   editorRef?.commands.insertContent(text, false)
 }
 type Body = {
@@ -193,14 +139,15 @@ const show = computed(() => {
     <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
         @change="handleFileTo64Base"></v-file-input> -->
     <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
-    <!-- <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>
-        <v-btn value="completion">补全</v-btn>
-        <v-btn value="translate">翻译</v-btn>
-        <v-btn value="polish">润色</v-btn>
-        <v-btn value="fix">纠错</v-btn>
-        <v-btn value="abstract">总结</v-btn>
-        <v-btn value="file_summary">文件总结</v-btn>
-      </v-btn-toggle> -->
+    <!--    <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>-->
+    <!--      <v-btn value="completion">补全</v-btn>-->
+    <!--      <v-btn value="translate">翻译</v-btn>-->
+    <!--      <v-btn value="polish">润色</v-btn>-->
+    <!--      <v-btn value="fix">纠错</v-btn>-->
+    <!--      <v-btn value="abstract">总结</v-btn>-->
+    <!--      <v-btn value="file_summary">文件总结</v-btn>-->
+    <!--    </v-btn-toggle>-->
+    <a-segmented :items="funcList" :value="selectedFunc" />
     <!-- <v-select v-if="toggle === 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
     <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
     <a-button @click="generate"> 生成</a-button>
