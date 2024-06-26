@@ -41,3 +41,13 @@ export const fontSizeOptions = [
   { value: 7.3, label: '七号' },
   { value: 6.7, label: '八号' }
 ]
+
+
+export const headingFontSize: Record<number, number> = {
+  0: 16,
+  1: 29.3,
+  2: 24,
+  3: 21.3,
+  4: 20,
+  5: 18.7
+}

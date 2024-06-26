@@ -69,7 +69,7 @@ import BgColor from './bg-color.vue'
 import { provide, type Ref, watch, onMounted } from 'vue'
 import { defineComponent, inject, reactive, ref } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
-import { fontSizeOptions } from '@/utils/constant'
+import { fontSizeOptions, headingFontSize } from '@/utils/constant'
 import FontSize from '@/editor/component/menu-buttons/font-size.vue'
 
 const props = defineProps(['editor'])
@@ -81,30 +81,38 @@ const toggleFullscreen = inject('toggleFullscreen')
 const selection = inject<Ref>('selection')
 const rail = inject<Ref>('rail')
 
+// h1 {
+//   font-size: 29.3px;
+// }
+//
+// h2 {
+//   font-size: 24px;
+// }
+//
+// h3 {
+//   font-size: 21.3px;
+// }
+//
+// h4 {
+//   font-size: 20px;
+// }
+//
+// h5 {
+//   font-size: 18.7px;
+// }
 const getFontSize = () => {
-  for (let i = 0; i < fontSizeOptions.length; i++) {
-    const ok = props.editor.isActive('textStyle', { fontSize: `${fontSizeOptions[i].value}px` })
-    if (ok) {
-      fontSize.value = fontSizeOptions[i].value
+  const activeFontSizeOption = fontSizeOptions.find((option) =>
+    props.editor.isActive('textStyle', { fontSize: `${option.value}px` })
+  )
 
-      return
-    }
-  }
-  fontSize.value = 16
+  fontSize.value = activeFontSizeOption ? activeFontSizeOption.value : headingFontSize[title.value]
 }
 const getHeadingLevel = () => {
-  // console.log(titleChanged.value)
-  for (let i = 1; i < 7; i++) {
-    const ok = props.editor.isActive('heading', { level: i })
-    if (ok) {
-      title.value = i
-      // console.log('title.value', title.value)
-      return
-    }
-  }
-  title.value = 0
+  const activeHeadingLevel = [...Array(7).keys()]
+    .slice(1)
+    .find((level) => props.editor.isActive('heading', { level }))
 
-  return
+  title.value = activeHeadingLevel || 0
 }
 const editMenuTools = reactive([
   {
