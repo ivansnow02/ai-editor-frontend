@@ -15,9 +15,11 @@
       <FontColor v-show="key === 'tab1'" :editor="editor" />
       <BgColor v-show="key === 'tab1'" :editor="editor" />
       <LinkButton v-show="key === 'tab1'" :editor="editor" />
+      <fontSize v-show="key === 'tab1'" v-model="fontSize" :editor="editor" />
 
       <bubble-menu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
         <div v-if="activeMenu === true" class="bubble-menu_wrap">
+          <fontSize v-show="key === 'tab1'" v-model="fontSize" :editor="editor" />
           <FontColor :editor="editor" />
           <LinkButton :editor="editor" />
           <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
@@ -67,10 +69,11 @@ import BgColor from './bg-color.vue'
 import { provide, type Ref, watch, onMounted } from 'vue'
 import { defineComponent, inject, reactive, ref } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
-import type { NodeType } from 'prosemirror-model'
+import { fontSizeOptions } from '@/utils/constant'
+import FontSize from '@/editor/component/menu-buttons/font-size.vue'
 
 const props = defineProps(['editor'])
-
+const fontSize = ref(16)
 const activeMenu = ref(false)
 const title = ref(0)
 const isFullScreen = inject('isFullScreen')
@@ -78,6 +81,17 @@ const toggleFullscreen = inject('toggleFullscreen')
 const selection = inject<Ref>('selection')
 const rail = inject<Ref>('rail')
 
+const getFontSize = () => {
+  for (let i = 0; i < fontSizeOptions.length; i++) {
+    const ok = props.editor.isActive('textStyle', { fontSize: `${fontSizeOptions[i].value}px` })
+    if (ok) {
+      fontSize.value = fontSizeOptions[i].value
+
+      return
+    }
+  }
+  fontSize.value = 16
+}
 const getHeadingLevel = () => {
   // console.log(titleChanged.value)
   for (let i = 1; i < 7; i++) {
@@ -352,6 +366,7 @@ watch(
 onMounted(() => {
   props.editor.on('transaction', () => {
     getHeadingLevel()
+    getFontSize()
   })
 })
 </script>

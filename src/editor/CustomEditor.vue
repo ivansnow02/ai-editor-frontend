@@ -17,6 +17,7 @@ import { EditorContent, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import Link from '@tiptap/extension-link'
+import FontSize from 'tiptap-extension-font-size'
 import Table from '@tiptap/extension-table'
 import TableHeader from '@tiptap/extension-table-header'
 import { Color } from '@tiptap/extension-color'
@@ -59,6 +60,7 @@ const editor = useEditor({
     StarterKit,
     Images,
     Iframe,
+    FontSize,
     Color,
     TextStyle,
     CodeBlockLights.configure({ lowlight }),

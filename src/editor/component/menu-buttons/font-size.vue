@@ -1,40 +1,28 @@
 <template>
-  <a-tooltip placement="top">
-    <template #title>
-      <span>标题</span>
-    </template>
-    <div class="header_button">
-      <a-select v-model:value="value" :options="options" @change="handleChange" />
-    </div>
-  </a-tooltip>
+  <div>
+    <a-tooltip placement="top">
+      <template #title>
+        <span>标题</span>
+      </template>
+      <div class="header_button">
+        <a-select v-model:value="value" :options="fontSizeOptions" @change="handleChange" />
+      </div>
+    </a-tooltip>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { defineModel, inject, type Ref } from 'vue'
+import { fontSizeOptions } from '@/utils/constant'
 
 const value = defineModel()
-const options = [
-  { value: 34.7, label: '一号' },
-  { value: 32, label: '小一' },
-  { value: 29.3, label: '二号' },
-  { value: 24, label: '小二' },
-  { value: 21.3, label: '三号' },
-  { value: 20, label: '小三' },
-  { value: 18.7, label: '四号' },
-  { value: 16, label: '小四' },
-  { value: 14, label: '五号' },
-  { value: 12, label: '小五' },
-  { value: 10, label: '六号' },
-  { value: 8.7, label: '小六' },
-  { value: 7.3, label: '七号' },
-  { value: 6.7, label: '八号' }
-]
+
 const props = defineProps(['editor'])
 
-const handleChange = (value: number) => {}
-// const handleChange = (value: string) => {
-//   console.log(`selected ${value}`)
-// }
+const handleChange = (value: string) => {
+  const fontSize = `${value}px`
+  props.editor.chain().focus().setFontSize(fontSize).run()
+}
 </script>
 
 <style lang="scss" scoped>
