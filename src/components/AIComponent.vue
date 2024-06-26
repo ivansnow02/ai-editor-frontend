@@ -39,8 +39,10 @@ const fileList = ref<UploadProps['fileList']>([])
 const drawer = ref(true)
 const rail = inject<Ref>('rail')
 
-const insertHTML = (text: string) => {
-  editorRef?.commands.insertContent(text, false)
+const insertHTML = () => {
+  console.log('text', receive.value)
+  console.log('editorRef', editorRef)
+  editorRef?.commands.insertContent(receive.value, false)
 }
 type Body = {
   input: {
@@ -107,10 +109,10 @@ const generate = async () => {
 }
 
 const show = computed(() => {
-  if (toggle.value !== 'file_summary' && ocrURL.value === '') {
+  if (toggle.value !== 'file_summary' && ocrURL?.value === '') {
     return 'text'
   }
-  if (toggle.value === 'file_summary' && ocrURL.value === '') {
+  if (toggle.value === 'file_summary' && ocrURL?.value === '') {
     return 'file'
   }
   return 'ocr'
@@ -146,21 +148,21 @@ const handleUpload = async (info: any) => {
   >
     <!-- 里面实现ai的功能 -->
     <a-card>
-      <SideBarEditor v-if="show === 'text'" :text="selection" />
+      <SideBarEditor v-if="show === 'text'" v-model:text="selection" />
       <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
         @change="handleFileTo64Base"></v-file-input> -->
-    <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
-    <button class="btn" @click="generate">生成</button>
-    <p></p>
-    <v-btn-toggle  v-model="toggle" color="primary" mandatory>
-      <button class="btn" value="completion" >补全</button>
-        <button class="btn" value="translate" v-module="toggle">翻译</button>
-        <button class="btn" value="polish">润色</button>
-        <button class="btn" value="fix">纠错</button>
-        <button class="btn" value="abstract">总结</button>
-        <button class="btn" value="file_summary">文件总结</button>
-      </v-btn-toggle>
-    <!-- <v-select v-if="toggle=== 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
+      <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
+      <button class="btn" @click="generate">生成</button>
+      <!--      <p></p>-->
+      <!--      <v-btn-toggle v-model="toggle" color="primary" mandatory>-->
+      <!--        <button class="btn" value="completion">补全</button>-->
+      <!--        <button class="btn" value="translate" v-module="toggle">翻译</button>-->
+      <!--        <button class="btn" value="polish">润色</button>-->
+      <!--        <button class="btn" value="fix">纠错</button>-->
+      <!--        <button class="btn" value="abstract">总结</button>-->
+      <!--        <button class="btn" value="file_summary">文件总结</button>-->
+      <!--      </v-btn-toggle>-->
+      <!-- <v-select v-if="toggle=== 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
 
       <a-upload-dragger
         v-if="show === 'file'"
@@ -187,11 +189,10 @@ const handleUpload = async (info: any) => {
       <!--      <v-btn value="file_summary">文件总结</v-btn>-->
       <!--    </v-btn-toggle>-->
     </a-card>
-    <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block >
-      
+    <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block>
       <template #label="{ label }">
-        <p>你好</p>
-        <div style="padding: 4px"  >
+        <!--        <p>你好</p>-->
+        <div style="padding: 4px">
           {{ label }}
         </div>
       </template>
@@ -224,36 +225,39 @@ const handleUpload = async (info: any) => {
             <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn> -->
 
     <a-card>
-      <SideBarEditor :text="receive" />
+      <SideBarEditor v-model:text="receive" />
     </a-card>
-    <a-button class="btn" color="secondary" @click="insertHTML(receive)"> 插入</a-button>
+    <a-button class="btn" color="secondary" @click="insertHTML()"> 插入</a-button>
   </a-layout-sider>
 </template>
 <style>
-button{
-  margin:0;
-  padding:0;
+button {
+  margin: 0;
+  padding: 0;
 }
-.btn{
+
+.btn {
   height: 30px;
   width: 60px;
-  box-shadow:0 10px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
   display: inline-block;
   border-radius: 8px;
   outline: none;
 }
-.btn:hover{
+
+.btn:hover {
   height: 30px;
   width: 60px;
-  box-shadow:0 10px 10px #D9AFD9;
+  box-shadow: 0 10px 10px #d9afd9;
   display: inline-block;
   color: rgb(56, 97, 230);
-  background-color: #D9AFD9;
-  background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+  background-color: #d9afd9;
+  background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
 }
-.btn:active{
-  background-color: #0093E9;
-  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-  box-shadow:0 10px 10px #80D0C7;
+
+.btn:active {
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+  box-shadow: 0 10px 10px #80d0c7;
 }
 </style>

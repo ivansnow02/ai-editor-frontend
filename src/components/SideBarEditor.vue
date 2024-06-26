@@ -24,7 +24,7 @@ import { onBeforeUnmount, defineModel, watch } from 'vue'
 const text = defineModel('text')
 
 const editor = useEditor({
-  content: text.value,
+  content: '',
   extensions: [
     Highlight.configure({
       multicolor: true
@@ -54,8 +54,15 @@ const editor = useEditor({
   autofocus: 'end'
 })
 watch(text, (newVal) => {
+  console.log('newVal', newVal)
   editor.value?.chain().setContent(newVal).run()
 })
+watch(
+  () => editor.value?.getHTML(),
+  (newVal) => {
+    text.value = newVal
+  }
+)
 onBeforeUnmount(() => {
   editor.value?.destroy()
 })

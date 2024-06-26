@@ -30,7 +30,6 @@
 <script lang="ts" setup>
 import { BubbleMenu } from '@tiptap/vue-3'
 import ToolButton from './tool-button.vue'
-import { Editor } from '@tiptap/core'
 import { AllSelection, TextSelection } from '@tiptap/pm/state'
 
 import {
