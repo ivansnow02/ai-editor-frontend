@@ -1,5 +1,5 @@
 <template>
-  <a-layout-header style="padding: 0">
+  <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }" style="padding: 0">
     <!--    <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" />-->
     <AITrigger></AITrigger>
   </a-layout-header>

@@ -1,10 +1,19 @@
 <template>
-  <div>
+  <a-layout>
     <div v-if="editor" :class="[isFullScreen ? 'editor--fullscreen' : '']" class="editor">
-      <MenuButtons :editor="editor" />
-      <editor-content :editor="editor" class="editor-code" />
+      <a-layout-header
+        :style="{ position: 'fixed', zIndex: 1, width: '100%', marginTop: '62px' }"
+        class="editor-menu_wrapper"
+      >
+        <MenuButtons :editor="editor" />
+      </a-layout-header>
+      <a-layout-content :style="{ padding: '0 50px', marginTop: '230px' }">
+        <a-card class="editor-card">
+          <editor-content :editor="editor" class="editor-code" />
+        </a-card>
+      </a-layout-content>
     </div>
-  </div>
+  </a-layout>
 </template>
 
 <script lang="ts" setup>
@@ -94,3 +103,24 @@ onBeforeUnmount(() => {
   editor.value?.destroy()
 })
 </script>
+
+<style lang="scss" scoped>
+.editor-code {
+  overflow: auto;
+}
+
+.editor-menu_wrapper {
+  padding: 5px;
+  background: none;
+}
+
+.editor-card {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 260px);
+  max-width: 60%;
+}
+</style>

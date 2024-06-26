@@ -2,8 +2,11 @@
   <a-card
     :active-tab-key="key"
     :tab-list="tabList"
-    title="Card title"
+    bodyStyle="padding: 0px"
     @tabChange="(key) => onTabChange(key, 'key')"
+    class="editor-menu"
+    hoverable="true"
+    title="编辑器"
   >
     <div class="editor-tools">
       <HeaderButton v-show="key === 'tab1'" v-model="title" :editor="editor" />
@@ -21,7 +24,6 @@
         <div v-if="activeMenu === true" class="bubble-menu_wrap">
           <fontSize v-show="key === 'tab1'" v-model="fontSize" :editor="editor" />
           <FontColor :editor="editor" />
-          <LinkButton :editor="editor" />
           <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
         </div>
       </bubble-menu>
@@ -81,25 +83,6 @@ const toggleFullscreen = inject('toggleFullscreen')
 const selection = inject<Ref>('selection')
 const rail = inject<Ref>('rail')
 
-// h1 {
-//   font-size: 29.3px;
-// }
-//
-// h2 {
-//   font-size: 24px;
-// }
-//
-// h3 {
-//   font-size: 21.3px;
-// }
-//
-// h4 {
-//   font-size: 20px;
-// }
-//
-// h5 {
-//   font-size: 18.7px;
-// }
 const getFontSize = () => {
   const activeFontSizeOption = fontSizeOptions.find((option) =>
     props.editor.isActive('textStyle', { fontSize: `${option.value}px` })

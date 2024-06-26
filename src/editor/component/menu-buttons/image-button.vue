@@ -37,7 +37,7 @@ import { ref } from 'vue'
 import { CloudUploadOutlined, PaperClipOutlined, PictureOutlined } from '@ant-design/icons-vue'
 import { validateUrl } from '@/utils/pattern.ts'
 import InsertImage from './insert-model/index.vue'
-import UploadImg from './upload-model/UploadImg.vue'
+import UploadImg from './UploadImg.vue'
 
 const props = defineProps(['editor'])
 

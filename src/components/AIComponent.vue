@@ -144,13 +144,22 @@ const handleUpload = async (info: any) => {
     collapsed-width="0"
     collapsible
     theme="light"
-    width="400px"
+    :style="{
+      overflow: 'auto',
+      position: 'fixed',
+      right: 0,
+      top: 0,
+      bottom: 0,
+      marginRight: '5px'
+    }"
+    class="ai-component"
+    width="20%"
   >
     <!-- 里面实现ai的功能 -->
-    <a-card>
+    <a-card class="ai-component-card" hoverable>
       <SideBarEditor v-if="show === 'text'" v-model:text="selection" />
       <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
-        @change="handleFileTo64Base"></v-file-input> -->
+      @change="handleFileTo64Base"></v-file-input> -->
       <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
       <button class="btn" @click="generate">生成</button>
       <!--      <p></p>-->
@@ -188,26 +197,35 @@ const handleUpload = async (info: any) => {
       <!--      <v-btn value="abstract">总结</v-btn>-->
       <!--      <v-btn value="file_summary">文件总结</v-btn>-->
       <!--    </v-btn-toggle>-->
-    </a-card>
-    <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block>
-      <template #label="{ label }">
-        <!--        <p>你好</p>-->
-        <div style="padding: 4px">
-          {{ label }}
-        </div>
-      </template>
-    </a-segmented>
-    <!--    <a-select-->
-    <!--      v-if="toggle === 'translate'"-->
-    <!--      v-model="selectedLang"-->
-    <!--      :items="Lang"-->
-    <!--      label="选择语言"-->
-    <!--    ></a-select>-->
-    <a-segmented v-if="toggle === 'translate'" v-model:value="selectedLang" :options="Lang" block />
-    <a-segmented v-if="toggle === 'polish'" v-model:value="selectedStyle" :options="Styles" block />
-    <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
+      <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block>
+        <template #label="{ label }">
+          <!--        <p>你好</p>-->
+          <div style="padding: 4px">
+            {{ label }}
+          </div>
+        </template>
+      </a-segmented>
+      <!--    <a-select-->
+      <!--      v-if="toggle === 'translate'"-->
+      <!--      v-model="selectedLang"-->
+      <!--      :items="Lang"-->
+      <!--      label="选择语言"-->
+      <!--    ></a-select>-->
+      <a-segmented
+        v-if="toggle === 'translate'"
+        v-model:value="selectedLang"
+        :options="Lang"
+        block
+      />
+      <a-segmented
+        v-if="toggle === 'polish'"
+        v-model:value="selectedStyle"
+        :options="Styles"
+        block
+      />
+      <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
 
-    <!-- <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
+      <!-- <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textabstraction()"> Abstract </VBtn>
             <VBtn class="mb-4" color="secondary" @click="Textpolish(selectedStyle)"> Polish </VBtn>
             <v-select label="选择风格" :items="Styles" v-model="selectedStyle"></v-select>
@@ -224,13 +242,13 @@ const handleUpload = async (info: any) => {
             <VBtn class="mb-4" color="secondary" @click="textInsertContant()">textInsertContant</VBtn>
             <VBtn class="mb-4" color="secondary" @click="SetStyle()">SetStyle</VBtn> -->
 
-    <a-card>
       <SideBarEditor v-model:text="receive" />
+
+      <a-button class="btn" color="secondary" @click="insertHTML()"> 插入</a-button>
     </a-card>
-    <a-button class="btn" color="secondary" @click="insertHTML()"> 插入</a-button>
   </a-layout-sider>
 </template>
-<style>
+<style lang="scss" scoped>
 button {
   margin: 0;
   padding: 0;
@@ -259,5 +277,16 @@ button {
   background-color: #0093e9;
   background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
   box-shadow: 0 10px 10px #80d0c7;
+}
+
+$top: 220px;
+.ai-component {
+  height: calc(100vh - $top);
+  margin-top: $top;
+  background: none !important;
+}
+
+.ai-component-card {
+  height: calc(100vh - $top);
 }
 </style>

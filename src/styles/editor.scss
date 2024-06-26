@@ -59,16 +59,14 @@
   }
 
   &-code {
-    user-select: none;
+  
     background-color: #fff;
-    border: 1px solid #ebeef5;
-    border-top: 0;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+
+
     color: #000;
     flex-grow: 1;
     padding: 20px;
-    box-sizing: border-box;
+
     font-family: sans-serif;
     line-height: 1.7;
     overflow-x: auto;
