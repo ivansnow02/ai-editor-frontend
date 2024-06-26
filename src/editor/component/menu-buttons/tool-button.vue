@@ -17,11 +17,4 @@
 <script setup>
 const props = defineProps(['desserts', 'editor'])
 </script>
-.tools_button{ 
-  box-shadow:0 10px 10px #D9AFD9;
-  display: inline-block;
-  color: rgb(56, 97, 230);
-  background-color: #D9AFD9;
-  background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
-}
 <style lang="scss" scoped></style>

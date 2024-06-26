@@ -153,14 +153,14 @@ const handleUpload = async (info: any) => {
     <button class="btn" @click="generate">生成</button>
     <p></p>
     <v-btn-toggle  v-model="toggle" color="primary" mandatory>
-      <button class="btn" value="completion">补全</button>
-        <button class="btn" value="translate">翻译</button>
+      <button class="btn" value="completion" >补全</button>
+        <button class="btn" value="translate" v-module="toggle">翻译</button>
         <button class="btn" value="polish">润色</button>
-        <button class="btn"value="fix">纠错</button>
-        <button class="btn"value="abstract">总结</button>
-        <button class="btn"value="file_summary">文件总结</button>
+        <button class="btn" value="fix">纠错</button>
+        <button class="btn" value="abstract">总结</button>
+        <button class="btn" value="file_summary">文件总结</button>
       </v-btn-toggle>
-    <v-select v-if="toggle === 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select>
+    <!-- <v-select v-if="toggle=== 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
 
       <a-upload-dragger
         v-if="show === 'file'"
@@ -187,9 +187,11 @@ const handleUpload = async (info: any) => {
       <!--      <v-btn value="file_summary">文件总结</v-btn>-->
       <!--    </v-btn-toggle>-->
     </a-card>
-    <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block>
+    <a-segmented v-if="show !== 'ocr'" v-model:value="toggle" :options="funcList" block >
+      
       <template #label="{ label }">
-        <div style="padding: 4px">
+        <p>你好</p>
+        <div style="padding: 4px"  >
           {{ label }}
         </div>
       </template>
@@ -224,7 +226,7 @@ const handleUpload = async (info: any) => {
     <a-card>
       <SideBarEditor :text="receive" />
     </a-card>
-    <a-button class="mb-4" color="secondary" @click="insertHTML(receive)"> 插入</a-button>
+    <a-button class="btn" color="secondary" @click="insertHTML(receive)"> 插入</a-button>
   </a-layout-sider>
 </template>
 <style>

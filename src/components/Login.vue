@@ -39,7 +39,7 @@ const Login = () => {
     </template>
 
     <template v-slot:default="{ isActive }" >
-      <v-card title="登陆" class="Card">
+      <v-card title="登陆" class="Card" id="HomeCard">
         <v-form>
           <v-text-field
             v-model.lazy="Username"
@@ -74,6 +74,14 @@ const Login = () => {
   </v-dialog>
 </template>
 
-<style>
+<style scoped>
+.Card{
+  filter: opacity(100%);
+  border-radius: 15px;
+  /* background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}
 
 </style>
