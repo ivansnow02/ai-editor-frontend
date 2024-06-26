@@ -1,33 +1,35 @@
 <template>
-  <a-popover placement="bottom" trigger="click">
-    <template #content>
-      <ul class="dropdown">
-        <li class="dropdown__opeartion" @click="insertRef.showModal()">
-          <PaperClipOutlined style="margin-right: 5px" />
-          插入URL
-        </li>
-        <li class="dropdown__opeartion" @click="uploadRef.showModal()">
-          <CloudUploadOutlined style="margin-right: 5px" />
-          上传图片
-        </li>
-      </ul>
-    </template>
-    <a-tooltip placement="top">
-      <template #title>
-        <span>图片</span>
+  <div>
+    <a-popover placement="bottom" trigger="click">
+      <template #content>
+        <ul class="dropdown">
+          <li class="dropdown__opeartion" @click="insertRef.showModal()">
+            <PaperClipOutlined style="margin-right: 5px" />
+            插入URL
+          </li>
+          <li class="dropdown__opeartion" @click="uploadRef.showModal()">
+            <CloudUploadOutlined style="margin-right: 5px" />
+            上传图片
+          </li>
+        </ul>
       </template>
-      <div class="tools__button">
-        <PictureOutlined style="font-size: 16px; font-weight: 600" />
-      </div>
-    </a-tooltip>
-  </a-popover>
-  <InsertImage
-    ref="insertRef"
-    :options="{ title: '插入图片地址', headers }"
-    @emitInsert="handleEmit"
-  >
-  </InsertImage>
-  <UploadImg ref="uploadRef" :options="{ title: '上传图片' }" @emitUpload="handleEmit" />
+      <a-tooltip placement="top">
+        <template #title>
+          <span>图片</span>
+        </template>
+        <div class="tools__button">
+          <PictureOutlined style="font-size: 16px; font-weight: 600" />
+        </div>
+      </a-tooltip>
+    </a-popover>
+    <InsertImage
+      ref="insertRef"
+      :options="{ title: '插入图片地址', headers }"
+      @emitInsert="handleEmit"
+    >
+    </InsertImage>
+    <UploadImg ref="uploadRef" :options="{ title: '上传图片' }" @emitUpload="handleEmit" />
+  </div>
 </template>
 
 <script setup>

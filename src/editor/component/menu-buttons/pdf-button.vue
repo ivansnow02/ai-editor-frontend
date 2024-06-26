@@ -1,39 +1,41 @@
 <template>
-  <a-popover placement="bottom" trigger="click">
-    <template #content>
-      <ul class="dropdown">
-        <li class="dropdown__opeartion" @click="insertRef.showModal()">
-          <DisconnectOutlined style="margin-right: 5px" />
-          插入网络PDF
-        </li>
-        <li class="dropdown__opeartion" @click="insertLocalPdf">
-          <CloudUploadOutlined style="margin-right: 5px" />
-          上传本地PDF
-        </li>
-      </ul>
-    </template>
-    <a-tooltip placement="top">
-      <template #title>
-        <span>PDF</span>
+  <div>
+    <a-popover placement="bottom" trigger="click">
+      <template #content>
+        <ul class="dropdown">
+          <li class="dropdown__opeartion" @click="insertRef.showModal()">
+            <DisconnectOutlined style="margin-right: 5px" />
+            插入网络PDF
+          </li>
+          <li class="dropdown__opeartion" @click="insertLocalPdf">
+            <CloudUploadOutlined style="margin-right: 5px" />
+            上传本地PDF
+          </li>
+        </ul>
       </template>
-      <div class="tools__button">
-        <FilePdfOutlined style="font-size: 16px; font-weight: 600" />
-      </div>
-    </a-tooltip>
-  </a-popover>
-  <InsertPDF
-    ref="insertRef"
-    :options="{ title: '插入PDF地址', placeholder: 'URL of PDF', headers }"
-    @emitInsert="handleEmit"
-  >
-    <a-form-item label="插入类型" name="type">
-      <a-radio-group v-model:value="type" button-style="solid">
-        <a-radio-button :value="1">附件形式</a-radio-button>
-        <a-radio-button :value="2">内容形式</a-radio-button>
-      </a-radio-group>
-    </a-form-item>
-  </InsertPDF>
-  <UploadPDF ref="uploadRef" :options="{ title: '上传PDF' }" @emitUpload="handleEmit"></UploadPDF>
+      <a-tooltip placement="top">
+        <template #title>
+          <span>PDF</span>
+        </template>
+        <div class="tools__button">
+          <FilePdfOutlined style="font-size: 16px; font-weight: 600" />
+        </div>
+      </a-tooltip>
+    </a-popover>
+    <InsertPDF
+      ref="insertRef"
+      :options="{ title: '插入PDF地址', placeholder: 'URL of PDF', headers }"
+      @emitInsert="handleEmit"
+    >
+      <a-form-item label="插入类型" name="type">
+        <a-radio-group v-model:value="type" button-style="solid">
+          <a-radio-button :value="1">附件形式</a-radio-button>
+          <a-radio-button :value="2">内容形式</a-radio-button>
+        </a-radio-group>
+      </a-form-item>
+    </InsertPDF>
+    <UploadPDF ref="uploadRef" :options="{ title: '上传PDF' }" @emitUpload="handleEmit"></UploadPDF>
+  </div>
 </template>
 
 <script setup>

@@ -1,50 +1,52 @@
 <template>
-  <a-popover placement="bottom" trigger="click">
-    <template #content>
-      <ul class="dropdown">
-        <li class="dropdown__opeartion border_bottom">
-          <a-popover placement="right">
-            <template #content>
-              <div class="x_flex">
-                <div class="label">行：</div>
-                <div class="input_box">
-                  <a-input v-model:value="forms['rows']" />
+  <div>
+    <a-popover placement="bottom" trigger="click">
+      <template #content>
+        <ul class="dropdown">
+          <li class="dropdown__opeartion border_bottom">
+            <a-popover placement="right">
+              <template #content>
+                <div class="x_flex">
+                  <div class="label">行：</div>
+                  <div class="input_box">
+                    <a-input v-model:value="forms['rows']" />
+                  </div>
                 </div>
-              </div>
-              <div class="x_flex">
-                <div class="label">列：</div>
-                <div class="input_box">
-                  <a-input v-model:value="forms['cols']" />
+                <div class="x_flex">
+                  <div class="label">列：</div>
+                  <div class="input_box">
+                    <a-input v-model:value="forms['cols']" />
+                  </div>
                 </div>
-              </div>
 
-              <div class="x_flex justify-center">
-                <a-button @click="insertTable"> 插入</a-button>
-              </div>
-            </template>
+                <div class="x_flex justify-center">
+                  <a-button @click="insertTable"> 插入</a-button>
+                </div>
+              </template>
 
-            <div>插入表格</div>
-          </a-popover>
-        </li>
-        <li class="dropdown__opeartion" @click="addRowBefore">添加行before</li>
-        <li class="dropdown__opeartion" @click="addRowAfter">添加行after</li>
-        <li class="dropdown__opeartion border_bottom" @click="delRow">删除行</li>
-        <li class="dropdown__opeartion" @click="addColBefore">添加列before</li>
-        <li class="dropdown__opeartion" @click="addColAfter">添加列after</li>
-        <li class="dropdown__opeartion border_bottom" @click="delCol">删除列</li>
-        <li class="dropdown__opeartion" @click="mergeCells">合并单元格</li>
-        <li class="dropdown__opeartion" @click="splitCell">取消合并单元格</li>
-      </ul>
-    </template>
-    <a-tooltip placement="top">
-      <template #title>
-        <span>表格</span>
+              <div>插入表格</div>
+            </a-popover>
+          </li>
+          <li class="dropdown__opeartion" @click="addRowBefore">添加行before</li>
+          <li class="dropdown__opeartion" @click="addRowAfter">添加行after</li>
+          <li class="dropdown__opeartion border_bottom" @click="delRow">删除行</li>
+          <li class="dropdown__opeartion" @click="addColBefore">添加列before</li>
+          <li class="dropdown__opeartion" @click="addColAfter">添加列after</li>
+          <li class="dropdown__opeartion border_bottom" @click="delCol">删除列</li>
+          <li class="dropdown__opeartion" @click="mergeCells">合并单元格</li>
+          <li class="dropdown__opeartion" @click="splitCell">取消合并单元格</li>
+        </ul>
       </template>
-      <div class="tools__button">
-        <TableOutlined style="font-size: 16px; font-weight: 600" />
-      </div>
-    </a-tooltip>
-  </a-popover>
+      <a-tooltip placement="top">
+        <template #title>
+          <span>表格</span>
+        </template>
+        <div class="tools__button">
+          <TableOutlined style="font-size: 16px; font-weight: 600" />
+        </div>
+      </a-tooltip>
+    </a-popover>
+  </div>
 </template>
 
 <script lang="ts" setup>

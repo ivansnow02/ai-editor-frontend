@@ -1,30 +1,32 @@
 <template>
-  <a-popover placement="bottom" trigger="click">
-    <template #content>
-      <ul class="dropdown">
-        <li class="dropdown__opeartion" @click="insertRef.showModal()">插入网络视频</li>
-        <li class="dropdown__opeartion" @click="uploadRef.showModal()">上传本地视频</li>
-      </ul>
-    </template>
-    <a-tooltip placement="top">
-      <template #title>
-        <span>视频</span>
+  <div>
+    <a-popover placement="bottom" trigger="click">
+      <template #content>
+        <ul class="dropdown">
+          <li class="dropdown__opeartion" @click="insertRef.showModal()">插入网络视频</li>
+          <li class="dropdown__opeartion" @click="uploadRef.showModal()">上传本地视频</li>
+        </ul>
       </template>
-      <div class="tools__button">
-        <VideoCameraOutlined style="font-size: 16px; font-weight: 600" />
-      </div>
-    </a-tooltip>
-  </a-popover>
-  <InsertVideo
-    ref="insertRef"
-    :options="{ title: '网络视频URL', headers }"
-    @emitInsert="handleEmit"
-  />
-  <UploadVideo
-    ref="uploadRef"
-    :options="{ title: '上传本地视频', headers, fileType: 'video' }"
-    @emitUpload="handleEmit"
-  />
+      <a-tooltip placement="top">
+        <template #title>
+          <span>视频</span>
+        </template>
+        <div class="tools__button">
+          <VideoCameraOutlined style="font-size: 16px; font-weight: 600" />
+        </div>
+      </a-tooltip>
+    </a-popover>
+    <InsertVideo
+      ref="insertRef"
+      :options="{ title: '网络视频URL', headers }"
+      @emitInsert="handleEmit"
+    />
+    <UploadVideo
+      ref="uploadRef"
+      :options="{ title: '上传本地视频', headers, fileType: 'video' }"
+      @emitUpload="handleEmit"
+    />
+  </div>
 </template>
 
 <script setup>

@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import MenuButtons from './component/menu-buttons/index.vue'
+import MenuButtons from './component/menu-buttons/MenuButtons.vue'
 import { onBeforeUnmount, provide, ref, watch } from 'vue'
 import CodeBlockLights from './extensions/code-block-light'
 import Highlight from '@tiptap/extension-highlight'

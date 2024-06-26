@@ -1,18 +1,20 @@
 <template>
-  <a-tooltip placement="top">
-    <template #title>
-      <span>链接</span>
-    </template>
-    <div
-      :class="['tools__button', editor.isActive('link') ? 'tool--active' : '']"
-      @click="linkRef.showModal()"
-    >
-      <LinkOutlined style="font-size: 16px; font-weight: 600" />
-    </div>
-  </a-tooltip>
+  <div>
+    <a-tooltip placement="top">
+      <template #title>
+        <span>链接</span>
+      </template>
+      <div
+        :class="['tools__button', editor.isActive('link') ? 'tool--active' : '']"
+        @click="linkRef.showModal()"
+      >
+        <LinkOutlined style="font-size: 16px; font-weight: 600" />
+      </div>
+    </a-tooltip>
 
-  <InsertLink ref="linkRef" :options="{ title: '插入链接', headers }" @emitInsert="onEmitInsert">
-  </InsertLink>
+    <InsertLink ref="linkRef" :options="{ title: '插入链接', headers }" @emitInsert="onEmitInsert">
+    </InsertLink>
+  </div>
 </template>
 
 <script setup>

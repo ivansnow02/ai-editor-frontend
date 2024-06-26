@@ -1,37 +1,39 @@
 <template>
-  <a-popover placement="bottom" trigger="click">
-    <template #content>
-      <ul class="colors-palette">
-        <li
-          v-for="(color, index) in colors"
-          :key="color"
+  <div>
+    <a-popover placement="bottom" trigger="click">
+      <template #content>
+        <ul class="colors-palette">
+          <li
+            v-for="(color, index) in colors"
+            :key="color"
+            :class="[
+              'color-item',
+              {
+                border_black: currentIndex === index
+              }
+            ]"
+            @click="toggleColor(color, index)"
+          >
+            <div :style="{ background: color }" class="color-box"></div>
+          </li>
+        </ul>
+      </template>
+      <a-tooltip placement="top">
+        <template #title><span>文字颜色</span></template>
+        <div
           :class="[
-            'color-item',
+            'tools__button',
             {
-              border_black: currentIndex === index
+              'tool--active': editor.isActive('textStyle')
             }
           ]"
-          @click="toggleColor(color, index)"
         >
-          <div :style="{ background: color }" class="color-box"></div>
-        </li>
-      </ul>
-    </template>
-    <a-tooltip placement="top">
-      <template #title><span>文字颜色</span></template>
-      <div
-        :class="[
-          'tools__button',
-          {
-            'tool--active': editor.isActive('textStyle')
-          }
-        ]"
-      >
-        <FontColorsOutlined style="font-size: 16px; font-weight: 600" />
-        <CaretDownOutlined style="font-size: 10px; font-weight: 600" />
-      </div>
-    </a-tooltip>
-  </a-popover>
+          <FontColorsOutlined style="font-size: 16px; font-weight: 600" />
+          <CaretDownOutlined style="font-size: 10px; font-weight: 600" />
+        </div>
+      </a-tooltip>
+    </a-popover>
+  </div>
 </template>
 
 <script setup>
