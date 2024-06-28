@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-popover placement="bottom" trigger="click">
+    <a-popover :placement="props.placement" trigger="click">
       <template #content>
         <ul class="colors-palette">
           <li
@@ -41,7 +41,7 @@ import { getTextColor } from './cells'
 import { reactive, ref } from 'vue'
 import { CaretDownOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 
-const props = defineProps(['editor'])
+const props = defineProps(['editor', 'placement'])
 const colors = reactive(getTextColor())
 
 const currentIndex = ref(0)

@@ -4,7 +4,7 @@ import { computed, inject, ref, type Ref, watch } from 'vue'
 import SideBarEditor from './SideBarEditor.vue'
 import { getOCRResult } from '@/apis/pic'
 import { useEditorStore } from '@/stores/editor'
-import { InboxOutlined } from '@ant-design/icons-vue'
+import { InboxOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import type { UploadProps } from 'ant-design-vue'
 
 const Lang = ['英文', '中文', '日语', '法语', '德语', '俄语', '西班牙语']
@@ -13,6 +13,8 @@ const selectedLang = ref('英文')
 const selectedStyle = ref('原文')
 const editorStore = useEditorStore()
 let editorRef = editorStore.editorRef
+import { h } from 'vue'
+
 const output = ref<'html' | 'json' | 'text'>('html')
 const selection = inject<Ref>('selection')
 const ocrURL = inject<Ref>('ocrURL')
@@ -40,8 +42,6 @@ const drawer = ref(true)
 const rail = inject<Ref>('rail')
 
 const insertHTML = () => {
-  console.log('text', receive.value)
-  console.log('editorRef', editorRef)
   editorRef?.commands.insertContent(receive.value, false)
 }
 type Body = {
@@ -61,7 +61,6 @@ const fileSummaryInvoke = async () => {
     }
   }
   const response = await getFileSummary(body)
-  console.log(response.output.output_text)
   receive.value = response.output.output_text
 }
 
@@ -135,6 +134,10 @@ const handleUpload = async (info: any) => {
     status: 'done'
   })
 }
+
+const handleClose = () => {
+  rail.value = true
+}
 </script>
 
 <template>
@@ -156,7 +159,16 @@ const handleUpload = async (info: any) => {
     width="20%"
   >
     <!-- 里面实现ai的功能 -->
-    <a-card class="ai-component-card" hoverable>
+    <a-card class="ai-component-card" hoverable title="AI功能">
+      <template #extra>
+        <a-button
+          :icon="h(CloseOutlined)"
+          shape="circle"
+          size="small"
+          type="text"
+          @click="handleClose"
+        ></a-button>
+      </template>
       <SideBarEditor v-if="show === 'text'" v-model:text="selection" />
       <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
       @change="handleFileTo64Base"></v-file-input> -->
@@ -279,7 +291,7 @@ button {
   box-shadow: 0 10px 10px #80d0c7;
 }
 
-$top: 220px;
+$top: 250px;
 .ai-component {
   height: calc(100vh - $top);
   margin-top: $top;
@@ -287,6 +299,6 @@ $top: 220px;
 }
 
 .ai-component-card {
-  height: calc(100vh - $top);
+  height: calc(100vh - $top - 30px);
 }
 </style>

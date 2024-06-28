@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-import { inject, type Ref } from 'vue'
-import { DownloadOutlined } from '@ant-design/icons-vue'
+import { inject, type Ref, ref } from 'vue'
+import { RobotOutlined } from '@ant-design/icons-vue'
 
 const rail = inject<Ref>('rail')
-
+const show = ref(true)
 const handleClick = () => {
-  rail.value = !rail.value
+  if (rail) {
+    rail.value = !rail.value
+  }
 }
 </script>
 <template>
-  <a-button shape="round" type="primary" @click="handleClick">
+  <a-float-button v-show="rail" tooltip="AI" type="primary" @click="handleClick">
     <template #icon>
-      <DownloadOutlined />
+      <RobotOutlined />
     </template>
-  </a-button>
+  </a-float-button>
 </template>

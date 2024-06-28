@@ -7,7 +7,7 @@
       >
         <MenuButtons :editor="editor" />
       </a-layout-header>
-      <a-layout-content :style="{ padding: '0 50px', marginTop: '230px' }">
+      <a-layout-content :style="{ padding: '0 50px', marginTop: '250px' }">
         <a-card class="editor-card">
           <editor-content :editor="editor" class="editor-code" />
         </a-card>
@@ -37,7 +37,7 @@ import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 import { createLowlight } from 'lowlight'
-// 自定义插件
+import FontFamily from '@tiptap/extension-font-family'
 import Iframe from './extensions/iframe'
 import Images from './extensions/image'
 import Video from './extensions/video'
@@ -70,6 +70,7 @@ const editor = useEditor({
     Images,
     Iframe,
     FontSize,
+    FontFamily,
     Color,
     TextStyle,
     CodeBlockLights.configure({ lowlight }),
@@ -120,7 +121,7 @@ onBeforeUnmount(() => {
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  min-height: calc(100vh - 260px);
+  min-height: calc(100vh - 280px);
   max-width: 60%;
 }
 </style>

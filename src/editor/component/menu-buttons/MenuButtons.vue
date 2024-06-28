@@ -5,27 +5,40 @@
     bodyStyle="padding: 0px"
     @tabChange="(key) => onTabChange(key, 'key')"
     class="editor-menu"
-    hoverable="true"
+    hoverable
     title="编辑器"
   >
+    <template #extra>
+      <div style="display: flex; flex-direction: row">
+        <ToolButton :desserts="tools" :editor="editor" />
+      </div>
+    </template>
     <div class="editor-tools">
+      <LinkButton v-show="key === 'tab2'" :editor="editor" />
+      <FontSize v-show="key === 'tab1'" v-model="font_s" :editor="editor" />
+      <FontFamily v-show="key === 'tab1'" v-model="font_f" :editor="editor" />
       <HeaderButton v-show="key === 'tab1'" v-model="title" :editor="editor" />
       <ToolButton :desserts="contentList[key]" :editor="editor" />
       <ImageButton v-show="key === 'tab2'" :editor="editor" />
       <VideoButton v-show="key === 'tab2'" :editor="editor" />
       <PdfButton v-show="key === 'tab2'" :editor="editor" />
       <TableButton v-show="key === 'tab2'" :editor="editor" />
-      <FontColor v-show="key === 'tab1'" :editor="editor" />
-      <BgColor v-show="key === 'tab1'" :editor="editor" />
-      <LinkButton v-show="key === 'tab1'" :editor="editor" />
-      <fontSize v-show="key === 'tab1'" v-model="fontSize" :editor="editor" />
+      <FontColor v-show="key === 'tab3'" :editor="editor" placement="bottom" />
+      <BgColor v-show="key === 'tab3'" :editor="editor" />
 
-      <bubble-menu v-if="editor" :editor="editor" :tippy-options="{ duration: 100 }">
-        <div v-if="activeMenu === true" class="bubble-menu_wrap">
-          <fontSize v-show="key === 'tab1'" v-model="fontSize" :editor="editor" />
-          <FontColor :editor="editor" />
-          <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
-        </div>
+      <bubble-menu
+        v-if="editor"
+        :editor="editor"
+        :tippy-options="{ duration: 100, arrow: false, zIndex: 0 }"
+      >
+        <a-card class="editor-bubble" hoverable size="small">
+          <div v-if="activeMenu === true" class="bubble-menu_wrap">
+            <FontSize v-show="key === 'tab1'" v-model="font_s" :editor="editor" />
+            <FontFamily v-show="key === 'tab1'" v-model="font_f" :editor="editor" />
+            <FontColor :editor="editor" placement="left" />
+            <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
+          </div>
+        </a-card>
       </bubble-menu>
     </div>
   </a-card>
@@ -68,14 +81,17 @@ import LinkButton from './link-button.vue'
 import FontColor from './font-color.vue'
 import BgColor from './bg-color.vue'
 
-import { provide, type Ref, watch, onMounted } from 'vue'
-import { defineComponent, inject, reactive, ref } from 'vue'
+import { type Ref, watch, onMounted } from 'vue'
+import { inject, reactive, ref } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
-import { fontSizeOptions, headingFontSize } from '@/utils/constant'
+import { fontFamilyOptions, fontSizeOptions, headingFontSize } from '@/utils/constant'
+
+import FontFamily from '@/editor/component/menu-buttons/font-family.vue'
 import FontSize from '@/editor/component/menu-buttons/font-size.vue'
 
 const props = defineProps(['editor'])
-const fontSize = ref(16)
+const font_s = ref(16)
+const font_f = ref('Poppins')
 const activeMenu = ref(false)
 const title = ref(0)
 const isFullScreen = inject('isFullScreen')
@@ -88,7 +104,13 @@ const getFontSize = () => {
     props.editor.isActive('textStyle', { fontSize: `${option.value}px` })
   )
 
-  fontSize.value = activeFontSizeOption ? activeFontSizeOption.value : headingFontSize[title.value]
+  font_s.value = activeFontSizeOption ? activeFontSizeOption.value : headingFontSize[title.value]
+}
+const getFontFamily = () => {
+  const activeFontFamilyOption = fontFamilyOptions.find((option) =>
+    props.editor.isActive('textStyle', { fontFamily: option.value })
+  )
+  font_f.value = activeFontFamilyOption ? activeFontFamilyOption.value : 'Poppins'
 }
 const getHeadingLevel = () => {
   const activeHeadingLevel = [...Array(7).keys()]
@@ -107,97 +129,6 @@ const editMenuTools = reactive([
     tip: '粗体',
     active: false
   },
-  {
-    name: 'underline',
-    component: UnderlineOutlined,
-    click() {
-      props.editor.chain().focus().toggleUnderline().run()
-    },
-    tip: '下划线',
-    active: false
-  },
-  {
-    name: 'italic',
-    component: ItalicOutlined,
-    tip: '斜体',
-    click() {
-      props.editor.chain().focus().toggleItalic().run()
-    },
-    active: false
-  }
-])
-const bubbleMenuTools = reactive([
-  {
-    name: 'bold',
-    component: BoldOutlined,
-    click() {
-      props.editor.chain().focus().toggleBold().run()
-    },
-    tip: '粗体',
-    active: false
-  },
-  {
-    name: 'strike',
-    component: StrikethroughOutlined,
-    click() {
-      props.editor.chain().focus().toggleStrike().run()
-    },
-    tip: '删除线',
-    active: false
-  },
-  {
-    name: 'ClearOutlined',
-    component: ClearOutlined,
-    tip: '清除格式',
-    click() {
-      props.editor.chain().focus().clearNodes().unsetAllMarks().run()
-    },
-    active: false
-  },
-  {
-    name: 'SendToAI',
-    component: RobotOutlined,
-    tip: 'AI功能',
-    click() {
-      console.log(getHTMLFromSelection(props.editor, props.editor.state.selection))
-      if (selection && rail) {
-        selection.value = getHTMLFromSelection(props.editor, props.editor.state.selection)
-
-        rail.value = false
-      }
-    }
-  }
-])
-
-const editorTools = reactive([
-  {
-    name: 'unsetlink',
-    component: DisconnectOutlined,
-    tip: '取消链接',
-    click() {
-      props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
-    },
-    active: false
-  },
-  {
-    name: 'blockquote',
-    component: BlockOutlined,
-    click() {
-      props.editor.chain().focus().toggleBlockquote().run()
-    },
-    tip: '引用',
-    active: false
-  },
-  {
-    name: 'codeBlock',
-    component: CodeOutlined,
-    click() {
-      props.editor.chain().focus().toggleCodeBlock().run()
-    },
-    tip: '代码块',
-    active: false
-  },
-
   {
     name: 'underline',
     component: UnderlineOutlined,
@@ -278,17 +209,9 @@ const editorTools = reactive([
       props.editor.chain().focus().outdent().run()
     },
     active: false
-  },
-  {
-    name: 'MinusOutlined',
-    component: MinusOutlined,
-    tip: '水平线',
-    click() {
-      props.editor.chain().focus().setHorizontalRule().run()
-    },
-    active: false
-  },
-  ...bubbleMenuTools,
+  }
+])
+const tools = reactive([
   {
     name: 'UndoOutlined',
     component: UndoOutlined,
@@ -306,12 +229,87 @@ const editorTools = reactive([
       props.editor.chain().focus().redo().run()
     },
     active: false
+  }
+])
+const bubbleMenuTools = reactive([
+  {
+    name: 'bold',
+    component: BoldOutlined,
+    click() {
+      props.editor.chain().focus().toggleBold().run()
+    },
+    tip: '粗体',
+    active: false
   },
   {
-    name: 'ExpandOutlined',
-    component: ExpandOutlined,
-    tip: '全屏',
-    click: toggleFullscreen,
+    name: 'strike',
+    component: StrikethroughOutlined,
+    click() {
+      props.editor.chain().focus().toggleStrike().run()
+    },
+    tip: '删除线',
+    active: false
+  },
+  {
+    name: 'ClearOutlined',
+    component: ClearOutlined,
+    tip: '清除格式',
+    click() {
+      props.editor.chain().focus().clearNodes().unsetAllMarks().run()
+    },
+    active: false
+  },
+  {
+    name: 'SendToAI',
+    component: RobotOutlined,
+    tip: 'AI功能',
+    click() {
+      if (selection && rail) {
+        selection.value = getHTMLFromSelection(props.editor, props.editor.state.selection)
+
+        rail.value = false
+      }
+    }
+  }
+])
+
+const editorTools = reactive([
+  {
+    name: 'blockquote',
+    component: BlockOutlined,
+    click() {
+      props.editor.chain().focus().toggleBlockquote().run()
+    },
+    tip: '引用',
+    active: false
+  },
+  {
+    name: 'codeBlock',
+    component: CodeOutlined,
+    click() {
+      props.editor.chain().focus().toggleCodeBlock().run()
+    },
+    tip: '代码块',
+    active: false
+  }
+])
+const insertMenuTools = reactive([
+  {
+    name: 'unsetlink',
+    component: DisconnectOutlined,
+    tip: '取消链接',
+    click() {
+      props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
+    },
+    active: false
+  },
+  {
+    name: 'MinusOutlined',
+    component: MinusOutlined,
+    tip: '水平线',
+    click() {
+      props.editor.chain().focus().setHorizontalRule().run()
+    },
     active: false
   }
 ])
@@ -323,12 +321,17 @@ const tabList = [
   },
   {
     key: 'tab2',
-    tab: 'tab2'
+    tab: '插入'
+  },
+  {
+    key: 'tab3',
+    tab: '工具'
   }
 ]
 const contentList = {
   tab1: editMenuTools,
-  tab2: editorTools
+  tab2: insertMenuTools,
+  tab3: editorTools
 }
 
 const key = ref('tab1')
@@ -358,24 +361,25 @@ onMounted(() => {
   props.editor.on('transaction', () => {
     getHeadingLevel()
     getFontSize()
+    getFontFamily()
   })
 })
 </script>
 
-<style lang="scss" scoped>
-.bubble-menu_wrap {
-  display: flex;
-  border-radius: 3px;
-  background-color: #fff;
-  padding: 2px 5px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
-}
-
-.bubble-menu_wrap:hover {
-  background-color: #d9afd9;
-  background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
-}
+<style lang="scss">
+//.bubble-menu_wrap {
+//  display: flex;
+//  border-radius: 3px;
+//  background-color: #fff;
+//  padding: 2px 5px;
+//  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+//}
+//
+//.bubble-menu_wrap:hover {
+//  background-color: #d9afd9;
+//  background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
+//  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+//}
 // .btn:hover{
 //   height: 30px;
 //   width: 60px;
@@ -384,9 +388,27 @@ onMounted(() => {
 //   color: rgb(56, 97, 230);
 
 // }
-.bubble-menu_wrap:active {
-  background-color: #0093e9;
-  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
-  box-shadow: 0 0 3px rgba(128, 208, 199, 0.15);
+//.bubble-menu_wrap:active {
+//  background-color: #0093e9;
+//  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+//  box-shadow: 0 0 3px rgba(128, 208, 199, 0.15);
+//}
+
+.ant-select-selector {
+  height: 40px !important;
+}
+
+.ant-select {
+  margin: 2px !important;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
+//.editor-bubble {
+//  position: relative;
+//  z-index: 0;
+//}
+#tippy-1 {
+  z-index: 0 !important;
 }
 </style>

@@ -51,3 +51,33 @@ export const headingFontSize: Record<number, number> = {
   4: 20,
   5: 18.7
 }
+
+
+export const fontFamilyOptions = [
+  { value: 'Poppins', label: 'Poppins' },
+  { value: 'Arial', label: 'Arial' },
+  { value: 'Georgia', label: 'Georgia' },
+  { value: 'Impact', label: 'Impact' },
+  { value: 'Tahoma', label: 'Tahoma' },
+  { value: 'Times New Roman', label: 'Times New Roman' },
+  { value: 'Verdana', label: 'Verdana' },
+  { value: 'Microsoft YaHei', label: '微软雅黑' },
+  { value: 'SimSun', label: '宋体' },
+  { value: 'SimHei', label: '黑体' },
+  { value: 'FangSong', label: '仿宋' },
+  { value: 'KaiTi', label: '楷体' },
+  { value: 'LiSu', label: '隶书' },
+  { value: 'YouYuan', label: '幼圆' },
+  { value: 'STXihei', label: '华文细黑' },
+  { value: 'STKaiti', label: '华文楷体' },
+  { value: 'STSong', label: '华文宋体' },
+  { value: 'STZhongsong', label: '华文中宋' },
+  { value: 'STFangsong', label: '华文仿宋' },
+  { value: 'FZShuTi', label: '方正舒体' },
+  { value: 'FZYaoti', label: '方正姚体' },
+  { value: 'STCaiyun', label: '华文彩云' },
+  { value: 'STHupo', label: '华文琥珀' },
+  { value: 'STLiti', label: '华文隶书' },
+  { value: 'STXingkai', label: '华文行楷' },
+  { value: 'STXinwei', label: '华文新魏' }
+]

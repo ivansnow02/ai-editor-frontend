@@ -2,7 +2,7 @@
   <div>
     <a-tooltip placement="top">
       <template #title>
-        <span>标题</span>
+        <span>字体</span>
       </template>
       <div class="header_button">
         <a-select v-model:value="title" @change="handleChange">
@@ -37,31 +37,3 @@ const handleChange = (value: number) => {
 //   console.log(`selected ${value}`)
 // }
 </script>
-
-<style lang="scss" scoped>
-.header_button {
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  align-items: center;
-  border-radius: 50%;
-  color: #303133;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  height: 40px;
-  margin: 2px;
-  outline: 0;
-  width: 75px;
-  box-sizing: border-box;
-
-  &--title {
-    font-size: 17px;
-  }
-}
-
-::v-deep .ant-select-selector {
-  width: 100%;
-  border: 1px solid #eee !important;
-  border-radius: 5px !important;
-}
-</style>
