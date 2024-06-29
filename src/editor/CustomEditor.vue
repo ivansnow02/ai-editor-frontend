@@ -43,6 +43,7 @@ import Images from './extensions/image'
 import Video from './extensions/video'
 import CustomTableCell from './extensions/table'
 import Indent from './extensions/indent'
+import Audio from './extensions/audio'
 
 import { useEditorStore } from '@/stores/editor'
 
@@ -71,6 +72,7 @@ const editor = useEditor({
     Iframe,
     FontSize,
     FontFamily,
+    Audio,
     Color,
     TextStyle,
     CodeBlockLights.configure({ lowlight }),

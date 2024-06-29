@@ -47,7 +47,7 @@ const beforeUpload = async (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   const isPDF = file.type === 'application/pdf'
   const isPhoto = isJpgOrPng || file.type === 'image/gif' || file.type === 'image/webp'
-
+  const isAudio = file.type === 'audio/mp3' || file.type === 'audio/wav'
   const reg = new RegExp(fileType, 'ig')
   if (!reg.test(file.type)) {
     message.error('请上传视频格式文件')
@@ -58,7 +58,7 @@ const beforeUpload = async (file) => {
     console.log('pic')
   }
 
-  if (isVideoType || isPDF) {
+  if (isVideoType || isPDF || isAudio) {
     const imgBase64 = await _getBase64(file)
     emit('emitUpload', { url: imgBase64 })
   }

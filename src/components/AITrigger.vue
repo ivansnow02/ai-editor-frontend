@@ -3,7 +3,7 @@ import { inject, type Ref, ref } from 'vue'
 import { RobotOutlined } from '@ant-design/icons-vue'
 
 const rail = inject<Ref>('rail')
-const show = ref(true)
+const rail2 = ref(true)
 const handleClick = () => {
   if (rail) {
     rail.value = !rail.value

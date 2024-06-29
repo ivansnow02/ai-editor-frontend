@@ -25,7 +25,7 @@
       <TableButton v-show="key === 'tab2'" :editor="editor" />
       <FontColor v-show="key === 'tab3'" :editor="editor" placement="bottom" />
       <BgColor v-show="key === 'tab3'" :editor="editor" />
-
+      <AudioButton v-show="key === 'tab2'" :editor="editor" />
       <bubble-menu
         v-if="editor"
         :editor="editor"
@@ -33,8 +33,8 @@
       >
         <a-card class="editor-bubble" hoverable size="small">
           <div v-if="activeMenu === true" class="bubble-menu_wrap">
-            <FontSize v-show="key === 'tab1'" v-model="font_s" :editor="editor" />
-            <FontFamily v-show="key === 'tab1'" v-model="font_f" :editor="editor" />
+            <FontSize v-model="font_s" :editor="editor" />
+            <FontFamily v-model="font_f" :editor="editor" />
             <FontColor :editor="editor" placement="left" />
             <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
           </div>
@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { BubbleMenu } from '@tiptap/vue-3'
-import ToolButton from './tool-button.vue'
+import ToolButton from './ToolButtom.vue'
 import { AllSelection, TextSelection } from '@tiptap/pm/state'
 
 import {
@@ -72,22 +72,23 @@ import {
   UndoOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons-vue'
-import HeaderButton from './header-button.vue'
-import ImageButton from './image-button.vue'
-import VideoButton from './video-button.vue'
-import PdfButton from './pdf-button.vue'
-import TableButton from './table-button.vue'
-import LinkButton from './link-button.vue'
-import FontColor from './font-color.vue'
-import BgColor from './bg-color.vue'
+import HeaderButton from './HeaderButton.vue'
+import ImageButton from './ImageButton.vue'
+import VideoButton from './VideoButton.vue'
+import PdfButton from './PDFButton.vue'
+import TableButton from './TableButton.vue'
+import LinkButton from './LinkButton.vue'
+import FontColor from './FontColor.vue'
+import BgColor from './BgColor.vue'
 
 import { type Ref, watch, onMounted } from 'vue'
 import { inject, reactive, ref } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
 import { fontFamilyOptions, fontSizeOptions, headingFontSize } from '@/utils/constant'
 
-import FontFamily from '@/editor/component/menu-buttons/font-family.vue'
-import FontSize from '@/editor/component/menu-buttons/font-size.vue'
+import FontFamily from '@/editor/component/menu-buttons/FontFamily.vue'
+import FontSize from '@/editor/component/menu-buttons/FontSize.vue'
+import AudioButton from '@/editor/component/menu-buttons/AudioButton.vue'
 
 const props = defineProps(['editor'])
 const font_s = ref(16)
