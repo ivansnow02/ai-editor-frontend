@@ -18,13 +18,13 @@
       <FontSize v-show="key === 'tab1'" v-model="font_s" :editor="editor" />
       <FontFamily v-show="key === 'tab1'" v-model="font_f" :editor="editor" />
       <HeaderButton v-show="key === 'tab1'" v-model="title" :editor="editor" />
+      <FontColor v-show="key === 'tab1'" :editor="editor" placement="bottom" />
+      <BgColor v-show="key === 'tab1'" :editor="editor" />
       <ToolButton :desserts="contentList[key]" :editor="editor" />
       <ImageButton v-show="key === 'tab2'" :editor="editor" />
       <VideoButton v-show="key === 'tab2'" :editor="editor" />
       <PdfButton v-show="key === 'tab2'" :editor="editor" />
       <TableButton v-show="key === 'tab2'" :editor="editor" />
-      <FontColor v-show="key === 'tab3'" :editor="editor" placement="bottom" />
-      <BgColor v-show="key === 'tab3'" :editor="editor" />
       <AudioButton v-show="key === 'tab2'" :editor="editor" />
       <bubble-menu
         v-if="editor"
