@@ -2,7 +2,7 @@
   <a-card
     :active-tab-key="key"
     :tab-list="tabList"
-    bodyStyle="padding: 0px"
+    bodyStyle="padding: 0px;display: flex;flex-wrap: nowrap;overflow-x: auto;"
     @tabChange="(key) => onTabChange(key, 'key')"
     class="editor-menu"
     hoverable
