@@ -146,6 +146,9 @@ importers:
       vue:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
+      vue-audio-tapir:
+        specifier: ^1.6.1
+        version: 1.6.1(vue@3.4.27(typescript@5.4.5))
       vue-router:
         specifier: ^4.3.3
         version: 4.3.3(vue@3.4.27(typescript@5.4.5))
@@ -1536,6 +1539,10 @@ packages:
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
+
+  core-js@3.19.1:
+    resolution: {integrity: sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg==}
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
 
   core-js@3.37.1:
     resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
@@ -2945,6 +2952,11 @@ packages:
         optional: true
       jsdom:
         optional: true
+
+  vue-audio-tapir@1.6.1:
+    resolution: {integrity: sha512-ISuGVsFclPqp8SvFARt//fbaChkdGK5ogQnuGiinlNyQNBzwEMd9uh1P3Lm63ttwxvIJ00HxbfKWLsPcv6eUpA==}
+    peerDependencies:
+      vue: ^3.2.39
 
   vue-component-type-helpers@2.0.19:
     resolution: {integrity: sha512-cN3f1aTxxKo4lzNeQAkVopswuImUrb5Iurll9Gaw5cqpnbTAxtEMM1mgi6ou4X79OCyqYv1U1mzBHJkzmiK82w==}
@@ -4508,6 +4520,8 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
+  core-js@3.19.1: {}
+
   core-js@3.37.1: {}
 
   crelt@1.0.6: {}
@@ -6032,6 +6046,11 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+
+  vue-audio-tapir@1.6.1(vue@3.4.27(typescript@5.4.5)):
+    dependencies:
+      core-js: 3.19.1
+      vue: 3.4.27(typescript@5.4.5)
 
   vue-component-type-helpers@2.0.19: {}
 

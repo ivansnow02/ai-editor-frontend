@@ -3,7 +3,7 @@
     <a-popover placement="bottom" trigger="click">
       <template #content>
         <ul class="dropdown">
-          <li class="dropdown__opeartion" @click="insertRef.showModal()">插入网络音频</li>
+          <li class="dropdown__opeartion" @click="insertRef.showModal()">录制音频</li>
           <li class="dropdown__opeartion" @click="uploadRef.showModal()">上传本地音频</li>
         </ul>
       </template>
@@ -16,7 +16,7 @@
         </div>
       </a-tooltip>
     </a-popover>
-    <InsertAudio
+    <RecordModal
       ref="insertRef"
       :options="{ title: '网络音频URL', headers }"
       @emitInsert="handleEmit"
@@ -34,7 +34,7 @@ import { ref } from 'vue'
 import { AudioOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { validateUrl } from '@/utils/pattern.ts'
 
-import InsertAudio from './insert-model/index.vue'
+import RecordModal from '@/editor/component/menu-buttons/RecordModal.vue'
 import UploadAudio from './upload-model/index.vue'
 
 const emit = defineEmits(['emitAudio'])

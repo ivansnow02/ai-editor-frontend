@@ -61,6 +61,7 @@
     "tiptap-extension-font-size": "^1.2.0",
     "tiptap-extension-image-upload": "^0.1.6",
     "vue": "^3.4.21",
+    "vue-audio-tapir": "^1.6.1",
     "vue-router": "^4.3.3",
     "vuetify": "^3.6.10",
     "vuetify-pro-tiptap": "^2.5.2"
