@@ -13,14 +13,7 @@ const jump = () => {
 
 
 
-  <v-sheet 
-  :elevation="18" 
-  :height="768" 
-  :width="1500" 
-  right:100
-  opacity: .10
-  
-  >
+  <v-sheet>
   <div class="box1">
       <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr" class="g-glossy" >
         
@@ -68,7 +61,6 @@ const jump = () => {
   background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
 } */
 .g-glossy {
-    position: fixed;
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 15px;
