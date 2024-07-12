@@ -3,6 +3,7 @@ import CustomEditor from '@/editor/CustomEditor.vue'
 import AppMenu from '@/components/AppMenu.vue'
 import AIComponent from '@/components/AIComponent.vue'
 import { provide, ref } from 'vue'
+import AIFormatComponent from '@/components/AIFormatComponent.vue'
 
 const ocrURL = ref('')
 const TiptapRef = ref<null | Record<string, any>>(null)
@@ -31,6 +32,7 @@ provide('rail', rail)
         <CustomEditor></CustomEditor>
       </a-layout-content>
       <AIComponent></AIComponent>
+      <AIFormatComponent></AIFormatComponent>
     </a-layout>
   </a-layout>
 </template>
