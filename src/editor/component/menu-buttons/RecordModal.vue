@@ -3,6 +3,8 @@ import {ref} from "vue";
 const open = ref(false)
 import TapirWidget from 'vue-audio-tapir';
 import 'vue-audio-tapir/dist/vue-audio-tapir.css';
+import { _getBase64 } from '@/utils'
+const emit = defineEmits(['emitInsert'])
 const showModal = () => {
   open.value = true
 }
@@ -10,6 +12,17 @@ const showModal = () => {
 const closeModal = () => {
   open.value = false
 }
+
+const handleEmit = async (data: any) => {
+  const isAudio = data.type === 'audio/mp3' || data.type === 'audio/wav'
+  const base64Url = await _getBase64(data)
+  if (isAudio) {
+    emit('emitInsert', { url: base64Url })
+  }
+
+}
+
+
 
 defineExpose({
   showModal,
@@ -19,7 +32,7 @@ defineExpose({
 
 <template>
   <a-modal v-model:open="open">
-    <tapir-widget :time="2" backendEndpoint="https://your-endpoint.com/.netlify/functions/audio-message"
+    <tapir-widget :time="2" :customUpload="handleEmit"
                   buttonColor="green"/>
   </a-modal>
 </template>

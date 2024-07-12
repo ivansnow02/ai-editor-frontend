@@ -128,6 +128,9 @@ importers:
       json-editor-vue:
         specifier: ^0.15.1
         version: 0.15.1(@lezer/common@1.2.1)(vue@3.4.27(typescript@5.4.5))
+      lamejs:
+        specifier: ^1.2.1
+        version: 1.2.1
       lowlight:
         specifier: ^3.1.0
         version: 3.1.0
@@ -146,6 +149,9 @@ importers:
       vue:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
+      vue-audio-recorder:
+        specifier: ^3.0.1
+        version: 3.0.1
       vue-audio-tapir:
         specifier: ^1.6.1
         version: 1.6.1(vue@3.4.27(typescript@5.4.5))
@@ -2128,6 +2134,9 @@ packages:
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
+  lamejs@1.2.1:
+    resolution: {integrity: sha512-s7bxvjvYthw6oPLCm5pFxvA84wUROODB8jEO2+CE1adhKgrIvVOlmMgY8zyugxGrvRaDHNJanOiS21/emty6dQ==}
+
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -2860,6 +2869,9 @@ packages:
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
+  use-strict@1.0.1:
+    resolution: {integrity: sha512-IeiWvvEXfW5ltKVMkxq6FvNf2LojMKvB2OCeja6+ct24S1XOmQw2dGr2JyndwACWAGJva9B7yPHwAmeA9QCqAQ==}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -2952,6 +2964,9 @@ packages:
         optional: true
       jsdom:
         optional: true
+
+  vue-audio-recorder@3.0.1:
+    resolution: {integrity: sha512-qTEs5k0ewqyTzMTnffAnSAJW4NicQg2pQTonZtwwNnKjub34xKVt4gFTz+NPrL61KNQBZKEMQbEmwDrBmiPcOg==}
 
   vue-audio-tapir@1.6.1:
     resolution: {integrity: sha512-ISuGVsFclPqp8SvFARt//fbaChkdGK5ogQnuGiinlNyQNBzwEMd9uh1P3Lm63ttwxvIJ00HxbfKWLsPcv6eUpA==}
@@ -5153,6 +5168,10 @@ snapshots:
 
   kolorist@1.8.0: {}
 
+  lamejs@1.2.1:
+    dependencies:
+      use-strict: 1.0.1
+
   levn@0.4.1:
     dependencies:
       prelude-ls: 1.2.1
@@ -5899,6 +5918,8 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
+  use-strict@1.0.1: {}
+
   util-deprecate@1.0.2: {}
 
   vanilla-jsoneditor@0.23.5(@lezer/common@1.2.1):
@@ -6046,6 +6067,10 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+
+  vue-audio-recorder@3.0.1:
+    dependencies:
+      lamejs: 1.2.1
 
   vue-audio-tapir@1.6.1(vue@3.4.27(typescript@5.4.5)):
     dependencies:
