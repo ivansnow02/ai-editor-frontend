@@ -53,12 +53,12 @@ const beforeUpload = async (file) => {
     message.error('请上传视频格式文件')
     return false
   }
-  if (isPhoto) {
-    // const response = await uploadImg(file)
-    console.log('pic')
-  }
+  // if (isPhoto) {
+  //   // const response = await uploadImg(file)
+  //   console.log('pic')
+  // }
 
-  if (isVideoType || isPDF || isAudio) {
+  if (isVideoType || isPDF || isAudio || isPhoto) {
     const imgBase64 = await _getBase64(file)
     emit('emitUpload', { url: imgBase64 })
   }

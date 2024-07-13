@@ -181,7 +181,6 @@ const handleClose = () => {
         </p>
       </a-upload-dragger>
       <button class="btn" @click="generate">生成</button>
-      <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
       <!--    <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>-->
       <!--      <v-btn value="completion">补全</v-btn>-->
       <!--      <v-btn value="translate">翻译</v-btn>-->

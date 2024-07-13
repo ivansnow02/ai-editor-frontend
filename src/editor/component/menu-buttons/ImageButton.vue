@@ -3,10 +3,6 @@
     <a-popover placement="bottom" trigger="click">
       <template #content>
         <ul class="dropdown">
-          <li class="dropdown__opeartion" @click="insertRef.showModal()">
-            <PaperClipOutlined style="margin-right: 5px" />
-            插入URL
-          </li>
           <li class="dropdown__opeartion" @click="uploadRef.showModal()">
             <CloudUploadOutlined style="margin-right: 5px" />
             上传图片
@@ -28,6 +24,7 @@
       @emitInsert="handleEmit"
     >
     </InsertImage>
+    <!-- <UploadImg ref="uploadRef" :options="{ title: '上传图片' }" @emitUpload="handleEmit" /> -->
     <UploadImg ref="uploadRef" :options="{ title: '上传图片' }" @emitUpload="handleEmit" />
   </div>
 </template>
@@ -37,7 +34,7 @@ import { ref } from 'vue'
 import { CloudUploadOutlined, PaperClipOutlined, PictureOutlined } from '@ant-design/icons-vue'
 import { validateUrl } from '@/utils/pattern.ts'
 import InsertImage from './insert-model/index.vue'
-import UploadImg from './UploadImg.vue'
+import UploadImg from './upload-model/index.vue'
 
 const props = defineProps(['editor'])
 
@@ -56,12 +53,13 @@ const headers = [
 
 const insertRef = ref()
 const uploadRef = ref()
-const handleEmit = (fileList) => {
-  for (const file of fileList) {
-    if (file.url) {
-      props.editor.chain().focus().setImage({ src: file.url }).run()
-    }
-  }
+const handleEmit = ({url}) => {
+  // for (const file of fileList) {
+  //   if (file.url) {
+      
+  //   }
+  // }
+  props.editor.chain().focus().setImage({ src: url }).run()
   uploadRef.value.closeModal()
   insertRef.value.closeModal()
 }

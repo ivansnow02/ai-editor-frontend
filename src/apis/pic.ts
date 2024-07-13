@@ -10,14 +10,10 @@ export const uploadImg = (formData: FormData) => {
 
 export const getOCRResult = (img_path: string) => {
   return request({
-    url: `/api/img/ocr/?img_path=${encodeURIComponent(img_path)}`,
-    method: 'GET'
-  })
-}
-
-export const getImg = (pk: string) => {
-  return request({
-    url: `/api/img/${pk}`,
-    method: 'GET'
+    url: '/api/img/ocr',
+    data: {
+      img_b64: img_path
+    },
+    method: 'POST'
   })
 }

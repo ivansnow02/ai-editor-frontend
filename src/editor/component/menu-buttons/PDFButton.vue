@@ -3,10 +3,6 @@
     <a-popover placement="bottom" trigger="click">
       <template #content>
         <ul class="dropdown">
-          <li class="dropdown__opeartion" @click="insertRef.showModal()">
-            <DisconnectOutlined style="margin-right: 5px" />
-            插入网络PDF
-          </li>
           <li class="dropdown__opeartion" @click="insertLocalPdf">
             <CloudUploadOutlined style="margin-right: 5px" />
             上传本地PDF

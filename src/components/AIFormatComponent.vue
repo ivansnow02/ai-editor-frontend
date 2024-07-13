@@ -2,7 +2,6 @@
 import { h, ref, reactive, watch, type UnwrapRef } from 'vue'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { useEditorStore } from '@/stores/editor'
-import type { CascaderProps } from 'ant-design-vue';
 const lRail = ref(false)
 const handleClose = () => {
   lRail.value = true
