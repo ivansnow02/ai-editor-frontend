@@ -150,7 +150,8 @@ const handleClose = () => {
       marginRight: '5px'
     }" class="ai-component" width="20%">
     <!-- 里面实现ai的功能 -->
-    <a-card class="ai-component-card" hoverable title="AI功能" :style="{ overflow: 'auto' }" bodyStyle="padding: 10px;">
+    <a-card class="ai-component-card" hoverable title="AI功能" 
+      :bodyStyle="{ padding: '10px', overflow: 'auto', maxHeight: 'calc(100vh - 250px - 30px - 56px)'}">
       <template #extra>
         <a-button :icon=" h(CloseOutlined)" shape="circle" size="small" type="text" @click="handleClose"></a-button>
       </template>
@@ -271,4 +272,6 @@ $top: 250px;
 .ai-component-card {
   height: calc(100vh - $top - 30px);
 }
+
+
 </style>

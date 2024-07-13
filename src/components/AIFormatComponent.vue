@@ -99,7 +99,8 @@ const handleFormat = () => {
       bottom: 0,
       marginLeft: '5px'
     }" class="ai-component" width="20%">
-    <a-card class="ai-component-card" hoverable title="智能排版" :style="{overflow: 'auto'}" bodyStyle="padding: 0px;">
+    <a-card class="ai-component-card" hoverable title="智能排版"
+      :bodyStyle="{ padding: '0', overflow: 'auto', maxHeight: 'calc(100vh - 250px - 30px - 56px)' }">
       <template #extra>
         <a-button :icon="h(CloseOutlined)" shape="circle" size="small" type="text" @click="handleClose"></a-button>
       </template>
