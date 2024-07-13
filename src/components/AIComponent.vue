@@ -141,39 +141,24 @@ const handleClose = () => {
 </script>
 
 <template>
-  <a-layout-sider
-    :collapsed="rail"
-    :trigger="null"
-    collapsed-width="0"
-    collapsible
-    theme="light"
-    :style="{
+  <a-layout-sider :collapsed="rail" :trigger="null" collapsed-width="0" collapsible theme="light" :style="{
       overflow: 'auto',
       position: 'fixed',
       right: 0,
       top: 0,
       bottom: 0,
       marginRight: '5px'
-    }"
-    class="ai-component"
-    width="20%"
-  >
+    }" class="ai-component" width="20%">
     <!-- 里面实现ai的功能 -->
-    <a-card class="ai-component-card" hoverable title="AI功能">
+    <a-card class="ai-component-card" hoverable title="AI功能" :style="{ overflow: 'auto' }" bodyStyle="padding: 10px;">
       <template #extra>
-        <a-button
-          :icon="h(CloseOutlined)"
-          shape="circle"
-          size="small"
-          type="text"
-          @click="handleClose"
-        ></a-button>
+        <a-button :icon=" h(CloseOutlined)" shape="circle" size="small" type="text" @click="handleClose"></a-button>
       </template>
       <SideBarEditor v-if="show === 'text'" v-model:text="selection" />
       <!-- <v-file-input v-if="show === 'file'" clearable label="File input" variant="outlined"
       @change="handleFileTo64Base"></v-file-input> -->
       <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
-      <button class="btn" @click="generate">生成</button>
+
       <!--      <p></p>-->
       <!--      <v-btn-toggle v-model="toggle" color="primary" mandatory>-->
       <!--        <button class="btn" value="completion">补全</button>-->
@@ -185,21 +170,16 @@ const handleClose = () => {
       <!--      </v-btn-toggle>-->
       <!-- <v-select v-if="toggle=== 'translate'" v-model="selectedLang" :items="Lang" label="选择语言"></v-select> -->
 
-      <a-upload-dragger
-        v-if="show === 'file'"
-        v-model:fileList="fileList"
-        :customRequest="handleUpload"
-      >
+      <a-upload-dragger v-if="show === 'file'" v-model:fileList="fileList" :customRequest="handleUpload">
         <p class="ant-upload-drag-icon">
           <inbox-outlined></inbox-outlined>
         </p>
-        <p class="ant-upload-text">Click or drag file to this area to upload</p>
+        <p class="ant-upload-text">拖拽上传</p>
         <p class="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibit from uploading company data or
-          other band files
+          上传word、pdf、txt文件
         </p>
       </a-upload-dragger>
-
+      <button class="btn" @click="generate">生成</button>
       <a-image v-if="show === 'ocr'" :src="ocrURL"></a-image>
       <!--    <v-btn-toggle v-if="show !== 'ocr'" v-model="toggle" color="primary" mandatory>-->
       <!--      <v-btn value="completion">补全</v-btn>-->
@@ -223,18 +203,8 @@ const handleClose = () => {
       <!--      :items="Lang"-->
       <!--      label="选择语言"-->
       <!--    ></a-select>-->
-      <a-segmented
-        v-if="toggle === 'translate'"
-        v-model:value="selectedLang"
-        :options="Lang"
-        block
-      />
-      <a-segmented
-        v-if="toggle === 'polish'"
-        v-model:value="selectedStyle"
-        :options="Styles"
-        block
-      />
+      <a-segmented v-if="toggle === 'translate'" v-model:value="selectedLang" :options="Lang" block />
+      <a-segmented v-if="toggle === 'polish'" v-model:value="selectedStyle" :options="Styles" block />
       <!-- <v-select v-if="toggle === 'polish'" v-model="selectedStyle" :items="Styles" label="选择风格"></v-select> -->
 
       <!-- <VBtn class="mb-4" color="secondary" @click="Textcompletion()"> Completion </VBtn>
