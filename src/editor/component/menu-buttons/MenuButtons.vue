@@ -26,6 +26,7 @@
       <PdfButton v-show="key === 'tab2'" :editor="editor" />
       <TableButton v-show="key === 'tab2'" :editor="editor" />
       <AudioButton v-show="key === 'tab2'" :editor="editor" />
+      <AIFormatTrigger v-show="key === 'tab3'" />
       <bubble-menu
         v-if="editor"
         :editor="editor"
@@ -80,6 +81,7 @@ import TableButton from './TableButton.vue'
 import LinkButton from './LinkButton.vue'
 import FontColor from './FontColor.vue'
 import BgColor from './BgColor.vue'
+import AIFormatTrigger from './AIFormatTrigger.vue'
 
 import { type Ref, watch, onMounted } from 'vue'
 import { inject, reactive, ref } from 'vue'

@@ -6,13 +6,13 @@ import { provide, ref } from 'vue'
 import AIFormatComponent from '@/components/AIFormatComponent.vue'
 
 const ocrURL = ref('')
-const TiptapRef = ref<null | Record<string, any>>(null)
-provide('TiptapRef', TiptapRef)
 const selection = ref('')
 const rail = ref(true)
+const lRail = ref(true)
 provide('selection', selection)
 provide('ocrURL', ocrURL)
 provide('rail', rail)
+provide('lRail', lRail)
 </script>
 
 <template>

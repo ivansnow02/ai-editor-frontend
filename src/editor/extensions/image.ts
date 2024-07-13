@@ -53,8 +53,7 @@ const Images = TiptapImage.extend({
             dp = ImageDisplay.BREAK_TEXT
           } else {
             dp = ImageDisplay.INLINE
-          }
-
+          } 
           return dp
         },
         renderHTML: (attributes) => {

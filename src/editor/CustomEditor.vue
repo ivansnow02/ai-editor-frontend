@@ -50,12 +50,6 @@ import { useEditorStore } from '@/stores/editor'
 const lowlight = createLowlight()
 lowlight.register({ html, ts, css, js })
 
-const isFullScreen = ref(false)
-const toggleFullscreen = () => {
-  isFullScreen.value = !isFullScreen.value
-}
-provide('isFullScreen', isFullScreen.value)
-provide('toggleFullscreen', toggleFullscreen)
 const editorStore = useEditorStore()
 
 const valueHtml = ref('<p>I’m running Tiptap with Vue.js. 🎉</p>')
