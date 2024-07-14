@@ -2,7 +2,7 @@
   <a-card
     :active-tab-key="key"
     :tab-list="tabList"
-    bodyStyle="padding: 0px;display: flex;flex-wrap: nowrap;overflow-x: auto;"
+    :bodyStyle="{padding: '0',display: 'flex',flexWrap: 'nowrap',overflowX: 'auto'}"
     @tabChange="(key) => onTabChange(key, 'key')"
     class="editor-menu"
     hoverable
@@ -97,8 +97,6 @@ const font_s = ref(16)
 const font_f = ref('Poppins')
 const activeMenu = ref(false)
 const title = ref(0)
-const isFullScreen = inject('isFullScreen')
-const toggleFullscreen = inject('toggleFullscreen')
 const selection = inject<Ref>('selection')
 const rail = inject<Ref>('rail')
 
@@ -340,7 +338,6 @@ const contentList = {
 const key = ref('tab1')
 
 const onTabChange = (value: string, type: string) => {
-  console.log(value, type)
   if (type === 'key') {
     key.value = value
   }

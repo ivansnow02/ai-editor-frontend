@@ -9,6 +9,13 @@ export const getFileSummary = (formData: any) =>
     data: formData
   })
 
+export const getFormatGen = (formData: any) =>
+  request({
+    url: '/api/langserve/format/invoke',
+    method: 'POST',
+    data: formData
+  })
+
 /**
  * 发送一个 POST 请求到指定的端点，并建立一个服务器发送事件连接以接收流数据。
  *

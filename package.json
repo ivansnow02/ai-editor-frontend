@@ -22,6 +22,7 @@
     "@tiptap/extension-bullet-list": "^2.4.0",
     "@tiptap/extension-character-count": "^2.4.0",
     "@tiptap/extension-code-block-lowlight": "^2.4.0",
+    "@tiptap/extension-collaboration": "^2.4.0",
     "@tiptap/extension-color": "^2.4.0",
     "@tiptap/extension-document": "^2.4.0",
     "@tiptap/extension-font-family": "^2.4.0",
@@ -66,7 +67,9 @@
     "vue-audio-tapir": "^1.6.1",
     "vue-router": "^4.3.3",
     "vuetify": "^3.6.10",
-    "vuetify-pro-tiptap": "^2.5.2"
+    "vuetify-pro-tiptap": "^2.5.2",
+    "y-indexeddb": "^9.0.12",
+    "yjs": "^13.6.18"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",

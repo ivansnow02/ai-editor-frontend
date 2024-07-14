@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import MenuButtons from './component/menu-buttons/MenuButtons.vue'
-import { onBeforeUnmount, provide, ref, watch } from 'vue'
+import { onBeforeUnmount, onUpdated, provide, ref, watch, watchEffect } from 'vue'
 import CodeBlockLights from './extensions/code-block-light'
 import Highlight from '@tiptap/extension-highlight'
 import TiptapUnderline from '@tiptap/extension-underline'
@@ -51,10 +51,10 @@ const lowlight = createLowlight()
 lowlight.register({ html, ts, css, js })
 
 const editorStore = useEditorStore()
-
+const savedContent = localStorage.getItem('customEditorContent') || '<p>I’m running Tiptap with Vue.js. 🎉</p>';
 const valueHtml = ref('<p>I’m running Tiptap with Vue.js. 🎉</p>')
 const editor = useEditor({
-  content: valueHtml.value,
+  content: savedContent,
   extensions: [
     Highlight.configure({
       multicolor: true
@@ -87,15 +87,17 @@ const editor = useEditor({
   autofocus: 'end'
 })
 
-watch(
-  editor,
-  (newVal) => {
-    if (newVal) {
-      editorStore.setEditorRef(newVal)
-    }
-  },
-  { immediate: true }
-)
+watchEffect(() => {
+  if (editor.value) {
+    editorStore.setEditorRef(editor.value);
+    // 监听编辑器内容变化并保存到 localStorage
+    editor.value.on('update', () => {
+      if (editor.value) {
+        localStorage.setItem('customEditorContent', editor.value.getHTML());
+      }
+    });
+  }
+});
 onBeforeUnmount(() => {
   editor.value?.destroy()
 })

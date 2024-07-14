@@ -4,7 +4,6 @@ export const Alignment = {
   left: 'left',
   center: 'center',
   right: 'right',
-  justify: 'justify'
 }
 
 export const DEFAULT_IMAGE_WIDTH = 200
@@ -81,3 +80,88 @@ export const fontFamilyOptions = [
   { value: 'STXingkai', label: '华文行楷' },
   { value: 'STXinwei', label: '华文新魏' }
 ]
+
+export type FormatType = {
+  [key: string]: {
+    fontSize?: string
+    fontFamily?: string
+    lineHeight?: string
+    width?: number
+    display?: string
+    height?: number | null
+    alignment?: string
+    bold?: boolean
+  }
+  h0: { fontSize: string; fontFamily: string; alignment: string; bold: boolean }
+  h1: { fontSize: string; fontFamily: string; alignment: string; bold: boolean }
+  h2: { fontSize: string; fontFamily: string; alignment: string; bold: boolean }
+  h3: { fontSize: string; fontFamily: string; alignment: string; bold: boolean }
+  h4: { fontSize: string; fontFamily: string; alignment: string; bold: boolean }
+  h5: { fontSize: string; fontFamily: string; alignment: string; bold: boolean }
+}
+
+export const BaseFormatOptions: FormatType = {
+  h0: {
+    fontSize: '小四',
+    fontFamily: 'Poppins',
+    alignment: 'left',
+    bold: false
+  },
+  h1: {
+    fontSize: '二号',
+    fontFamily: 'Poppins',
+    alignment: 'left',
+    bold: false
+  },
+  h2: {
+    fontSize: '小二',
+    fontFamily: 'Poppins',
+    alignment: 'left',
+    bold: false
+  },
+  h3: {
+    fontSize: '三号',
+    fontFamily: 'Poppins',
+    alignment: 'left',
+    bold: false
+  },
+  h4: {
+    fontSize: '小三',
+    fontFamily: 'Poppins',
+    alignment: 'left',
+    bold: false
+  },
+  h5: {
+    fontSize: '四号',
+    fontFamily: 'Poppins',
+    alignment: 'left',
+    bold: true
+  }
+}
+export const essayFormatOptions: FormatType = {
+  ...BaseFormatOptions,
+  h0: {
+    fontSize: '小四',
+    fontFamily: '华文宋体',
+    alignment: 'left',
+    bold: false
+  },
+  h1: {
+    fontSize: '小三',
+    fontFamily: '黑体',
+    alignment: 'center',
+    bold: false
+  },
+  h2: {
+    fontSize: '四号',
+    fontFamily: '黑体',
+    alignment: 'left',
+    bold: false
+  },
+  h3: {
+    fontSize: '小四',
+    fontFamily: '华文宋体',
+    alignment: 'left',
+    bold: true
+  }
+}
