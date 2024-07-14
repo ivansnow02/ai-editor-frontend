@@ -1,6 +1,7 @@
 import { request } from '@/utils/request'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
-import { getToken } from '@/utils/token'
+import { getToken, removeToken } from '@/utils/token'
+import { router } from '@/router';
 
 export const getFileSummary = (formData: any) =>
   request({
@@ -36,9 +37,13 @@ export const getStream = async (formData: any, func: string, onMessage: Function
         onMessage(JSON.parse(event.data).content)
       }
     },
-    onerror: (event) => {
+    onerror: (error) => {
       // 关闭连接
-      event.target.close()
+      if (error.response.status === 401) {
+        removeToken()
+        router.push('/login').then(() => window.location.reload())
+      }
+      
     }
   })
 }

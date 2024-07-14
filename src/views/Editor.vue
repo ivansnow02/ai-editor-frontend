@@ -4,7 +4,7 @@ import AppMenu from '@/components/AppMenu.vue'
 import AIComponent from '@/components/AIComponent.vue'
 import { provide, ref } from 'vue'
 import AIFormatComponent from '@/components/AIFormatComponent.vue'
-
+import AITrigger from '@/components/AITrigger.vue'
 const ocrURL = ref('')
 const selection = ref('')
 const rail = ref(true)
@@ -25,7 +25,6 @@ provide('lRail', lRail)
     <!--      <v-spacer></v-spacer>-->
     <!--    </v-container>-->
     <!--  </v-app-bar>-->
-    <AppMenu></AppMenu>
 
     <a-layout>
       <a-layout-content>
@@ -33,6 +32,7 @@ provide('lRail', lRail)
       </a-layout-content>
       <AIComponent></AIComponent>
       <AIFormatComponent></AIFormatComponent>
+      <AITrigger></AITrigger>
     </a-layout>
   </a-layout>
 </template>

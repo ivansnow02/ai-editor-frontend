@@ -1,9 +1,8 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { authFunc } from '@/apis/auth'
 import { setToken } from '@/utils/token'
-
+import { useRouter } from 'vue-router'
 const Username = ref('')
 const Password = ref('')
 const formData = new FormData()
@@ -28,6 +27,7 @@ const Login = () => {
   authFunc(formData, 'token').then((res) => {
     setToken(res.access_token)
     // isActive.value = false
+    router.push('/')
   })
 }
 </script>

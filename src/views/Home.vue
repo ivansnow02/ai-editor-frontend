@@ -1,10 +1,9 @@
 <script setup>
 import regist from '@/components/regist.vue';
 import Login from '@/components/Login.vue';
-import { useRouter } from 'vue-router';
-const router = useRouter();
+import {router} from '@/router/index';
 const jump = () => {
-  router.push("/editor");
+  router.push("/");
 }
 
 </script>

@@ -54,7 +54,6 @@ const editor = useEditor({
   autofocus: 'end'
 })
 watch(text, (newVal) => {
-  console.log('newVal', newVal)
   editor.value?.chain().setContent(newVal).run()
 })
 watch(

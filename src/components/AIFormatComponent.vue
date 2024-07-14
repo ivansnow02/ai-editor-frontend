@@ -191,7 +191,7 @@ const text = ref('')
     <a-card class="ai-component-card" hoverable title="智能排版" :bodyStyle="{
         padding: '0',
         overflow: 'auto',
-        maxHeight: 'calc(100vh - 250px - 30px - 56px)'
+        maxHeight: 'calc(100vh - 190px - 30px - 56px)'
       }">
       <template #extra>
         <a-button :icon="h(CloseOutlined)" shape="circle" size="small" type="text" @click="handleClose"></a-button>
@@ -231,7 +231,7 @@ const text = ref('')
 </template>
 
 <style scoped lang="scss">
-$top: 250px;
+$top: 190px;
 
 .ai-component {
   height: calc(100vh - $top);
@@ -250,7 +250,7 @@ $top: 250px;
 
 <style lang="scss">
 .format-container {
-  height: calc(100vh - 250px - 30px - 32px - 56px - 36px - 30px);
+  height: calc(100vh - 190px - 30px - 32px - 56px - 36px - 30px);
   overflow: auto;
   margin-bottom: 10px;
 }

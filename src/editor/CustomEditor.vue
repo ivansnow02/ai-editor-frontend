@@ -1,13 +1,13 @@
 <template>
   <a-layout>
-    <div v-if="editor" :class="[isFullScreen ? 'editor--fullscreen' : '']" class="editor">
+    <div v-if="editor"  class="editor">
       <a-layout-header
-        :style="{ position: 'fixed', zIndex: 1, width: '100%', marginTop: '62px' }"
+        :style="{ position: 'fixed', zIndex: 1, width: '100%', marginTop: '2px' }"
         class="editor-menu_wrapper"
       >
         <MenuButtons :editor="editor" />
       </a-layout-header>
-      <a-layout-content :style="{ padding: '0 50px', marginTop: '250px' }">
+      <a-layout-content :style="{ padding: '0 50px', marginTop: '190px' }">
         <a-card class="editor-card">
           <editor-content :editor="editor" class="editor-code" />
         </a-card>

@@ -1,9 +1,7 @@
 // axios 封装
 import axios from 'axios'
 import { getToken, removeToken } from '@/utils/token'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
+import { router } from '@/router'
 // 1.根域名配置
 export const ROOT_URL = "http://127.0.0.1:8000";
 
@@ -57,7 +55,7 @@ request.interceptors.response.use(
     // 401 token过期
     if (error.response.status === 401) {
       removeToken()
-      router.push('/').then(() => window.location.reload())
+      router.push('/login').then(() => window.location.reload())
       return Promise.reject(error)
     }
   }

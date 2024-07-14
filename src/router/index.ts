@@ -1,17 +1,30 @@
-import { createRouter, createMemoryHistory } from "vue-router";
+import { createRouter, createMemoryHistory, createWebHistory } from "vue-router";
 import home from "@/views/Home.vue";
 import editor from "@/views/Editor.vue"
+import { getToken } from "@/utils/token";
 const routes = [
   {
-    path:'/',
+    path: '/login',
     component: home
-  },{
-    path:'/editor',
+  },
+  {
+    path: '/',
+    meta: {
+      requireAuth: true
+    },
     component: editor
   }
 ]
 export  const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes
-
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth && !getToken()) {
+    next('/login')
+  } else {
+    next()
+  }
+}
+)
