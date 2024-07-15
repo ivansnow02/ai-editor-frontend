@@ -1,17 +1,15 @@
 <template>
-  <a-card
-    :active-tab-key="key"
-    :tab-list="tabList"
+  <a-card :active-tab-key="key" :tab-list="tabList"
     :bodyStyle="{padding: '0',display: 'flex',flexWrap: 'nowrap',overflowX: 'auto'}"
-    @tabChange="(key) => onTabChange(key, 'key')"
-    class="editor-menu"
-    hoverable
-    title="编辑器"
-  >
+    @tabChange="(key) => onTabChange(key, 'key')" class="editor-menu" hoverable title="矿小计">
     <template #extra>
+<a-space align="center">
       <div style="display: flex; flex-direction: row">
-        <ToolButton :desserts="tools" :editor="editor" />
-      </div>
+         <ToolButton :desserts="tools" :editor="editor" />
+</div>
+        <UserComponent />
+</a-space>
+      
     </template>
     <div class="editor-tools">
       <LinkButton v-show="key === 'tab2'" :editor="editor" />
@@ -27,11 +25,7 @@
       <TableButton v-show="key === 'tab2'" :editor="editor" />
       <AudioButton v-show="key === 'tab2'" :editor="editor" />
       <AIFormatTrigger v-show="key === 'tab3'" />
-      <bubble-menu
-        v-if="editor"
-        :editor="editor"
-        :tippy-options="{ duration: 100, arrow: false, zIndex: 0 }"
-      >
+      <bubble-menu v-if="editor" :editor="editor" :tippy-options="{ duration: 100, arrow: false, zIndex: 0 }">
         <a-card class="editor-bubble" hoverable size="small">
           <div v-if="activeMenu === true" class="bubble-menu_wrap">
             <FontSize v-model="font_s" :editor="editor" />
@@ -91,7 +85,7 @@ import { fontFamilyOptions, fontSizeOptions, headingFontSize } from '@/utils/con
 import FontFamily from '@/editor/component/menu-buttons/FontFamily.vue'
 import FontSize from '@/editor/component/menu-buttons/FontSize.vue'
 import AudioButton from '@/editor/component/menu-buttons/AudioButton.vue'
-
+import UserComponent from '@/components/UserComponent.vue'
 const props = defineProps(['editor'])
 const font_s = ref(16)
 const font_f = ref('Poppins')
@@ -367,32 +361,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-//.bubble-menu_wrap {
-//  display: flex;
-//  border-radius: 3px;
-//  background-color: #fff;
-//  padding: 2px 5px;
-//  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
-//}
-//
-//.bubble-menu_wrap:hover {
-//  background-color: #d9afd9;
-//  background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
-//  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
-//}
-// .btn:hover{
-//   height: 30px;
-//   width: 60px;
-//   box-shadow:0 10px 10px rgba(0, 0, 0, 0.4);
-//   display: inline-block;
-//   color: rgb(56, 97, 230);
 
-// }
-//.bubble-menu_wrap:active {
-//  background-color: #0093e9;
-//  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
-//  box-shadow: 0 0 3px rgba(128, 208, 199, 0.15);
-//}
 
 .ant-select-selector {
   height: 40px !important;
@@ -404,10 +373,6 @@ onMounted(() => {
   margin-left: 5px !important;
 }
 
-//.editor-bubble {
-//  position: relative;
-//  z-index: 0;
-//}
 #tippy-1 {
   z-index: 0 !important;
 }

@@ -1,8 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import {ref, watch} from 'vue'
-import { RouterLink } from 'vue-router';
-import Verification_code from './VerificationCode.vue'
-import { createUser } from '@/apis/users';
+
 import { authFunc } from '@/apis/auth';
 
 
@@ -22,6 +20,7 @@ const Password2Status = ref("请再次输入密码")
 const UsernamePattern = /^[\u4e00-\u9fa5a-zA-Z0-9]{6,12}$/
 const PasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
 const VerifCode = ref("")
+
 
 
 // Functions
@@ -55,7 +54,7 @@ const Send = () => {
     'send_code'
     ).then( (response) => {
       console.log(response.statusText)
-      if(response.statusText == "OK"){
+      if(response.statusText === "OK"){
         VerifCodeStatus.value="验证码已发送至" +Email.value 
       }
     }).catch((error) => {
@@ -104,7 +103,7 @@ watch(Password, () => {
   }
 })
 watch(Email, () => {
-  if(Email.value == ""){
+  if(Email.value === ""){
     EmailStatus.value = "邮箱@xxx.com"
 
   }
@@ -145,7 +144,7 @@ watch(Password2, () => {
       <v-card title="注册" class="Card">
         <v-form v-model="formdata">
             <v-text-field
-            v-model.lazy="userName"
+            v-model.lazy="Username"
             :counter="10"
             :label="UsernameStatus"
             hide-details

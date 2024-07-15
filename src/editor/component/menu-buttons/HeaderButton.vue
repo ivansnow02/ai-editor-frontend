@@ -2,7 +2,7 @@
   <div>
     <a-tooltip placement="top">
       <template #title>
-        <span>字体</span>
+        <span>标题</span>
       </template>
       <div class="header_button">
         <a-select v-model:value="title" @change="handleChange">

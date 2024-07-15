@@ -31,12 +31,17 @@ defineExpose({
 </script>
 
 <template>
-  <a-modal v-model:open="open">
+  <a-modal v-model:open="open" :footer="null">
     <tapir-widget :time="2" :customUpload="handleEmit"
-                  buttonColor="green"/>
+                  />
   </a-modal>
 </template>
 
 <style scoped lang="scss">
+.shadow-lg {
+  border-style: none !important;
+  box-shadow: none !important;
+
+}
 
 </style>

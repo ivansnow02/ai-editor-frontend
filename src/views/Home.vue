@@ -1,6 +1,7 @@
 <script setup>
 import regist from '@/components/regist.vue';
 import Login from '@/components/Login.vue';
+import LoginComponent from '@/components/LoginComponent.vue';
 import {router} from '@/router/index';
 const jump = () => {
   router.push("/");
@@ -12,19 +13,15 @@ const jump = () => {
 
 
 
-  <v-sheet>
+
   <div class="box1">
-      <v-card title="登录" subtitle="欢迎使用AI-Ediotr" text="Ai editor is an intelligent editor based on Baidu ERNIE Bot big model and Paddleocr" class="g-glossy" >
-        
-        <v-card-actions class="HomeBtn" >
-          <v-spacer></v-spacer>
-          <Login/>
-          <regist/>
-          <VBtn  @click="jump" variant="flat" color="surface-variant" class="btn1">开始编辑</VBtn>
-        </v-card-actions>
-      </v-card>
+      <a-card title="欢迎使用AI-Ediotr" class="g-glossy" >
+
+          <LoginComponent/>
+
+      </a-card>
     </div>
-  </v-sheet>
+
 
 
 </template>
@@ -50,15 +47,10 @@ const jump = () => {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  z-index: -1;                   
+  /* z-index: -1;                    */
 
 }
-/* .Card{
-  filter: opacity(70%);
-  border-radius: 15px;
-  background-color: #8EC5FC;
-  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-} */
+
 .g-glossy {
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);

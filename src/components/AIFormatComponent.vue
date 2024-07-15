@@ -12,13 +12,12 @@ const handleClose = () => {
 }
 
 const headers = [
-  {key: 'h0', label: '正文'},
-  {key: 'h1', label: '标题一'},
-  {key: 'h2', label: '标题二'},
-  {key: 'h3', label: '标题三'},
-  {key: 'h4', label: '标题四'},
-  {key: 'h5', label: '标题五'}
-
+  { key: 'h0', label: '正文' },
+  { key: 'h1', label: '标题一' },
+  { key: 'h2', label: '标题二' },
+  { key: 'h3', label: '标题三' },
+  { key: 'h4', label: '标题四' },
+  { key: 'h5', label: '标题五' }
 ]
 const format_data = ref([
   { label: '自定', value: '0' },
@@ -41,10 +40,9 @@ watch(
 import { fontFamilyOptions } from '@/utils/constant'
 import { fontSizeOptions } from '@/utils/constant'
 import { getFormatGen } from '@/apis/generate'
-import { type FormatType, BaseFormatOptions, essayFormatOptions} from '@/utils/constant'
+import { type FormatType, BaseFormatOptions, essayFormatOptions } from '@/utils/constant'
 
-
-const formatDict: UnwrapRef<FormatType> = reactive({...BaseFormatOptions})
+const formatDict: UnwrapRef<FormatType> = reactive({ ...BaseFormatOptions })
 
 const handleFormat = () => {
   editorRef?.state.doc.descendants((node, pos) => {
@@ -120,10 +118,6 @@ const next = async () => {
   if (text.value === '<p></p>') {
     return
   }
-  if (format_value.value === '0') {
-    current.value++
-    return
-  }
   if (format_value.value === '1') {
     for (const key in essayFormatOptions) {
       formatDict[key].fontFamily = essayFormatOptions[key].fontFamily
@@ -131,47 +125,51 @@ const next = async () => {
       formatDict[key].alignment = essayFormatOptions[key].alignment
       formatDict[key].bold = essayFormatOptions[key].bold
     }
-
-    current.value++
-    return
   }
-  const form = {
-    input: { query: text.value }
-  }
-  
-  const res = await getFormatGen(form)
-  for (const key in res.output[0]) {
-    if (key === '正文') {
-      formatDict.h0.fontFamily = res.output[0][key].字体
-      formatDict.h0.fontSize = res.output[0][key].字体大小
-      if (res.output[0][key].对齐方式 === '左对齐') {
-        formatDict.h0.alignment = 'left'
-      } else if (res.output[0][key].对齐方式 === '居中对齐') {
-        formatDict.h0.alignment = 'center'
-      } else {
-        formatDict.h0.alignment = 'right'
-      }
-      formatDict.h0.bold = res.output[0][key].加粗 === '加粗'
-    } else {
-      const index = Number.parseInt(key.slice(-1))
-      if (res.output[0][key].字体 === undefined || res.output[0][key].字体大小 === undefined || res.output[0][key].对齐方式 === undefined || res.output[0][key].加粗 === undefined) {
-        continue
-      }
-      formatDict[`h${index}`].fontFamily = res.output[0][key].字体
-      formatDict[`h${index}`].fontSize = res.output[0][key].字体大小
-      if (res.output[0][key].对齐方式 === '左对齐') {
-        formatDict[`h${index}`].alignment = 'left'
-      } else if (res.output[0][key].对齐方式 === '居中对齐') {
-        formatDict[`h${index}`].alignment = 'center'
-      } else {
-        formatDict[`h${index}`].alignment = 'right'
-      }
-      formatDict[`h${index}`].bold = res.output[0][key].加粗 === '加粗'
+  else if (format_value.value === '2') {
+    const form = {
+      input: { query: text.value }
     }
-    console.log(formatDict)
+    const res = await getFormatGen(form)
+    for (const key in res.output[0]) {
+      if (key === '正文') {
+        formatDict.h0.fontFamily = res.output[0][key].字体
+        formatDict.h0.fontSize = res.output[0][key].字体大小
+        if (res.output[0][key].对齐方式 === '左对齐') {
+          formatDict.h0.alignment = 'left'
+        } else if (res.output[0][key].对齐方式 === '居中对齐') {
+          formatDict.h0.alignment = 'center'
+        } else {
+          formatDict.h0.alignment = 'right'
+        }
+        formatDict.h0.bold = res.output[0][key].加粗 === '加粗'
+      } else {
+        const index = Number.parseInt(key.slice(-1))
+        if (
+          res.output[0][key].字体 === undefined ||
+          res.output[0][key].字体大小 === undefined ||
+          res.output[0][key].对齐方式 === undefined ||
+          res.output[0][key].加粗 === undefined
+        ) {
+          continue
+        }
+        formatDict[`h${index}`].fontFamily = res.output[0][key].字体
+        formatDict[`h${index}`].fontSize = res.output[0][key].字体大小
+        if (res.output[0][key].对齐方式 === '左对齐') {
+          formatDict[`h${index}`].alignment = 'left'
+        } else if (res.output[0][key].对齐方式 === '居中对齐') {
+          formatDict[`h${index}`].alignment = 'center'
+        } else {
+          formatDict[`h${index}`].alignment = 'right'
+        }
+        formatDict[`h${index}`].bold = res.output[0][key].加粗 === '加粗'
+      }
 
+      
+    }
+  }
   current.value++
-}}
+}
 
 const prev = () => {
   current.value--
@@ -180,51 +178,89 @@ const text = ref('')
 </script>
 
 <template>
-  <a-layout-sider :collapsed="lRail" :trigger="null" collapsed-width="0" collapsible theme="light" :style="{
+  <a-layout-sider
+    :collapsed="lRail"
+    :trigger="null"
+    collapsed-width="0"
+    collapsible
+    theme="light"
+    :style="{
       overflow: 'auto',
       position: 'fixed',
       left: 0,
       top: 0,
       bottom: 0,
       marginLeft: '5px'
-    }" class="ai-component" width="20%">
-    <a-card class="ai-component-card" hoverable title="智能排版" :bodyStyle="{
+    }"
+    class="ai-component"
+    width="20%"
+  >
+    <a-card
+      class="ai-component-card"
+      hoverable
+      title="智能排版"
+      :bodyStyle="{
         padding: '0',
         overflow: 'auto',
         maxHeight: 'calc(100vh - 190px - 30px - 56px)'
-      }">
+      }"
+    >
       <template #extra>
-        <a-button :icon="h(CloseOutlined)" shape="circle" size="small" type="text" @click="handleClose"></a-button>
+        <a-button
+          :icon="h(CloseOutlined)"
+          shape="circle"
+          size="small"
+          type="text"
+          @click="handleClose"
+        ></a-button>
       </template>
 
-      <a-steps type="navigation" :current="current" size="small" :items="[
+      <a-steps
+        type="navigation"
+        :current="current"
+        size="small"
+        :items="[
           {
             title: '开始'
           },
           {
             title: '调整'
           }
-        ]"></a-steps>
+        ]"
+      ></a-steps>
       <div class="format-container">
-        <a-segmented v-if="current === 0" v-model:value="format_value" block :options="format_data" />
+        <a-segmented
+          v-if="current === 0"
+          v-model:value="format_value"
+          block
+          :options="format_data"
+        />
         <div class="format-editor">
-          <SideBarEditor v-if="current === 0 && format_value === '2'" v-model:text="text" style="margin: 0" />
+          <SideBarEditor
+            v-if="current === 0 && format_value === '2'"
+            v-model:text="text"
+            style="margin: 0"
+          />
         </div>
         <a-form :model="formatDict" v-if="current === 1">
           <a-collapse v-model:activeKey="activeKey" :bordered="false">
             <a-collapse-panel v-for="header in headers" :key="header.key" :header="header.label">
-              <FormatSelector :fontSizeOptions="fontSizeOptions" v-model:fontFamilyOptions="fontFamilyOptions"
+              <FormatSelector
+                :fontSizeOptions="fontSizeOptions"
+                v-model:fontFamilyOptions="fontFamilyOptions"
                 v-model:fontSize="formatDict[header.key].fontSize"
                 v-model:fontFamily="formatDict[header.key].fontFamily"
-                v-model:alignment="formatDict[header.key].alignment" v-model:bold="formatDict[header.key].bold" />
+                v-model:alignment="formatDict[header.key].alignment"
+                v-model:bold="formatDict[header.key].bold"
+              />
             </a-collapse-panel>
           </a-collapse>
         </a-form>
       </div>
       <div class="steps-action">
-        <a-button v-if="current < 1" type="primary" @click="next">Next</a-button>
-        <a-button v-if="current == 1" type="primary" @click="handleFormat"> Done </a-button>
-        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">Previous</a-button>
+        <a-button v-if="current < 1" type="primary" @click="next">下一步</a-button>
+        <a-button v-if="current == 1" type="primary" @click="handleFormat"> 完成 </a-button>
+        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">上一步</a-button>
       </div>
     </a-card>
   </a-layout-sider>

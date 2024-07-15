@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { getToken, removeToken } from '@/utils/token'
 import { router } from '@/router'
+import { message } from 'ant-design-vue'
 // 1.根域名配置
 export const ROOT_URL = "http://127.0.0.1:8000";
 
@@ -55,6 +56,7 @@ request.interceptors.response.use(
     // 401 token过期
     if (error.response.status === 401) {
       removeToken()
+      message.error('登录状态过期，请重新登录')
       router.push('/login').then(() => window.location.reload())
       return Promise.reject(error)
     }

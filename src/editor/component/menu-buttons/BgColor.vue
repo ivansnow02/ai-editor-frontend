@@ -19,7 +19,7 @@
         </ul>
       </template>
       <a-tooltip placement="top">
-        <template #title><span>文字颜色</span></template>
+        <template #title><span>文字背景</span></template>
         <div
           :class="[
             'tools__button',

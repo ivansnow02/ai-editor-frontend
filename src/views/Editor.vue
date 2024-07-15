@@ -13,18 +13,32 @@ provide('selection', selection)
 provide('ocrURL', ocrURL)
 provide('rail', rail)
 provide('lRail', lRail)
+import { useUserStore } from '@/stores/user';
+import { onMounted } from 'vue';
+import { getMe } from '@/apis/users';
+
+const userStore = useUserStore();
+
+onMounted(async () => {
+    const user = await getMe()
+  // {
+  //   "code": 200,
+  //     "data": {
+  //     "username": "123",
+  //       "email": "eone2017@outlook.com",
+  //         "access": 0,
+  //           "avatar": "",
+  //             "id": 2;
+  //   },
+  //   "msg": "success";
+  // }
+  userStore.setUser(user.data);
+});
 </script>
 
 <template>
   <a-layout>
-    <!--  <v-app-bar border="0" flat>-->
-    <!--    <v-container class="mx-auto d-flex align-center justify-center">-->
-    <!--      <v-avatar class="me-4" color="grey-darken-1" size="32"></v-avatar>-->
-    <!--      <Login />-->
 
-    <!--      <v-spacer></v-spacer>-->
-    <!--    </v-container>-->
-    <!--  </v-app-bar>-->
 
     <a-layout>
       <a-layout-content>
