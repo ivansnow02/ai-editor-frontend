@@ -42,7 +42,7 @@ const closeModal = () => {
 }
 
 const fileList = ref([])
-const beforeUpload = async (file) => {
+const beforeUpload = async (file: File) => {
   const isVideoType = file.type === 'video/mp4'
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   const isPDF = file.type === 'application/pdf'

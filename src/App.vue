@@ -29,9 +29,9 @@ const links = ['编辑器', '登录']
 // }
 </script>
 <template>
-  <v-app>
+
     <router-view />
-  </v-app>
+
 
 </template>
 

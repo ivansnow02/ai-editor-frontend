@@ -1,6 +1,5 @@
 <script setup>
-import regist from '@/components/regist.vue';
-import Login from '@/components/Login.vue';
+
 import LoginComponent from '@/components/LoginComponent.vue';
 import {router} from '@/router/index';
 const jump = () => {
@@ -15,7 +14,7 @@ const jump = () => {
 
 
   <div class="box1">
-      <a-card title="欢迎使用AI-Ediotr" class="g-glossy" >
+      <a-card title="欢迎使用矿小计——智能文本编辑器" class="g-glossy" >
 
           <LoginComponent/>
 

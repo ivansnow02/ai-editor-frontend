@@ -1,15 +1,15 @@
 <template>
-  <a-card :active-tab-key="key" :tab-list="tabList"
-    :bodyStyle="{padding: '0',display: 'flex',flexWrap: 'nowrap',overflowX: 'auto'}"
-    @tabChange="(key) => onTabChange(key, 'key')" class="editor-menu" hoverable title="矿小计">
+  <a-card :active-tab-key="key" :bodyStyle="{padding: '0',display: 'flex',flexWrap: 'nowrap',overflowX: 'auto'}"
+          :tab-list="tabList"
+          class="editor-menu" hoverable title="矿小计" @tabChange="(key) => onTabChange(key, 'key')">
     <template #extra>
-<a-space align="center">
-      <div style="display: flex; flex-direction: row">
-         <ToolButton :desserts="tools" :editor="editor" />
-</div>
+      <a-space align="center">
+        <div style="display: flex; flex-direction: row">
+          <ToolButton :desserts="tools" :editor="editor" />
+        </div>
         <UserComponent />
-</a-space>
-      
+      </a-space>
+
     </template>
     <div class="editor-tools">
       <LinkButton v-show="key === 'tab2'" :editor="editor" />
@@ -27,12 +27,12 @@
       <AIFormatTrigger v-show="key === 'tab3'" />
       <bubble-menu v-if="editor" :editor="editor" :tippy-options="{ duration: 100, arrow: false, zIndex: 0 }">
         <a-card class="editor-bubble" hoverable size="small">
-          <div v-if="activeMenu === true" class="bubble-menu_wrap">
+          <a-space-compact  direction="vertical" v-if="activeMenu === true" class="bubble-menu_wrap">
             <FontSize v-model="font_s" :editor="editor" />
             <FontFamily v-model="font_f" :editor="editor" />
             <FontColor :editor="editor" placement="left" />
             <ToolButton :desserts="bubbleMenuTools" :editor="editor" />
-          </div>
+          </a-space-compact >
         </a-card>
       </bubble-menu>
     </div>
@@ -52,16 +52,14 @@ import {
   BoldOutlined,
   ClearOutlined,
   CodeOutlined,
-  DisconnectOutlined,
-  ExpandOutlined,
+  DisconnectOutlined, InboxOutlined,
   ItalicOutlined,
-  LinkOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MinusOutlined,
   OrderedListOutlined,
   RedoOutlined,
-  RobotOutlined,
+  RobotOutlined, SaveOutlined,
   StrikethroughOutlined,
   UnderlineOutlined,
   UndoOutlined,
@@ -76,16 +74,16 @@ import LinkButton from './LinkButton.vue'
 import FontColor from './FontColor.vue'
 import BgColor from './BgColor.vue'
 import AIFormatTrigger from './AIFormatTrigger.vue'
-
-import { type Ref, watch, onMounted } from 'vue'
-import { inject, reactive, ref } from 'vue'
+import { inject, onMounted, reactive, type Ref, ref, watch } from 'vue'
 import { getHTMLFromSelection } from '@/utils/selection.ts'
 import { fontFamilyOptions, fontSizeOptions, headingFontSize } from '@/utils/constant'
-
 import FontFamily from '@/editor/component/menu-buttons/FontFamily.vue'
 import FontSize from '@/editor/component/menu-buttons/FontSize.vue'
 import AudioButton from '@/editor/component/menu-buttons/AudioButton.vue'
 import UserComponent from '@/components/UserComponent.vue'
+import { useEditorStore } from '@/stores/editor'
+import {saveAs} from 'file-saver'
+
 const props = defineProps(['editor'])
 const font_s = ref(16)
 const font_f = ref('Poppins')
@@ -93,6 +91,53 @@ const activeMenu = ref(false)
 const title = ref(0)
 const selection = inject<Ref>('selection')
 const rail = inject<Ref>('rail')
+const editorStore = useEditorStore()
+let editorRef = editorStore.editorRef
+
+watch(
+  () => editorStore.editorRef,
+  (newVal) => {
+    if (newVal) {
+      editorRef = newVal;
+    }
+  },
+  { immediate: true }
+);
+
+const fileMenuTools = reactive([
+  {
+    name: 'save',
+    component: SaveOutlined,
+    tip: '保存',
+    click() {
+      if (editorRef?.getHTML())
+        saveAs(new Blob([editorRef?.getHTML()]), 'editor.html')
+    }
+  },
+  {
+    name: 'load',
+    component: InboxOutlined,
+    tip: '加载',
+    click() {
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = '.html'
+      input.onchange = () => {
+        const file = input.files?.[0]
+        if (file) {
+          const reader = new FileReader()
+          reader.onload = () => {
+            editorRef?.chain().setContent(reader.result as string).run()
+            localStorage.setItem('customEditorContent', reader.result as string)
+          }
+          reader.readAsText(file)
+        }
+      }
+      input.click()
+
+  }},
+
+  ]);
 
 const getFontSize = () => {
   const activeFontSizeOption = fontSizeOptions.find((option) =>
@@ -321,12 +366,17 @@ const tabList = [
   {
     key: 'tab3',
     tab: '工具'
+  },
+  {
+    key: 'tab4',
+    tab: '文件'
   }
 ]
 const contentList = {
   tab1: editMenuTools,
   tab2: insertMenuTools,
-  tab3: editorTools
+  tab3: editorTools,
+  tab4: fileMenuTools
 }
 
 const key = ref('tab1')

@@ -26,7 +26,7 @@ const funcList = ref([
   { label: '润色', value: 'polish' },
   { label: '纠错', value: 'fix' },
   { label: '总结', value: 'abstract' },
-  { label: '文件总结', value: 'file_summary' }
+  { label: '文件', value: 'file_summary' }
 ]);
 watch(
   () => editorStore.editorRef,
@@ -38,7 +38,6 @@ watch(
   { immediate: true }
 );
 const fileList = ref<UploadProps['fileList']>([]);
-const drawer = ref(true);
 const rail = inject<Ref>('rail');
 
 const insertHTML = () => {
@@ -136,9 +135,20 @@ const handleUpload = async (info: any) => {
 };
 
 const handleClose = () => {
+  if (ocrURL)
+    ocrURL.value = '';
+  toggle.value = 'completion';
   if (rail)
     rail.value = true;
 };
+const handleTitle = computed(() => {
+
+  if (show.value === 'ocr') {
+    return '图片识别';
+  }
+
+  return funcList.value.find((item) => item.value === toggle.value)?.label;
+});
 </script>
 
 <template>
@@ -151,7 +161,7 @@ const handleClose = () => {
     marginRight: '5px'
   }" class="ai-component" width="20%">
     <!-- 里面实现ai的功能 -->
-    <a-card class="ai-component-card" hoverable title="AI功能"
+    <a-card class="ai-component-card" hoverable :title="handleTitle"
       :bodyStyle="{ padding: '0', overflow: 'auto', maxHeight: 'calc(100vh - 190px - 30px - 56px)' }">
       <template #extra>
         <a-button :icon="h(CloseOutlined)" shape="circle" size="small" type="text" @click="handleClose"></a-button>

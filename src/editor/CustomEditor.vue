@@ -51,8 +51,7 @@ const lowlight = createLowlight()
 lowlight.register({ html, ts, css, js })
 
 const editorStore = useEditorStore()
-const savedContent = localStorage.getItem('customEditorContent') || '<p>I’m running Tiptap with Vue.js. 🎉</p>';
-const valueHtml = ref('<p>I’m running Tiptap with Vue.js. 🎉</p>')
+const savedContent = localStorage.getItem('customEditorContent') || '<p>欢迎使用矿小计！</p>';
 const editor = useEditor({
   content: savedContent,
   extensions: [

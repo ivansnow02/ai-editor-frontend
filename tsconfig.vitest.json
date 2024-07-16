@@ -10,5 +10,4 @@
     "types": ["node", "jsdom", ]
   },
   "include": ["*.ts", "src/**/*", "src/**/*.vue"],
-  "files": ["*.ts", "src/**/*", "src/**/*.vue"]
 }
