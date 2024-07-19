@@ -25,7 +25,7 @@ export const getFormatGen = (formData: any) =>
  * @param onMessage - 用于处理接收到的数据的回调函数。
  */
 export const getStream = async (formData: any, func: string, onMessage: Function) => {
-  await fetchEventSource(`http://127.0.0.1:8000/api/langserve/${func}/stream`, {
+  await fetchEventSource(`https://kxj.ivansnow02.xyz/api/langserve/${func}/stream`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,6 @@ export const getStream = async (formData: any, func: string, onMessage: Function
         removeToken()
         router.push('/login').then(() => window.location.reload())
       }
-      
     }
   })
 }

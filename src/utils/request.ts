@@ -5,7 +5,7 @@ import { router } from '@/router'
 import { message } from 'ant-design-vue'
 
 // 1.根域名配置
-export const ROOT_URL = "http://127.0.0.1:8000";
+export const ROOT_URL = 'https://kxj.ivansnow02.xyz'
 
 
 const request = axios.create({

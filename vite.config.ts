@@ -11,5 +11,6 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  base: 'https://static-3iag1e7d9.aistudio-app.com/'
 })
